@@ -1,11 +1,24 @@
 <?php
-
+/**
+ * User Model
+ *
+ * This file contains the definition of the User model class.
+ * The User model represents a user in the application and includes
+ * attributes, relationships, and methods related to user data.
+ *
+ * @package App\Models
+ */
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+/**
+ * This is the User class model.
+ *
+ * @package App\Models
+ */
 
 class User extends Authenticatable
 {
