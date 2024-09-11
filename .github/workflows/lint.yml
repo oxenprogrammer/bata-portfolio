@@ -28,4 +28,4 @@ jobs:
         run: composer show squizlabs/php_codesniffer
 
       - name: Lint code
-        run: vendor/bin/phpcs
+        run: vendor/bin/phpcs app/ routes/ tests/
