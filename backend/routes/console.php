@@ -5,12 +5,12 @@
  * This file contains the definition of console commands for the application.
  * It registers commands that can be executed via the Artisan command-line interface.
  *
- * @package App\Console
+ * @package  App\Console
  * @category Routes
- * @version PHP 8.2
- * @author Kibooli Felix
- * @license MIT
- * @link [URL]
+ * @version  PHP 8.2
+ * @author   Kibooli Felix
+ * @license  MIT
+ * @link     [URL]
  */
 
 use Illuminate\Foundation\Inspiring;

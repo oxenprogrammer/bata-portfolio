@@ -5,12 +5,12 @@
  * This file contains the definition of the web routes for the application.
  * It registers routes that handle web requests and return views or responses.
  *
- * @package App\Http\Controllers
+ * @package  App\Http\Controllers
  * @category Routes
- * @version PHP 8.2
- * @author Kibooli Felix
- * @license MIT
- * @link [URL]
+ * @version  PHP 8.2
+ * @author   Kibooli Felix
+ * @license  MIT
+ * @link     [URL]
  */
 
 use Illuminate\Support\Facades\Route;
@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Route;
  *
  * @return void
  */
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get(
+    '/', function () {
+        return view('welcome');
+    }
+);

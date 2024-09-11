@@ -7,12 +7,12 @@
  * It ensures that the application returns a successful response
  * for the root URL.
  *
- * @package Tests\Feature
+ * @package  Tests\Feature
  * @category Tests
- * @version PHP 8.2
- * @author Kibooli Felix
- * @license MIT
- * @link [URL]
+ * @version  PHP 8.2
+ * @author   Kibooli Felix
+ * @license  MIT
+ * @link     [URL]
  */
 
 namespace Tests\Feature;

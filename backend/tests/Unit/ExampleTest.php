@@ -7,12 +7,12 @@
  * It includes sample test cases to verify that the framework and test setup
  * are functioning correctly.
  *
- * @package Tests\Unit
+ * @package  Tests\Unit
  * @category Tests
- * @version PHP 8.2
- * @author Kibooli Felix
- * @license MIT
- * @link [URL]
+ * @version  PHP 8.2
+ * @author   Kibooli Felix
+ * @license  MIT
+ * @link     [URL]
  */
 
 namespace Tests\Unit;
@@ -25,12 +25,12 @@ use PHPUnit\Framework\TestCase;
  * This class contains test methods to verify that basic functionality
  * and framework setup are working as expected.
  *
- * @package Tests\Unit
+ * @package  Tests\Unit
  * @category Tests
- * @version PHP 8.2
- * @author Kibooli Felix
- * @license MIT
- * @link [URL]
+ * @version  PHP 8.2
+ * @author   Kibooli Felix
+ * @license  MIT
+ * @link     [URL]
  */
 class ExampleTest extends TestCase
 {
