@@ -7,6 +7,11 @@
  * attributes, relationships, and methods related to user data.
  *
  * @package App\Models
+ * @category Models
+ * @version PHP 8.2
+ * @author Kibooli Felix
+ * @license MIT
+ * @link [URL] (if applicable)
  */
 namespace App\Models;
 
@@ -14,12 +19,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+
 /**
- * This is the User class model.
+ * The User class represents a user in the application.
  *
  * @package App\Models
+ * @category Models
+ * @version PHP 8.2
+ * @author Kibooli Felix
+ * @license MIT
+ * @link [URL] (if applicable)
  */
-
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;

@@ -7,10 +7,23 @@
  * functionality and properties.
  *
  * @package App\Http\Controllers
+ * @category Controllers
+ * @version PHP 8.2
+ * @author Kibooli Felix
+ * @license MIT
+ * @link [URL]
  */
 namespace App\Http\Controllers;
+
 /**
- * This is an abstract controller class
+ * This is an abstract controller class.
+ *
+ * @package App\Http\Controllers
+ * @category Controllers
+ * @version PHP 8.2
+ * @author Kibooli Felix
+ * @license MIT
+ * @link [URL]
  */
 abstract class Controller
 {

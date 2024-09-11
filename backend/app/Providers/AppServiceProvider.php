@@ -1,19 +1,34 @@
 <?php
 /**
- * This file contains app's service provider
+ * This file contains the application's service provider.
+ *
  * @package App\Providers
+ * @category Providers
+ * @version PHP 8.2
+ * @author Kibooli Felix
+ * @license MIT
+ * @link [URL] (if applicable)
  */
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+
 /**
- * This is a application provider class
+ * The AppServiceProvider class is responsible for registering and bootstrapping application services.
+ *
+ * @package App\Providers
+ * @category Providers
+ * @version PHP 8.2
+ * @author Kibooli Felix
+ * @license MIT
+ * @link [URL]
  */
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     * @return mixed
+     *
+     * @return void
      */
     public function register(): void
     {
@@ -22,7 +37,8 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     * @return mixed
+     *
+     * @return void
      */
     public function boot(): void
     {
