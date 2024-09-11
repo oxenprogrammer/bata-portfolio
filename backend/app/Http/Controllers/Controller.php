@@ -6,24 +6,26 @@
  * It is meant to be extended by other controllers to provide common
  * functionality and properties.
  *
- * @package  App\Http\Controllers
  * @category Controllers
- * @version  PHP 8.2
- * @author   Kibooli Felix
- * @license  MIT
- * @link     [URL]
+ * @package  App\Http\Controllers
+ * @version  1.0
+ * @author   Kibooli Felix <kiboolif@gmail.com>
+ * @license  MIT (https://opensource.org/licenses/MIT)
+ * @link     https://github.com/KIBOOLI-FELIX/mribrahimsite.git
  */
 namespace App\Http\Controllers;
 
 /**
- * This is an abstract controller class.
+ * Abstract base controller class
  *
- * @package  App\Http\Controllers
+ * Provides common functionality for all controllers.
+ *
  * @category Controllers
- * @version  PHP 8.2
- * @author   Kibooli Felix
- * @license  MIT
- * @link     [URL]
+ * @package  App\Http\Controllers
+ * @version  1.0
+ * @author   Kibooli Felix <kiboolif@gmail.com>
+ * @license  MIT (https://opensource.org/licenses/MIT)
+ * @link     https://github.com/KIBOOLI-FELIX/mribrahimsite.git
  */
 abstract class Controller
 {

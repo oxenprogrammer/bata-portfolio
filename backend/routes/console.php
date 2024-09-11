@@ -1,30 +1,30 @@
 <?php
 /**
- * Console Routes
+ * This file contains console routes for the application.
  *
- * This file contains the definition of console commands for the application.
- * It registers commands that can be executed via the Artisan command-line interface.
- *
- * @package  App\Console
- * @category Routes
- * @version  PHP 8.2
- * @author   Kibooli Felix
- * @license  MIT
- * @link     [URL]
+ * @category Routing
+ * @package  Routes
+ * @version  1.0
+ * @author   Kibooli Felix <kiboolif@gmail.com>
+ * @license  MIT (https://opensource.org/licenses/MIT)
+ * @link     https://github.com/KIBOOLI-FELIX/mribrahimsite.git
  */
 
+/**
+ * Console commands configuration
+ *
+ * Defines console commands for Artisan.
+ *
+ * @category Routing
+ * @package  Routes
+ * @version  1.0
+ * @author   Kibooli Felix <kiboolif@gmail.com>
+ * @license  MIT (https://opensource.org/licenses/MIT)
+ * @link     https://github.com/KIBOOLI-FELIX/mribrahimsite.git
+ */
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
-/**
- * Register the console commands for the application.
- *
- * Commands are defined here to handle specific tasks that can be executed
- * from the command line, such as displaying messages or performing periodic
- * actions.
- *
- * @return void
- */
 Artisan::command(
     'inspire', function () {
         $this->comment(Inspiring::quote());

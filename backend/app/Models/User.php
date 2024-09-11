@@ -6,29 +6,30 @@
  * The User model represents a user in the application and includes
  * attributes, relationships, and methods related to user data.
  *
- * @package  App\Models
  * @category Models
- * @version  PHP 8.2
- * @author   Kibooli Felix
- * @license  MIT
- * @link     [URL] (if applicable)
+ * @package  App\Models
+ * @version  1.0
+ * @author   Kibooli Felix <kiboolif@gmail.com>
+ * @license  MIT (https://opensource.org/licenses/MIT)
+ * @link     https://github.com/KIBOOLI-FELIX/mribrahimsite.git
  */
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * The User class represents a user in the application.
+ * User Model class
  *
- * @package  App\Models
+ * This class represents a user in the application.
+ *
  * @category Models
- * @version  PHP 8.2
- * @author   Kibooli Felix
- * @license  MIT
- * @link     [URL] (if applicable)
+ * @package  App\Models
+ * @version  1.0
+ * @author   Kibooli Felix <kiboolif@gmail.com>
+ * @license  MIT (https://opensource.org/licenses/MIT)
+ * @link     https://github.com/KIBOOLI-FELIX/mribrahimsite.git
  */
 class User extends Authenticatable
 {

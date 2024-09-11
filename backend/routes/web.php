@@ -1,28 +1,16 @@
 <?php
 /**
- * Web Routes
+ * This file contains web routes for the application.
  *
- * This file contains the definition of the web routes for the application.
- * It registers routes that handle web requests and return views or responses.
- *
- * @package  App\Http\Controllers
- * @category Routes
- * @version  PHP 8.2
- * @author   Kibooli Felix
- * @license  MIT
- * @link     [URL]
+ * @category Routing
+ * @package  Routes
+ * @version  1.0
+ * @author   Kibooli Felix <kiboolif@gmail.com>
+ * @license  MIT (https://opensource.org/licenses/MIT)
+ * @link     https://github.com/KIBOOLI-FELIX/mribrahimsite.git
  */
-
 use Illuminate\Support\Facades\Route;
 
-/**
- * Register the web routes for the application.
- *
- * Routes are defined here to handle incoming HTTP requests and return
- * the appropriate responses, such as views or redirects.
- *
- * @return void
- */
 Route::get(
     '/', function () {
         return view('welcome');
