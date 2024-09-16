@@ -41,9 +41,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'biography',
+        'skills'
     ];
 
     /**
@@ -66,6 +69,27 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'skills'=>'array',
         ];
+    }
+    /**
+     * This function retrieves all blogs posted
+     * by a specific user
+     *
+     * @return void
+     */
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class);
+    }
+    /**
+     * This function retrieves all documents uploaded by
+     * a specific user
+     *
+     * @return void
+     */
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
     }
 }
