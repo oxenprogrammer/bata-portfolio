@@ -51,11 +51,12 @@ return [
     | This is the directory where Filament's assets will be published to. It
     | is relative to the `public` directory of your Laravel application.
     |
-    | After changing the path, you should run `php artisan filament:assets`.
+    | After changing the path, you should run `php artisan filament:assets` to
+    | publish the assets.
     |
     */
 
-    'assets_path' => null,
+    'assets_path' => 'vendor/filament',
 
     /*
     |--------------------------------------------------------------------------
@@ -65,7 +66,8 @@ return [
     | This is the directory that Filament will use to store cache files that
     | are used to optimize the registration of components.
     |
-    | After changing the path, you should run `php artisan filament:cache-components`.
+    | After changing the path, you should run `php artisan filament:cache-components` to
+    | regenerate the cache.
     |
     */
 
