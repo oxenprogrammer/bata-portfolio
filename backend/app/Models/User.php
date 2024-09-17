@@ -1,4 +1,5 @@
 <?php
+
 /**
  * User Model
  *
@@ -13,6 +14,7 @@
  * @license  MIT (https://opensource.org/licenses/MIT)
  * @link     https://github.com/KIBOOLI-FELIX/mribrahimsite.git
  */
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -69,7 +71,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'skills'=>'array',
+            'skills' => 'array',
         ];
     }
     /**
@@ -91,5 +93,14 @@ class User extends Authenticatable
     public function documents()
     {
         return $this->hasMany(Document::class);
+    }
+    /**
+     * This checks if the user is an admin
+     *
+     * @return boolean
+     */
+    public function canAccessFilament(): bool
+    {
+        return $this->is_admin;  // This will check if the user is an admin
     }
 }
