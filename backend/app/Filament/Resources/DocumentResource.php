@@ -22,9 +22,28 @@ class DocumentResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                //
-            ]);
+        ->schema([
+            Forms\Components\TextInput::make('title')
+                ->required()
+                ->label('Document Title'),
+                
+            Forms\Components\Textarea::make('description')
+                ->label('Description'),
+
+            Forms\Components\TextInput::make('google_drive_link')
+                ->label('Google Drive Link')
+                ->url()  // Ensures it's a valid URL
+                ->required(),
+
+            Forms\Components\TextInput::make('file_type')
+                ->label('File Type')
+                ->placeholder('e.g., PDF, DOCX'),
+
+            Forms\Components\TextInput::make('file_size')
+                ->label('File Size (KB)')
+                ->numeric()
+                ->placeholder('File size in kilobytes'),
+        ]);
     }
 
     public static function table(Table $table): Table
