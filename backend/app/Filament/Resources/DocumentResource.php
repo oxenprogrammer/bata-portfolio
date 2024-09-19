@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DocumentResource\Pages;
-use App\Filament\Resources\DocumentResource\RelationManagers;
-use App\Models\Document;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Document;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\DocumentResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\DocumentResource\RelationManagers;
 
 class DocumentResource extends Resource
 {
@@ -22,28 +23,55 @@ class DocumentResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-        ->schema([
-            Forms\Components\TextInput::make('title')
-                ->required()
-                ->label('Document Title'),
-                
-            Forms\Components\Textarea::make('description')
-                ->label('Description'),
+            ->schema([
+                Forms\Components\TextInput::make('title')
+                    ->required()
+                    ->label('Document Title'),
 
-            Forms\Components\TextInput::make('google_drive_link')
-                ->label('Google Drive Link')
-                ->url()  // Ensures it's a valid URL
-                ->required(),
+                Forms\Components\RichEditor::make('description')
+                    ->label('Description')
+                    ->toolbarButtons([
+                        'bold',
+                        'italic',
+                        'underline',
+                        'strike',
+                        'link',
+                        'bulletList',
+                        'orderedList',
+                        'blockquote',
+                        'h2',
+                        'h3',
+                        'codeBlock'
+                    ]),
+                Forms\Components\TextInput::make('file_path')
+                    ->label('Google Drive Link')
+                    ->url()  // Ensures it's a valid URL
+                    ->required(),
 
-            Forms\Components\TextInput::make('file_type')
-                ->label('File Type')
-                ->placeholder('e.g., PDF, DOCX'),
+                Forms\Components\TextInput::make('file_type')
+                    ->label('File Type')
+                    ->placeholder('e.g., PDF, DOCX'),
+                // Add the status field as a select dropdown
+                Forms\Components\Select::make('status')
+                    ->label('Status')
+                    ->options([
+                        'active' => 'Active',  // Option for active status
+                        'inactive' => 'Inactive'  // Option for inactive status
+                    ])
+                    ->default('active')  // Default status
+                    ->required(),  // Set it as required
 
-            Forms\Components\TextInput::make('file_size')
-                ->label('File Size (KB)')
-                ->numeric()
-                ->placeholder('File size in kilobytes'),
-        ]);
+                Forms\Components\TextInput::make('file_size')
+                    ->label('File Size (KB)')
+                    ->numeric()
+                    ->placeholder('File size in kilobytes'),
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->label('Created By')
+                    ->default(Auth::id())
+                    ->disabled()
+                    ->required(),
+            ]);
     }
 
     public static function table(Table $table): Table
