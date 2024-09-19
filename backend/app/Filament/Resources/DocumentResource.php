@@ -78,13 +78,20 @@ class DocumentResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('title')->label('Title')->sortable(),
+                Tables\Columns\TextColumn::make('user.name')->label('Created By'),
+                Tables\Columns\TextColumn::make('file_path')->label('File Path'),
+                Tables\Columns\TextColumn::make('file_type')->label('File Type'),
+                Tables\Columns\TextColumn::make('file_size')->label('File Size (KB)'),
+                Tables\Columns\TextColumn::make('status')->label('Status'),
+                Tables\Columns\TextColumn::make('created_at')->label('Created On')->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
