@@ -31,7 +31,33 @@ class SubscriberResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable(),
+
+                // Tables\Columns\TextColumn::make('name')
+                //     ->label('Name')
+                //     ->nullable(),
+
+                Tables\Columns\TextColumn::make('email')
+                    ->label('Email'),
+
+                // Tables\Columns\TextColumn::make('token')
+                //     ->label('Token'),
+
+                Tables\Columns\TextColumn::make('status')
+                    ->label('Status'),
+
+                Tables\Columns\TextColumn::make('ip_address')
+                    ->label('IP Address'),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Subscribed At')
+                    ->dateTime(),
+
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Updated At')
+                    ->dateTime(),
             ])
             ->filters([
                 //
