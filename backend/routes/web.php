@@ -10,9 +10,15 @@
  * @link     https://github.com/KIBOOLI-FELIX/mribrahimsite.git
  */
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 
 Route::get(
     '/', function () {
         return view('welcome');
     }
 );
+
+// Group admin routes under a common name prefix
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+});
