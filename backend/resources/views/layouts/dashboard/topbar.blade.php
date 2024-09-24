@@ -1,0 +1,49 @@
+<div class="az-header az-header-dashboard-six" style="background-color:#f5f5f5">
+    <div class="container-fluid">
+        <div class="az-header-left">
+            <a href="" id="azIconbarShow" class="az-header-menu-icon"><span></span></a>
+        </div><!-- az-header-left -->
+        <div class="az-header-center">
+
+        </div><!-- az-header-center -->
+        <div class="az-header-right">
+            <div class="az-header-message">
+                {{-- <a href="#app-chat"><i class="typcn typcn-messages"></i></a> --}}
+            </div><!-- az-header-message -->
+            <div class="dropdown az-header-notification">
+                <a href="" class="new"><i class="typcn typcn-bell"></i></a>
+                <div class="dropdown-menu">
+                    <div class="az-dropdown-header mg-b-20 d-sm-none">
+                        <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
+                    </div>
+                    <h6 class="az-notification-title">Notifications</h6>
+                </div><!-- dropdown-menu -->
+            </div><!-- az-header-notification -->
+            <div class="dropdown az-profile-menu">
+                <a href="" class="az-img-user"><img src="https://via.placeholder.com/500" alt=""></a>
+                <div class="dropdown-menu">
+                    <div class="az-dropdown-header d-sm-none">
+                        <a href="" class="az-header-arrow"><i class="icon ion-md-arrow-back"></i></a>
+                    </div>
+                    <div class="az-header-profile">
+                        <div class="az-img-user">
+                                <img class="rounded-circle header-profile-user"
+                                    src="#" alt="Admin Avatar">
+                        </div><!-- az-img-user -->
+                        <h6>Admin Name</h6>
+                        <span>Admin</span>
+                    </div><!-- az-header-profile -->
+
+                    <a href="#" class="dropdown-item"><i
+                            class="typcn typcn-user-outline"></i> My Profile</a>
+                    <a href="#" class="dropdown-item"><i
+                            class="typcn typcn-cog-outline"></i> Account
+                        Settings</a>
+                    <a href="#" class="dropdown-item"><i
+                            class="typcn typcn-power-outline"></i> Sign Out</a>
+                </div><!-- dropdown-menu -->
+            </div>
+        </div><!-- az-header-right -->
+    </div><!-- container -->
+</div><!-- az-header -->
+  
