@@ -15,6 +15,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 /**
  * This is an adminController class 
  * 
