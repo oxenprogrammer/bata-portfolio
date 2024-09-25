@@ -1,17 +1,46 @@
 <?php
 
+/**
+ * This File contains Document Controller and its methods
+ * 
+ *
+ * PHP version 8
+ *
+ * @category  Controllers
+ * @package    App\Http\Controllers
+ * @author     Kibooli Felix <kiboolif@gmail.com>
+ * @license  MIT (https://opensource.org/licenses/MIT)
+ * @link       https://github.com/KIBOOLI-FELIX/mribrahimsite.git
+ */
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+/**
+ * This is  Document Controller class 
+ * 
+ *
+ * PHP version 8
+ *
+ * @category  Controllers
+ * @package    App\Http\Controllers
+ * @author     Kibooli Felix <kiboolif@gmail.com>
+ * @license  MIT (https://opensource.org/licenses/MIT)
+ * @link       https://github.com/KIBOOLI-FELIX/mribrahimsite.git
+ */
 class DocumentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * This function returns all the list of the created documents
+     *
+     * @return void
      */
     public function index()
     {
         //
+        $page_title = "Admin Panel View Document";
+        return view('layouts.documents.index', compact('page_title'));
     }
 
     /**
