@@ -15,6 +15,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Document;
 use Illuminate\Http\Request;
 
 /**
@@ -40,7 +41,8 @@ class DocumentController extends Controller
     {
         //
         $page_title = "Admin Panel View Document";
-        return view('layouts.documents.index', compact('page_title'));
+        $documents =Document::all();
+        return view('documents.index', compact('page_title','documents'));
     }
 
     /**
