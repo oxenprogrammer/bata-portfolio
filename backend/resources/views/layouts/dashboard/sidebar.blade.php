@@ -3,8 +3,7 @@
           title="Dashboard"><i class="typcn typcn-chart-bar-outline"></i></a>
       <nav class="nav">
           {{-- <a href="#asideDashboard" class="nav-link active" data-toggle="tooltip-primary" title="Dashboard"><i class="typcn typcn-device-laptop"></i></a> --}}
-          <a href="#documents" class="nav-link" data-toggle="tooltip-primary" title="Documents"><i
-                  class="typcn typcn-credit-card"></i></a>
+          <a href="#documents" class="nav-link" data-toggle="tooltip-primary" title="Documents"><i class="fas fa-file-alt"></i></a>
           <a href="#blog" class="nav-link" data-toggle="tooltip-primary" title="Blog"><i
                   class="typcn typcn-group"></i></a>
           <a href="#users" class="nav-link" data-toggle="tooltip-primary" title="Users"><i
@@ -35,7 +34,7 @@
           <div id="documents" class="az-iconbar-pane">
               <h6 class="az-iconbar-title">Documents</h6>
               <ul class="nav">
-                <li class="nav-item"><a href="#" class="nav-link">View Documents</a>
+                <li class="nav-item"><a href="{{route('admin.document.view')}}" class="nav-link">View Documents</a>
                   <li class="nav-item"><a href="#" class="nav-link">Create Document</a>
                   </li>
                   <li class="nav-item"><a href="#" class="nav-link">Edit Document</a></li>
