@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 // Home route
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login'); // Redirect to the login route
 });
 
 // Protected dashboard route, redirect to admin dashboard upon authentication
