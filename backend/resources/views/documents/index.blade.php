@@ -49,7 +49,7 @@
                     <td>{{ $document->file_type }}</td>
                     <td>{{ $document->user->last_name }}</td>
                     <td>{{ $document->created_at->format('d M Y') }}</td>
-                    <td>{{$document->description}}</td>
+                    <td>{!!$document->description!!}</td>
                     <td><a href='{{$document->file_path}}' target="__blank">Google Doc Link</a></td>
                     <td>
                         @if($document->status === 'active')
