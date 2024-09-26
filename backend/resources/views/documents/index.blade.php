@@ -9,7 +9,13 @@
 @section('content')
 <div class="row mb-4">
     <div class="col-md-8">
-        <h2>Document Creation</h2>
+        <h2>All Documents</h2>
+         <!-- Display Success Message -->
+         @if (session('success'))
+         <div class="alert alert-success">
+             {{ session('success') }}
+         </div>
+     @endif
     </div>
     <div class="col-md-4 text-right">
         <a href="{{ route('admin.document.create') }}" class="btn btn-primary">
