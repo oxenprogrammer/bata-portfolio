@@ -27,11 +27,11 @@
                     </div>
                     <div class="az-header-profile">
                         <div class="az-img-user">
-                                <img class="rounded-circle header-profile-user"
-                                    src="#" alt="Admin Avatar">
+                            <img class="rounded-circle header-profile-user"
+                                src="{{ Auth::user()->profile_image ?? 'https://via.placeholder.com/500' }}" alt="Admin Avatar">
                         </div><!-- az-img-user -->
-                        <h6>Admin Name</h6>
-                        <span>Admin</span>
+                        <h6>{{ Auth::user()->first_name }}</h6>
+                        <span>{{ Auth::user()->is_admin ? 'Admin' : 'User' }}</span> <!-- Adjust role display as needed -->
                     </div><!-- az-header-profile -->
 
                     <a href="#" class="dropdown-item"><i
