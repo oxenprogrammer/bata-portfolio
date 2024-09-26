@@ -45,12 +45,16 @@ class DocumentController extends Controller
         return view('documents.index', compact('page_title','documents'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+   /**
+    * This function creates a document resource
+    *
+    * @return void
+    */
     public function create()
     {
         //
+        $page_title = "Admin Panel Create Document";
+        return view('documents.create',compact('page_title'));
     }
 
     /**
