@@ -123,11 +123,17 @@ class DocumentController extends Controller
         return redirect()->route('admin.document.view')->with('success', 'Document updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+   /**
+    * Delete specific document resource
+    *
+    * @param string $id
+    * @return void
+    */
     public function destroy(string $id)
     {
-        //
+        $document = Document::findOrFail($id);
+        $document->delete();
+    
+        return redirect()->route('admin.document.view')->with('success', 'Document deleted successfully.');
     }
 }
