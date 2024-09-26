@@ -17,8 +17,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreDocumentRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreDocumentRequest;
+use App\Http\Requests\UpdateDocumentRequest;
 
 /**
  * This is  Document Controller class 
@@ -59,12 +60,12 @@ class DocumentController extends Controller
         return view('documents.create', compact('page_title'));
     }
 
-   /**
-    * This function stores document resource
-    *
-    * @param StoreDocumentRequest $request
-    * @return void
-    */
+    /**
+     * This function stores document resource
+     *
+     * @param StoreDocumentRequest $request
+     * @return void
+     */
     public function store(StoreDocumentRequest $request)
     {
         //// The request is valid, proceed with storing the document
@@ -93,22 +94,33 @@ class DocumentController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Return specific document resource for update
+     *
+     * @param string $id
+     * @return void
      */
     public function edit(string $id)
     {
         //
         $page_title = "Admin Panel Edit Document";
         $document = Document::findOrFail($id);
-        return view('documents.edit',compact('page_title','document'));
+        return view('documents.edit', compact('page_title', 'document'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update specific resource
+     *
+     * @param UpdateDocumentRequest $request
+     * @param string $id
+     * @return void
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateDocumentRequest $request, string $id)
     {
         //
+        $document = Document::findOrFail($id);
+        $document->update($request->validated());
+
+        return redirect()->route('admin.document.view')->with('success', 'Document updated successfully.');
     }
 
     /**
