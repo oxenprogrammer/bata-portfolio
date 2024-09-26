@@ -17,6 +17,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreDocumentRequest;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * This is  Document Controller class 
@@ -41,28 +43,45 @@ class DocumentController extends Controller
     {
         //
         $page_title = "Admin Panel View Document";
-        $documents =Document::all();
-        return view('documents.index', compact('page_title','documents'));
+        $documents = Document::all();
+        return view('documents.index', compact('page_title', 'documents'));
     }
 
-   /**
-    * This function creates a document resource
-    *
-    * @return void
-    */
+    /**
+     * This function creates a document resource
+     *
+     * @return void
+     */
     public function create()
     {
         //
         $page_title = "Admin Panel Create Document";
-        return view('documents.create',compact('page_title'));
+        return view('documents.create', compact('page_title'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+   /**
+    * This function stores document resource
+    *
+    * @param StoreDocumentRequest $request
+    * @return void
+    */
+    public function store(StoreDocumentRequest $request)
     {
-        //
+        //// The request is valid, proceed with storing the document
+        $validatedData = $request->validated();
+
+        // Create the document with validated data
+        Document::create([
+            'user_id' => Auth::id(),
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'file_size' => $validatedData['file_size'],
+            'file_path' => $validatedData['file_path'],
+            'file_type' => $validatedData['file_type'],
+            'status' => $validatedData['status'],
+        ]);
+
+        return redirect()->route('admin.document.view')->with('success', 'Document added successfully.');
     }
 
     /**
