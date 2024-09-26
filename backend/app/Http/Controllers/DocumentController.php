@@ -98,6 +98,9 @@ class DocumentController extends Controller
     public function edit(string $id)
     {
         //
+        $page_title = "Admin Panel Edit Document";
+        $document = Document::findOrFail($id);
+        return view('documents.edit',compact('page_title','document'));
     }
 
     /**
