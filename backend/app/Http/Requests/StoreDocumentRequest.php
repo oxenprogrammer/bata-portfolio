@@ -26,6 +26,7 @@ class StoreDocumentRequest extends FormRequest
             'description' => 'nullable|string',
             'file_path' => 'required|url',
             'file_type' => 'nullable|string|max:50',
+            'file_size'=>'nullable|string',
             'status' => 'required|in:active,inactive',
         ];
     }
