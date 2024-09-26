@@ -39,8 +39,13 @@
                     <a href="#" class="dropdown-item"><i
                             class="typcn typcn-cog-outline"></i> Account
                         Settings</a>
-                    <a href="#" class="dropdown-item"><i
-                            class="typcn typcn-power-outline"></i> Sign Out</a>
+                   <!-- Sign Out Form -->
+                   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="typcn typcn-power-outline"></i> Sign Out
+                </a>
                 </div><!-- dropdown-menu -->
             </div>
         </div><!-- az-header-right -->
