@@ -5,15 +5,15 @@
           {{-- <a href="#asideDashboard" class="nav-link active" data-toggle="tooltip-primary" title="Dashboard"><i class="typcn typcn-device-laptop"></i></a> --}}
           <a href="#documents" class="nav-link" data-toggle="tooltip-primary" title="Documents"><i class="fas fa-file-alt"></i></a>
           <a href="#blog" class="nav-link" data-toggle="tooltip-primary" title="Blog"><i
-                  class="typcn typcn-group"></i></a>
+                  class="typcn typcn-book"></i></a>
           <a href="#users" class="nav-link" data-toggle="tooltip-primary" title="Users"><i
-                  class="typcn typcn-chart-line-outline"></i></a>
+                  class="typcn typcn-user"></i></a>
           <a href="#subscribers" class="nav-link" data-toggle="tooltip-primary" title="Subscribers"><i
-                  class="typcn typcn-credit-card"></i></a>
+                  class="typcn typcn-user-add"></i></a>
           <a href="#contacts" class="nav-link" data-toggle="tooltip-primary" title="Contacts"><i
-                  class="typcn typcn-credit-card"></i></a>
-          <a href="#images" class="nav-link" data-toggle="tooltip-primary" title="Blog Images"><i
-                  class="typcn typcn-chart-bar-outline"></i></a>
+                  class="typcn typcn-phone"></i></a>
+          <a href="#images" class="nav-link" data-toggle="tooltip-primary" title="News Letter"><i
+                  class="typcn typcn-mail"></i></a>
       </nav>
   </div><!-- az-iconbar -->
   <div class="az-iconbar-aside">
@@ -37,8 +37,6 @@
                 <li class="nav-item"><a href="{{route('admin.document.view')}}" class="nav-link">View Documents</a>
                   <li class="nav-item"><a href="#" class="nav-link">Create Document</a>
                   </li>
-                  <li class="nav-item"><a href="#" class="nav-link">Edit Document</a></li>
-                  <li class="nav-item"><a href="#" class="nav-link">Delete Document</a></li>
               </ul>
           </div><!-- az-iconbar-pane -->
           <div id="blog" class="az-iconbar-pane">
@@ -46,27 +44,18 @@
               <ul class="nav">
                 <li class="nav-item"><a href="#" class="nav-link">View Posts</a></li>
                   <li class="nav-item"><a href="#" class="nav-link">Create Post</a></li>
-                  <li class="nav-item"><a href="#" class="nav-link">Edit Post</a>
-                  </li>
-                  <li class="nav-item"><a href="#"
-                          class="nav-link">Delete Post</a></li></ul>
           </div><!-- az-iconbar-pane -->
           <div id="users" class="az-iconbar-pane">
               <h6 class="az-iconbar-title">Users</h6>
               <ul class="nav">
                 <li class="nav-item"><a href="#" class="nav-link">View Users</a></li>
                 <li class="nav-item"><a href="#" class="nav-link">Create User</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Edit User</a>
-                </li>
-                <li class="nav-item"><a href="#"
-                        class="nav-link">Delete User</a></li>
               </ul>
           </div><!-- az-iconbar-pane -->
           <div id="subscribers" class="az-iconbar-pane">
               <h6 class="az-iconbar-title">Subscribers</h6>
               <ul class="nav">
                   <li class='nav-item'><a href="#" class="nav-link">View Subscribers</a></li>
-                  <li class='nav-item'><a href="#" class="nav-link"></a></li>
               </ul>
           </div><!-- az-iconbar-pane -->
           <div id="contacts" class="az-iconbar-pane">
@@ -76,10 +65,10 @@
               </ul>
           </div><!-- az-iconbar-pane -->
           <div id="images" class="az-iconbar-pane">
-              <h6 class="az-iconbar-title">Blog Images</h6>
+              <h6 class="az-iconbar-title">News Letter</h6>
               <ul class="nav">
                   <li class='nav-item'><a href="#" class="nav-link">
-                          Images</a>
+                          News Letter</a>
                   </li>
               </ul>
           </div><!-- az-iconbar-pane -->
