@@ -35,15 +35,15 @@
               <h6 class="az-iconbar-title">Documents</h6>
               <ul class="nav">
                 <li class="nav-item"><a href="{{route('admin.document.view')}}" class="nav-link">View Documents</a>
-                  <li class="nav-item"><a href="#" class="nav-link">Create Document</a>
+                  <li class="nav-item"><a href="{{route('admin.document.create')}}" class="nav-link">Create Document</a>
                   </li>
               </ul>
           </div><!-- az-iconbar-pane -->
           <div id="blog" class="az-iconbar-pane">
               <h6 class="az-iconbar-title">Blog</h6>
               <ul class="nav">
-                <li class="nav-item"><a href="#" class="nav-link">View Posts</a></li>
-                  <li class="nav-item"><a href="#" class="nav-link">Create Post</a></li>
+                <li class="nav-item"><a href="{{route('admin.blog.view')}}" class="nav-link">View Posts</a></li>
+                  <li class="nav-item"><a href="{{route('admin.blog.create')}}" class="nav-link">Create Post</a></li>
           </div><!-- az-iconbar-pane -->
           <div id="users" class="az-iconbar-pane">
               <h6 class="az-iconbar-title">Users</h6>
