@@ -20,6 +20,8 @@ class BlogController extends Controller
     public function create()
     {
         //
+        $page_title ="Blog Post Create";
+        return view('blog.create',compact('page_title'));
     }
 
     /**
