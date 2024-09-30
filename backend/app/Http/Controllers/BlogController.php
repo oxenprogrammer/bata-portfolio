@@ -36,14 +36,17 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
  */
 class BlogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+  /**
+   * This returns all the blog resources
+   *
+   * @return void
+   */
     public function index()
     {
         //
-        $page_title = 'Blog Posts View';
-        return view('blog.view',compact('page_title'));
+        $page_title = 'Admin Panel View Blog Posts';
+        $blogs = Blog::all();
+        return view('blog.index',compact('page_title','blogs'));
     }
 
     /**
