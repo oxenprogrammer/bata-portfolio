@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreBlogRequest;
 use Illuminate\Support\Facades\Auth;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class BlogController extends Controller
 {
@@ -51,13 +52,16 @@ class BlogController extends Controller
             // Check if images are uploaded
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    // Store image and get path
-                    $imagePath = $image->store('blog_images', 'public');
+                    // Upload image to Cloudinary and get the URL
+                    $uploadedFileUrl = cloudinary()->upload($image->getRealPath(), [
+                        'folder' => 'blog_images', // Optional: specify a folder in Cloudinary
+                        'public_id' => pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME), // Optional: specify a public ID
+                    ])->getSecurePath();
 
-                    // Save image path to the BlogImage model
+                    // Save image URL to the BlogImage model
                     BlogImage::create([
                         'blog_id' => $blog->id,
-                        'image_path' => $imagePath,
+                        'image_path' => $uploadedFileUrl,
                     ]);
                 }
             }
@@ -69,6 +73,7 @@ class BlogController extends Controller
         } catch (\Exception $e) {
             // Rollback if there is an error
             DB::rollback();
+            return response()->json('failed to save:'.$e->getMessage());
 
             return redirect()->back()->with('error', 'Failed to create blog post.');
         }
