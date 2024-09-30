@@ -66,7 +66,7 @@ class BlogController extends Controller
             // Commit transaction
             DB::commit();
 
-            return redirect()->route('admin.blog.index')->with('success', 'Blog post created successfully!');
+            return redirect()->route('admin.blog.view')->with('success', 'Blog post created successfully!');
         } catch (\Exception $e) {
             // Rollback if there is an error
             DB::rollback();
