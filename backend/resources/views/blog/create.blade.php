@@ -26,7 +26,7 @@
 
                         <!-- Content -->
                         <div class="form-group">
-                            <label for="description">Description</label>
+                            <label for="description">Content</label>
                             <textarea name="content" id="content" class="form-control" rows="5" placeholder="Write blog content here"></textarea>
                             @error('content')
                                 <span class="text-danger">{{ $message }}</span>
@@ -54,7 +54,7 @@
                         <!-- Images -->
                         <div class="form-group mb-4">
                             <label for="image">Upload Blog Images</label>
-                            <input type="file" name="image[]" id="image" class="form-control" multiple
+                            <input type="file" name="images[]" id="images" class="form-control" multiple
                                 accept="image/*">
                             <small class="form-text text-muted">You can upload multiple images.</small>
                             @error('image.*')
