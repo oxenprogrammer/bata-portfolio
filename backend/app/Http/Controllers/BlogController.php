@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * This File contains BlogController and its methods
+ * to handle blog post creation
+ *
+ * PHP version 8
+ *
+ * @category  Controllers
+ * @package    App\Http\Controllers
+ * @author     Kibooli Felix <kiboolif@gmail.com>
+ * @license  MIT (https://opensource.org/licenses/MIT)
+ * @link       https://github.com/KIBOOLI-FELIX/mribrahimsite.git
+ */
+
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
@@ -10,6 +23,17 @@ use App\Http\Requests\StoreBlogRequest;
 use Illuminate\Support\Facades\Auth;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
+/**
+ * This File Class handles blog creation
+ *
+ * PHP version 8
+ *
+ * @category  Controllers
+ * @package    App\Http\Controllers
+ * @author     Kibooli Felix <kiboolif@gmail.com>
+ * @license  MIT (https://opensource.org/licenses/MIT)
+ * @link       https://github.com/KIBOOLI-FELIX/mribrahimsite.git
+ */
 class BlogController extends Controller
 {
     /**
@@ -18,10 +42,14 @@ class BlogController extends Controller
     public function index()
     {
         //
+        $page_title = 'Blog Posts View';
+        return view('blog.view',compact('page_title'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * This creates blog resource
+     *
+     * @return void
      */
     public function create()
     {
@@ -31,7 +59,10 @@ class BlogController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * This stores created Blog resource
+     *
+     * @param StoreBlogRequest $request
+     * @return void
      */
     public function store(StoreBlogRequest $request)
     {
@@ -73,7 +104,7 @@ class BlogController extends Controller
         } catch (\Exception $e) {
             // Rollback if there is an error
             DB::rollback();
-            return response()->json('failed to save:'.$e->getMessage());
+            return response()->json('failed to save:' . $e->getMessage());
 
             return redirect()->back()->with('error', 'Failed to create blog post.');
         }
