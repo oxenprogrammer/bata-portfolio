@@ -1,4 +1,5 @@
 <?php
+
 /**
  * User Model
  *
@@ -13,6 +14,7 @@
  * @license  MIT (https://opensource.org/licenses/MIT)
  * @link     https://github.com/KIBOOLI-FELIX/mribrahimsite.git
  */
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,9 +43,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'biography',
+        'skills'
     ];
 
     /**
@@ -66,6 +71,36 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'skills' => 'array',
         ];
+    }
+    /**
+     * This function retrieves all blogs posted
+     * by a specific user
+     *
+     * @return void
+     */
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class);
+    }
+    /**
+     * This function retrieves all documents uploaded by
+     * a specific user
+     *
+     * @return void
+     */
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
+    /**
+     * This checks if the user is an admin
+     *
+     * @return boolean
+     */
+    public function canAccessFilament(): bool
+    {
+        return $this->is_admin;  // This will check if the user is an admin
     }
 }
