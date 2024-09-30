@@ -1,0 +1,76 @@
+  <div class="az-iconbar">
+      <a href="{{ route('admin.dashboard') }}" class="az-iconbar-logo" data-toggle="tooltip-primary"
+          title="Dashboard"><i class="typcn typcn-chart-bar-outline"></i></a>
+      <nav class="nav">
+          {{-- <a href="#asideDashboard" class="nav-link active" data-toggle="tooltip-primary" title="Dashboard"><i class="typcn typcn-device-laptop"></i></a> --}}
+          <a href="#documents" class="nav-link" data-toggle="tooltip-primary" title="Documents"><i class="fas fa-file-alt"></i></a>
+          <a href="#blog" class="nav-link" data-toggle="tooltip-primary" title="Blog"><i
+                  class="typcn typcn-book"></i></a>
+          <a href="#users" class="nav-link" data-toggle="tooltip-primary" title="Users"><i
+                  class="typcn typcn-user"></i></a>
+          <a href="#subscribers" class="nav-link" data-toggle="tooltip-primary" title="Subscribers"><i
+                  class="typcn typcn-user-add"></i></a>
+          <a href="#contacts" class="nav-link" data-toggle="tooltip-primary" title="Contacts"><i
+                  class="typcn typcn-phone"></i></a>
+          <a href="#images" class="nav-link" data-toggle="tooltip-primary" title="News Letter"><i
+                  class="typcn typcn-mail"></i></a>
+      </nav>
+  </div><!-- az-iconbar -->
+  <div class="az-iconbar-aside">
+      <div class="az-iconbar-header">
+          <a href="{{ route('admin.dashboard') }}" class="az-logo"></a></a>
+          <a href="" class="az-iconbar-toggle-menu">
+              <i class="icon ion-md-arrow-back"></i>
+              <i class="icon ion-md-close"></i>
+          </a>
+      </div><!-- az-iconbar-header -->
+      <div class="az-iconbar-body">
+          <div id="asideDashboard" class="az-iconbar-pane">
+              <h6 class="az-iconbar-title">Dashboard</h6>
+              <ul class="nav">
+                  <li class="nav-item"><a href="{{ route('admin.dashboard') }}" class="nav-link">Dashboard</a></li>
+              </ul>
+          </div>
+          <div id="documents" class="az-iconbar-pane">
+              <h6 class="az-iconbar-title">Documents</h6>
+              <ul class="nav">
+                <li class="nav-item"><a href="{{route('admin.document.view')}}" class="nav-link">View Documents</a>
+                  <li class="nav-item"><a href="#" class="nav-link">Create Document</a>
+                  </li>
+              </ul>
+          </div><!-- az-iconbar-pane -->
+          <div id="blog" class="az-iconbar-pane">
+              <h6 class="az-iconbar-title">Blog</h6>
+              <ul class="nav">
+                <li class="nav-item"><a href="#" class="nav-link">View Posts</a></li>
+                  <li class="nav-item"><a href="#" class="nav-link">Create Post</a></li>
+          </div><!-- az-iconbar-pane -->
+          <div id="users" class="az-iconbar-pane">
+              <h6 class="az-iconbar-title">Users</h6>
+              <ul class="nav">
+                <li class="nav-item"><a href="#" class="nav-link">View Users</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Create User</a></li>
+              </ul>
+          </div><!-- az-iconbar-pane -->
+          <div id="subscribers" class="az-iconbar-pane">
+              <h6 class="az-iconbar-title">Subscribers</h6>
+              <ul class="nav">
+                  <li class='nav-item'><a href="#" class="nav-link">View Subscribers</a></li>
+              </ul>
+          </div><!-- az-iconbar-pane -->
+          <div id="contacts" class="az-iconbar-pane">
+              <h6 class="az-iconbar-title">Contacts </h6>
+              <ul class="nav">
+                  <li class='nav-item'><a href="#" class="nav-link">View Contacts</a></li>
+              </ul>
+          </div><!-- az-iconbar-pane -->
+          <div id="images" class="az-iconbar-pane">
+              <h6 class="az-iconbar-title">News Letter</h6>
+              <ul class="nav">
+                  <li class='nav-item'><a href="#" class="nav-link">
+                          News Letter</a>
+                  </li>
+              </ul>
+          </div><!-- az-iconbar-pane -->
+      </div><!-- az-iconbar-body -->
+  </div><!-- az-iconbar-aside -->

@@ -14,8 +14,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * This is a document model class that
@@ -45,5 +46,19 @@ class Document extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    /**
+     * Automatically associates current user as the owner of the created 
+     * document
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::creating(function ($document) {
+            if (empty($document->user_id)) {
+                $document->user_id = Auth::id();
+            }
+        });
     }
 }
