@@ -43,7 +43,7 @@
 
                             <div class="form-group col-md-6">
                                 <label for="file_type">File Type</label>
-                                <input type="text" name="file_type" id="file_type" class="form-control" required>
+                                <input type="text" name="file_type" id="file_type" class="form-control">
                             </div>
                         </div>
 
