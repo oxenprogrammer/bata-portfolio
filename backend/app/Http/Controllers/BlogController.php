@@ -34,7 +34,6 @@ class BlogController extends Controller
      */
     public function store(StoreBlogRequest $request)
     {
-        //
         // Begin a transaction to ensure data consistency
         DB::beginTransaction();
 
@@ -58,7 +57,7 @@ class BlogController extends Controller
                     // Save image path to the BlogImage model
                     BlogImage::create([
                         'blog_id' => $blog->id,
-                        'path' => $imagePath,
+                        'image_path' => $imagePath,
                     ]);
                 }
             }
