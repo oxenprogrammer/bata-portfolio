@@ -131,7 +131,7 @@ class BlogController extends Controller
     {
         //
         $page_title ="Admin Panel Edit Blog Post";
-        $blog = Blog::findOrFail($id);
+        $blog = Blog::with('images')->findOrFail($id);
         return view('blog.edit',compact('page_title','blog'));
     }
 
