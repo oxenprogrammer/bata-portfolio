@@ -18,9 +18,16 @@
                             <span> {{ session('error') }} </span>
                         </div>
                     @endif
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            <span> {{ session('success') }} </span>
+                        </div>
+                    @endif
 
-                    <form method="POST" action="{{ route('admin.blog.store') }}" enctype="multipart/form-data">
+
+                    <form method="POST" action="{{ route('admin.blog.update', $blog->id) }}" enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         <!-- Title -->
                         <div class="form-group mb-3">
                             <label for="title">Blog Title</label>
@@ -46,7 +53,7 @@
                             <label for="excerpt">Excerpt</label>
                             <textarea name="excerpt" id="excerpt" class="form-control" rows="3"
                                 placeholder="Short summary of the blog post">
-                                {{ $blog->content }}
+                                {{ $blog->excerpt }}
                             </textarea>
                         </div>
 
@@ -79,17 +86,20 @@
                                 <label for="published_at">Publish Date</label>
                                 <input type="datetime-local" name="published_at" id="published_at" class="form-control">
                             </div> --}}
-                            <div>
-                                <p class="form-text text-muted">Check any or all of the images should you wish to delete them
-                                    during update.</p>
-                            </div>
+                        <div>
+                            @if ($blog->images->isNotEmpty())
+                                <p class="form-text text-muted">Check any or all of the images should you wish to delete
+                                    them during update.</p>
+                            @endif
+
+                        </div>
                         <div class="row">
                             @foreach ($blog->images as $image)
                                 <div class='col-md-4'>
                                     <img src="{{ $image->image_path }}" alt="Blog Image"
                                         style="width: 100px; height: auto;">
                                     <label>
-                                        <input type="checkbox" class='form-check' name="images_to_delete[]"
+                                        <input type="checkbox" class='form-check' name="delete_images[]"
                                             value="{{ $image->image_path }}">
                                     </label>
                                 </div>
