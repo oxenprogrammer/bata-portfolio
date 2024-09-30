@@ -45,16 +45,16 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $blog->title }}</td>
-                            <td>{{ $blog->excerpt ?? 'No excerpt available' }}</td>
+                            <td>{!! $blog->excerpt ?? 'No excerpt available' !!}</td>
                             <td>
                                 <span class="badge badge-{{ $blog->status === 'published' ? 'success' : 'secondary' }}">
                                     {{ ucfirst($blog->status) }}
                                 </span>
                             </td>
                             <td>{{ $blog->user->name ?? 'Unknown' }}</td>
-                            <td>{{ $blog->created_at->format('M d, Y') }}</td>
-                            <td>
-                                <a href="{{ route('admin.blog.edit', $blog->id) }}" class="btn btn-sm btn-warning">
+                            <td>{{ $blog->created_at->format('M d, Y h:i A') }}</td>
+                            <td class="d-flex justify-content-center">
+                                <a href="{{ route('admin.blog.edit', $blog->id) }}" class="btn btn-sm btn-warning me-2">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
                                 <form action="{{ route('admin.blog.destroy', $blog->id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete this post?');">
