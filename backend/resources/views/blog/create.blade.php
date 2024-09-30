@@ -12,6 +12,13 @@
                     <h2>Add Blog Post</h2>
                 </div>
                 <div class="card-body">
+
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            <span> {{ session('error') }} </span>
+                        </div>
+                    @endif
+
                     <form method="POST" action="{{ route('admin.blog.store') }}" enctype="multipart/form-data">
                         @csrf
                         <!-- Title -->
