@@ -191,10 +191,47 @@ class BlogController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Deletes Blog resource and its related images
+     *
+     * @param string $id
+     * @return void
      */
     public function destroy(string $id)
     {
         //
+
+        // Find the blog post by ID
+        $blog = Blog::findOrFail($id);
+
+        // Begin a transaction
+        DB::beginTransaction();
+
+        try {
+            // Fetch all associated images
+            $images = $blog->images;
+
+            // Delete images from Cloudinary and the BlogImage model
+            foreach ($images as $image) {
+                // Delete from Cloudinary
+                $publicId = pathinfo($image->image_path, PATHINFO_FILENAME); // Extract public ID from URL
+                cloudinary()->destroy($publicId);
+
+                // Delete from your BlogImage model
+                $image->delete();
+            }
+
+            // Delete the blog post itself
+            $blog->delete();
+
+            // Commit the transaction
+            DB::commit();
+
+            return redirect()->route('admin.blog.view')->with('success', 'Blog post and related images deleted successfully.');
+        } catch (\Exception $e) {
+            // Rollback the transaction in case of error
+            DB::rollBack();
+
+            return redirect()->route('admin.blog.view')->with('error', 'Failed to delete the blog post: ' . $e->getMessage());
+        }
     }
 }
