@@ -121,12 +121,18 @@ class BlogController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+  /**
+   * Return blog post for update
+   *
+   * @param string $id
+   * @return void
+   */
     public function edit(string $id)
     {
         //
+        $page_title ="Admin Panel Edit Blog Post";
+        $blog = Blog::findOrFail($id);
+        return view('blog.edit',compact('page_title','blog'));
     }
 
     /**
