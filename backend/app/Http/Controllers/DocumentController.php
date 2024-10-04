@@ -18,6 +18,7 @@ namespace App\Http\Controllers;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\DocumentResource;
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
 
@@ -136,4 +137,16 @@ class DocumentController extends Controller
     
         return redirect()->route('admin.document.view')->with('success', 'Document deleted successfully.');
     }
+
+    /**
+     * Returns all documents to be consumend by frontend
+     *
+     * @return void
+     */
+    public function getAllDocuments()
+    {
+        $documents = Document::all(); // Fetch all documents
+        return DocumentResource::collection($documents); // Use resource collection
+    }
+
 }
