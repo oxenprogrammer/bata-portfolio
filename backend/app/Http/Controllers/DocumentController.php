@@ -139,7 +139,7 @@ class DocumentController extends Controller
     }
 
     /**
-     * Returns all documents to be consumend by frontend
+     * Returns all documents to be consumed by frontend
      *
      * @return void
      */
@@ -147,6 +147,18 @@ class DocumentController extends Controller
     {
         $documents = Document::all(); // Fetch all documents
         return DocumentResource::collection($documents); // Use resource collection
+    }
+
+    /**
+     * Returns specific resource to be consumed by frontend
+     *
+     * @param string $id
+     * @return void
+     */
+    public function getSingleDocument(string $id)
+    {
+        $document = Document::findOrFail($id); // Fetch a specific document
+     return new DocumentResource($document); // Use single resource
     }
 
 }
