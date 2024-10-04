@@ -19,9 +19,10 @@ use App\Models\Blog;
 use App\Models\BlogImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\BlogResource;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
-use Illuminate\Support\Facades\Auth;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 /**
@@ -234,4 +235,80 @@ class BlogController extends Controller
             return redirect()->route('admin.blog.view')->with('error', 'Failed to delete the blog post: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Return paginated blog posts with status not equal to 'draft' to be consumed by frontend
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAllBlogs(Request $request)
+    {
+        $perPage = $request->input('per_page', 10); // Set items per page
+
+        try {
+            // Fetch blogs where status is not 'draft'
+            $blogs = Blog::with(['user', 'images'])
+                ->where('status', 'published') // Filter out drafts
+                ->paginate($perPage);
+
+            // Check if blogs are empty
+            if ($blogs->isEmpty()) {
+                return response()->json([
+                    'message' => 'No blogs found.',
+                ], 404);
+            }
+
+            // Return blogs with pagination meta data
+            return response()->json([
+                'data' => BlogResource::collection($blogs),
+                'meta' => [
+                    'current_page' => $blogs->currentPage(),
+                    'last_page' => $blogs->lastPage(),
+                    'per_page' => $blogs->perPage(),
+                    'total' => $blogs->total(),
+                ],
+            ]);
+        } catch (\Exception $e) {
+            // Handle any exceptions that occur
+            return response()->json([
+                'message' => 'An error occurred while fetching blogs. Please try again later.',
+                'error' => $e->getMessage(),
+            ], 500); 
+        }
+    }
+
+
+    /**
+     * Return a single blog post with status not equal to 'draft' to be consumed by frontend
+     *
+     * @param string $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getSingleBlog(string $id)
+    {
+        try {
+            // Fetch blog where status is not 'draft'
+            $blog = Blog::where('id', $id)
+                ->where('status', 'published') 
+                ->first(); 
+    
+            // Check if blog is found
+            if (!$blog) {
+                return response()->json([
+                    'message' => 'Blog post not found or is a draft.',
+                ], 404); 
+            }
+    
+            // Return the blog resource
+            return new BlogResource($blog);
+        } catch (\Exception $e) {
+            // Handle any exceptions that occur
+            return response()->json([
+                'message' => 'An error occurred while fetching the blog post. Please try again later.',
+                'error' => $e->getMessage(),
+            ], 500); 
+        }
+    }
+    
 }
