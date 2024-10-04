@@ -124,41 +124,57 @@ class DocumentController extends Controller
         return redirect()->route('admin.document.view')->with('success', 'Document updated successfully.');
     }
 
-   /**
-    * Delete specific document resource
-    *
-    * @param string $id
-    * @return void
-    */
-    public function destroy(string $id)
-    {
-        $document = Document::findOrFail($id);
-        $document->delete();
-    
-        return redirect()->route('admin.document.view')->with('success', 'Document deleted successfully.');
-    }
-
     /**
      * Returns all documents to be consumed by frontend
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getAllDocuments()
     {
-        $documents = Document::all(); // Fetch all documents
-        return DocumentResource::collection($documents); // Use resource collection
+        try {
+            $documents = Document::where('status', 'active')->get(); // Fetch all documents where status is 'active'
+
+            // Check if documents exist
+            if ($documents->isEmpty()) {
+                return response()->json([
+                    'message' => 'No active documents found.',
+                ], 404); // Return 404 with a user-friendly message
+            }
+
+            return DocumentResource::collection($documents); // Use resource collection
+        } catch (\Exception $e) {
+            // Handle any exceptions that occur
+            return response()->json([
+                'message' => 'An error occurred while fetching documents. Please try again later.',
+                'error' => $e->getMessage(), // Optional: include error message for debugging (remove in production)
+            ], 500); // Return 500 Internal Server Error
+        }
     }
 
     /**
      * Returns specific resource to be consumed by frontend
      *
      * @param string $id
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getSingleDocument(string $id)
     {
-        $document = Document::findOrFail($id); // Fetch a specific document
-     return new DocumentResource($document); // Use single resource
-    }
+        try {
+            // Fetch a specific document where status is 'active'
+            $document = Document::where('id', $id)->where('status', 'active')->firstOrFail();
 
+            return new DocumentResource($document); // Use single resource
+        } catch (\Exception $e) {
+            // Handle the case where the document is not found or is not active
+            return response()->json([
+                'message' => 'Document not found or is not active.',
+            ], 404); // Return 404 with a user-friendly message
+        } catch (\Exception $e) {
+            // Handle any other exceptions that occur
+            return response()->json([
+                'message' => 'Server error.',
+                'error' => $e->getMessage(),
+            ], 500); 
+        }
+    }
 }
