@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DocumentController;
 
 // Home route
 Route::get('/', function () {
@@ -25,7 +26,17 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/document/edit/{id}', [DocumentController::class, 'edit'])->name('document.edit');
     Route::put('/document/update/{id}', [DocumentController::class, 'update'])->name('document.update');
     Route::delete('/document/destroy/{id}', [DocumentController::class, 'destroy'])->name('document.destroy');
+
+    //Blog routes
+    Route::get('/blog/view', [BlogController::class, 'index'])->name('blog.view');
+    Route::get('/blog/create', [BlogController::class, 'create'])->name('blog.create');
+    Route::post('/blog/store', [BlogController::class, 'store'])->name('blog.store');
+    Route::get('/blog/edit/{id}', [BlogController::class, 'edit'])->name('blog.edit');
+    Route::put('/blog/update/{id}', [BlogController::class, 'update'])->name('blog.update');
+    Route::delete('/blog/destroy/{id}', [BlogController::class, 'destroy'])->name('blog.destroy');
 });
+
+
 
 // Profile routes for authenticated users
 Route::middleware('auth')->group(function () {
@@ -35,4 +46,4 @@ Route::middleware('auth')->group(function () {
 });
 
 // Include Breeze authentication routes
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
