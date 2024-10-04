@@ -1,0 +1,237 @@
+<?php
+
+/**
+ * This File contains BlogController and its methods
+ * to handle blog post creation
+ *
+ * PHP version 8
+ *
+ * @category  Controllers
+ * @package    App\Http\Controllers
+ * @author     Kibooli Felix <kiboolif@gmail.com>
+ * @license  MIT (https://opensource.org/licenses/MIT)
+ * @link       https://github.com/KIBOOLI-FELIX/mribrahimsite.git
+ */
+
+namespace App\Http\Controllers;
+
+use App\Models\Blog;
+use App\Models\BlogImage;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreBlogRequest;
+use App\Http\Requests\UpdateBlogRequest;
+use Illuminate\Support\Facades\Auth;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+
+/**
+ * This File Class handles blog creation
+ *
+ * PHP version 8
+ *
+ * @category  Controllers
+ * @package    App\Http\Controllers
+ * @author     Kibooli Felix <kiboolif@gmail.com>
+ * @license  MIT (https://opensource.org/licenses/MIT)
+ * @link       https://github.com/KIBOOLI-FELIX/mribrahimsite.git
+ */
+class BlogController extends Controller
+{
+    /**
+     * This returns all the blog resources
+     *
+     * @return void
+     */
+    public function index()
+    {
+        //
+        $page_title = 'Admin Panel View Blog Posts';
+        $blogs = Blog::all();
+        return view('blog.index', compact('page_title', 'blogs'));
+    }
+
+    /**
+     * This creates blog resource
+     *
+     * @return void
+     */
+    public function create()
+    {
+        //
+        $page_title = "Blog Post Create";
+        return view('blog.create', compact('page_title'));
+    }
+
+    /**
+     * This stores created Blog resource
+     *
+     * @param StoreBlogRequest $request
+     * @return void
+     */
+    public function store(StoreBlogRequest $request)
+    {
+        // Begin a transaction to ensure data consistency
+        DB::beginTransaction();
+
+        try {
+            // Create the blog post
+            $blog = Blog::create([
+                'user_id' => Auth::id(),
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+                'excerpt' => $request->input('excerpt'),
+                'status' => $request->input('status'),
+                'published_at' => $request->input('published_at'),
+            ]);
+
+            // Check if images are uploaded
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    // Upload image to Cloudinary and get the URL
+                    $uploadedFileUrl = cloudinary()->upload($image->getRealPath(), [
+                        'folder' => 'blog_images', // Optional: specify a folder in Cloudinary
+                        'public_id' => pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME), // Optional: specify a public ID
+                    ])->getSecurePath();
+
+                    // Save image URL to the BlogImage model
+                    BlogImage::create([
+                        'blog_id' => $blog->id,
+                        'image_path' => $uploadedFileUrl,
+                    ]);
+                }
+            }
+
+            // Commit transaction
+            DB::commit();
+
+            return redirect()->route('admin.blog.view')->with('success', 'Blog post created successfully!');
+        } catch (\Exception $e) {
+            // Rollback if there is an error
+            DB::rollback();
+            return response()->json('failed to save:' . $e->getMessage());
+
+            return redirect()->back()->with('error', 'Failed to create blog post.');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Return blog post for update
+     *
+     * @param string $id
+     * @return void
+     */
+    public function edit(string $id)
+    {
+        //
+        $page_title = "Admin Panel Edit Blog Post";
+        $blog = Blog::with('images')->findOrFail($id);
+        return view('blog.edit', compact('page_title', 'blog'));
+    }
+
+    /**
+     * Store Blog Updated Resource
+     *
+     * @param UpdateBlogRequest $request
+     * @param string $id
+     * @return void
+     */
+    public function update(UpdateBlogRequest $request, string $id)
+    {
+        // Begin a database transaction
+        DB::beginTransaction();
+        try {
+            $blog = Blog::findOrFail($id);
+
+            // Handle image deletions
+            if ($request->filled('delete_images')) {
+                foreach ($request->delete_images as $imageUrl) {
+                    // Delete from Cloudinary
+                    $publicId = pathinfo($imageUrl, PATHINFO_FILENAME); // Extract public ID from URL
+                    cloudinary()->destroy($publicId);
+
+                    // Delete from your BlogImage model
+                    BlogImage::where('image_path', $imageUrl)->delete();
+                }
+            }
+
+            // Handle new image uploads
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $image) {
+                    $uploadedFileUrl = cloudinary()->upload($image->getRealPath())->getSecurePath();
+
+                    // Save new image URL to the BlogImage model
+                    BlogImage::create([
+                        'blog_id' => $blog->id,
+                        'image_path' => $uploadedFileUrl,
+                    ]);
+                }
+            }
+
+            // Update the blog post details
+            $blog->update($request->validated());
+
+            // Commit the transaction
+            DB::commit();
+
+            return redirect()->route('admin.blog.view')->with('success', 'Blog post updated successfully.');
+        } catch (\Exception $e) {
+            // Rollback the transaction on failure
+            DB::rollback();
+
+            return redirect()->back()->with('error', 'Failed to update the blog post: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Deletes Blog resource and its related images
+     *
+     * @param string $id
+     * @return void
+     */
+    public function destroy(string $id)
+    {
+        //
+
+        // Find the blog post by ID
+        $blog = Blog::findOrFail($id);
+
+        // Begin a transaction
+        DB::beginTransaction();
+
+        try {
+            // Fetch all associated images
+            $images = $blog->images;
+
+            // Delete images from Cloudinary and the BlogImage model
+            foreach ($images as $image) {
+                // Delete from Cloudinary
+                $publicId = pathinfo($image->image_path, PATHINFO_FILENAME); // Extract public ID from URL
+                cloudinary()->destroy($publicId);
+
+                // Delete from your BlogImage model
+                $image->delete();
+            }
+
+            // Delete the blog post itself
+            $blog->delete();
+
+            // Commit the transaction
+            DB::commit();
+
+            return redirect()->route('admin.blog.view')->with('success', 'Blog post and related images deleted successfully.');
+        } catch (\Exception $e) {
+            // Rollback the transaction in case of error
+            DB::rollBack();
+
+            return redirect()->route('admin.blog.view')->with('error', 'Failed to delete the blog post: ' . $e->getMessage());
+        }
+    }
+}
