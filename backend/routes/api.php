@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\DocumentController;
 
 // Publicly accessible API routes
@@ -12,10 +13,10 @@ Route::get('/documents', [DocumentController::class, 'getAllDocuments']);
 // Route to fetch a specific document by its ID
 Route::get('/documents/{id}', [DocumentController::class, 'getSingleDocument']);
 
-Route::get('/blogs', [DocumentController::class, 'getAllBlogs']);
+Route::get('/blogs', [BlogController::class, 'getAllBlogs']);
 
 // Route to fetch a specific document by its ID
-Route::get('/blogs/{id}', [DocumentController::class, 'getSingleBlog']);
+Route::get('/blogs/{id}',[BlogController::class, 'getSingleBlog']);
 
 
 // restricted access api routes
