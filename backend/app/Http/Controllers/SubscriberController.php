@@ -17,6 +17,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Subscriber;
 use Illuminate\Http\Request;
+use App\Http\Requests\SubscriberRequest;
 
 /**
  * This File Class handles subscribers
@@ -55,9 +56,19 @@ class SubscriberController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SubscriberRequest $request)
     {
-        //
+        
+        $validatedData = $request->validated();
+        // Add the subscriber's IP address to the validated data
+        $validatedData['ip_address'] = $request->ip();
+
+        $subscriber = Subscriber::create($validatedData); // Create a new subscriber
+
+        return response()->json([
+            'message' => 'Subscriber created successfully.',
+            'subscriber' => $subscriber,
+        ], 201);
     }
 
     /**
