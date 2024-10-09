@@ -5,6 +5,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\SubscriberController;
 
 // Home route
 Route::get('/', function () {
@@ -34,6 +35,14 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/blog/edit/{id}', [BlogController::class, 'edit'])->name('blog.edit');
     Route::put('/blog/update/{id}', [BlogController::class, 'update'])->name('blog.update');
     Route::delete('/blog/destroy/{id}', [BlogController::class, 'destroy'])->name('blog.destroy');
+
+    //Subscriber routes
+    Route::get('/subscriber/view',[SubscriberController::class,'index'])->name('subscriber.view');
+    Route::get('/subscriber/create', [SubscriberController::class, 'create'])->name('subscriber.create');
+    Route::post('/subscriber/store', [SubscriberController::class, 'store'])->name('subscriber.store');
+    Route::get('/subscriber/edit/{id}', [SubscriberController::class, 'edit'])->name('subscriber.edit');
+    Route::put('/subscriber/update/{id}', [SubscriberController::class, 'update'])->name('subscriber.update');
+    Route::delete('/subscriber/destroy/{id}', [SubscriberController::class, 'destroy'])->name('subscriber.destroy');
 });
 
 
