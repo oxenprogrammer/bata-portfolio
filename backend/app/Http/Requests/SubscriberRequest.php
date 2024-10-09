@@ -24,6 +24,7 @@ class SubscriberRequest extends FormRequest
         return [
             'email' => 'required|email|unique:subscribers,email',
             'name' => 'nullable|string|max:255',
+            'status'=>'nullable',
         ];
     }
 }
