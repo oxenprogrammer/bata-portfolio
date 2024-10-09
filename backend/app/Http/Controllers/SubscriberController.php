@@ -58,16 +58,13 @@ class SubscriberController extends Controller
      */
     public function store(SubscriberRequest $request)
     {
-        
+       
         $validatedData = $request->validated();
-        // Add the subscriber's IP address to the validated data
         $validatedData['ip_address'] = $request->ip();
-
-        $subscriber = Subscriber::create($validatedData); // Create a new subscriber
+        $subscriber = Subscriber::create($validatedData);
 
         return response()->json([
             'message' => 'Subscriber created successfully.',
-            'subscriber' => $subscriber,
         ], 201);
     }
 
