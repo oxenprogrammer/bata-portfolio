@@ -55,7 +55,8 @@
           <div id="subscribers" class="az-iconbar-pane">
               <h6 class="az-iconbar-title">Subscribers</h6>
               <ul class="nav">
-                  <li class='nav-item'><a href="#" class="nav-link">View Subscribers</a></li>
+                  <li class='nav-item'><a href="{{route('admin.subscriber.view')}}" class="nav-link">View Subscribers</a></li>
+                  <li class='nav-item'><a href="{{route('admin.subscriber.create')}}" class="nav-link">View Subscribers</a></li>
               </ul>
           </div><!-- az-iconbar-pane -->
           <div id="contacts" class="az-iconbar-pane">
