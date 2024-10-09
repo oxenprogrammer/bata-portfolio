@@ -125,6 +125,20 @@ class DocumentController extends Controller
     }
 
     /**
+     * Deletes specific document
+     *
+     * @param string $id
+     * @return void
+     */
+    public function destroy(string $id)
+    {
+        //
+        $subscriber = Document::findOrFail($id);
+        $subscriber->delete();
+        return redirect()->route('admin.document.view')->with('success', 'Document deleted successfully!');
+    }
+
+    /**
      * Returns all documents to be consumed by frontend
      *
      * @return \Illuminate\Http\JsonResponse
