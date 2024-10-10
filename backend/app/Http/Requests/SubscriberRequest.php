@@ -24,7 +24,19 @@ class SubscriberRequest extends FormRequest
         return [
             'email' => 'required|email|unique:subscribers,email',
             'name' => 'nullable|string|max:255',
-            'status'=>'nullable',
+            'status' => 'nullable',
         ];
+    }
+
+    /**
+     * Defaults status field to pending
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'status' => $this->status ?? 'pending',
+        ]);
     }
 }
