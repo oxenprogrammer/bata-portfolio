@@ -42,7 +42,7 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $subscriber->email }}</td>
-                            <td>{{ $subscriber->created_at->format('d M Y') }}</td>
+                            <td>{{ $subscriber->created_at->format('d M Y H:i:s') }}</td>
                             <td>
                                 @if ($subscriber->status === 'active')
                                     <span class="badge badge-success">Active</span>
@@ -56,7 +56,7 @@
                             </td>
                             <td>
                                 <a href="{{ route('admin.subscriber.edit', $subscriber->id) }}"
-                                    class="btn btn-sm btn-warning">
+                                    class="btn btn-sm btn-warning subscriberUpdateInfo">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
                                 <form action="{{ route('admin.subscriber.destroy', $subscriber->id) }}" method="POST"
@@ -75,8 +75,16 @@
             </table>
         </div>
     </div>
-    <!--Manual Addition of Subscriber Model-->
+    <!-- Addition of Subscriber Model-->
     @include('subscribers.create')
+    <!-- SMALL MODAL -->
+    <div id="updateSubscriber" class="modal">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content" id='content'>
+         
+            </div>
+        </div><!-- modal-dialog -->
+    </div><!-- modal -->
 @endsection
 
 <!--scripts section-->
@@ -104,8 +112,10 @@
                         error: function(xhr) {
                             if (xhr.status === 422) {
                                 const errors = xhr.responseJSON.errors
-                                $.each(errors,function(field,messages){
-                                    $(`#${field}`).after(`<span class='text-danger'>${messages[0]}</span>`)
+                                $.each(errors, function(field, messages) {
+                                    $(`#${field}`).after(
+                                        `<span class='text-danger'>${messages[0]}</span>`
+                                    )
                                 })
 
                                 setTimeout(() => {
@@ -114,10 +124,63 @@
 
                                 return;
                             }
-                            $('#errors').append(`<span class='text-danger'> Unexpected error!</span>`)
+                            $('#errors').append(
+                                `<span class='text-danger'> Unexpected error!</span>`
+                            )
                         }
                     });
                 })
+            });
+
+            //get subscriber to update
+            $(document).on('click', '.subscriberUpdateInfo', function(event) {
+                event.preventDefault()
+                $.ajax({
+                    type: "GET",
+                    url: $(this).attr('href'),
+                    success: function(response) {
+                        console.log(response)
+                        $('#content').html(response.html)
+                        $('#updateSubscriber').modal('show')
+                    }
+                });
+            })
+            //update subscriber
+            $(document).on('click', '#subscriberUpdate', function(event) {
+                event.preventDefault()
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        url: $("#subscriberFormUpdate").attr('action'),
+                        type: 'PUT',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        data: $("#subscriberFormUpdate").serialize(),
+                        success: function(response) {
+                            $('#subscriberFormUpdate')[0].reset();
+                            $("#updateSubscriber").modal('hide');
+                            location.reload(true);
+                        },
+                        error: function(xhr) {
+                            if (xhr.status === 422) {
+                                const errors = xhr.responseJSON.errors
+                                $.each(errors, function(field, messages) {
+                                    $(`#${field}`).after(
+                                        `<span class='text-danger'>${messages[0]}</span>`
+                                    )
+                                })
+
+                                setTimeout(() => {
+                                    location.reload()
+                                }, 5000);
+
+                                return;
+                            }
+                            $('#errors').append(
+                                `<span class='text-danger'> Unexpected error!</span>`
+                            )
+                        }
+                    });
             });
         });
     </script>
