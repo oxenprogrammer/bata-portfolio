@@ -47,7 +47,7 @@
                                 @if ($subscriber->status === 'active')
                                     <span class="badge badge-success">Active</span>
                                 @elseif($subscriber->status === 'pending')
-                                    <span class="badge badge-success">Pending</span>
+                                    <span class="badge badge-warning">Pending</span>
                                 @elseif($subscriber->status === 'unsubscribed')
                                     <span class="badge badge-danger">Unsubscribed</span>
                                 @else
