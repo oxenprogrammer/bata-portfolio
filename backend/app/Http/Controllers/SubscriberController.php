@@ -18,6 +18,7 @@ namespace App\Http\Controllers;
 use App\Models\Subscriber;
 use Illuminate\Http\Request;
 use App\Http\Requests\SubscriberRequest;
+use App\Http\Requests\UpdateSubscriberRequest;
 
 /**
  * This File Class handles subscribers
@@ -82,21 +83,36 @@ class SubscriberController extends Controller
     public function edit(string $id)
     {
         //
+        $subscriber = Subscriber::findOrFail($id);
+        $view = view('subscribers.edit',compact('subscriber'))->render();
+        return response()->json(['html'=>$view],200);
     }
-
     /**
-     * Update the specified resource in storage.
+     * Store updated resource
+     *
+     * @param UpdateSubscriberRequest $request
+     * @param string $id
+     * @return void
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateSubscriberRequest $request, string $id)
     {
         //
+        $subscriber = Subscriber::findOrFail($id);
+        $subscriber->update($request->validated());
+        return response()->json(['message'=>'Subscriber updated successfully'],201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+   /**
+    * Delete specified subscriber resource
+    *
+    * @param string $id
+    * @return void
+    */
     public function destroy(string $id)
     {
         //
+        $subscriber = Subscriber::findOrFail($id);
+        $subscriber->delete();
+        return redirect()->route('admin.subscriber.view')->with('success', 'Subscriber deleted successfully!');
     }
 }
