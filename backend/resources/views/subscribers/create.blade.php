@@ -3,12 +3,13 @@
       <div class="modal-dialog modal-md" role="document">
           <div class="modal-content">
               <div class="modal-header">
-                  <h6 class="modal-title">Add Subscriber Manually</h6>
+                  <h6 class="modal-title">Add Subscriber </h6>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                   </button>
               </div>
               <form id='subscriberForm'>
+                @csrf
                   <div class="modal-body">
                     <div class='row'>
                         <div class="col-12" id='errors'>
