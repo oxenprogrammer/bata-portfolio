@@ -62,18 +62,43 @@ class SubscriberController extends Controller
      */
     public function store(SubscriberRequest $request)
     {
-       
+
         $validatedData = $request->validated();
         $validatedData['ip_address'] = $request->ip();
         $validatedData['token'] = Str::random(32);
         $subscriber = Subscriber::create($validatedData);
 
         //send confirmation email
-        Mail::to($subscriber->email)->send(new SubscriptionConfirmationMail($subscriber->token,$subscriber->email));
+        Mail::to($subscriber->email)->send(new SubscriptionConfirmationMail($subscriber->token, $subscriber->email));
 
         return response()->json([
             'message' => 'Subscriber created successfully.',
         ], 201);
+    }
+
+    /**
+     * Confirms subscription 
+     *
+     * @param string $token
+     * @return void
+     */
+    public function confirmSubscription(string $token)
+    {
+        // Find the subscriber by the token
+        $subscriber = Subscriber::where('token', $token)->first();
+
+        if (!$subscriber) {
+            $status = false;
+        } else {
+            // Update the subscriber's status to 'active' and clear the token
+            $subscriber->update([
+                'status' => 'active',
+                'token' => null,
+            ]);
+            $status = true;
+        }
+
+        return view('subscribers.confirmation', compact('status'));
     }
 
     /**
@@ -91,8 +116,8 @@ class SubscriberController extends Controller
     {
         //
         $subscriber = Subscriber::findOrFail($id);
-        $view = view('subscribers.edit',compact('subscriber'))->render();
-        return response()->json(['html'=>$view],200);
+        $view = view('subscribers.edit', compact('subscriber'))->render();
+        return response()->json(['html' => $view], 200);
     }
     /**
      * Store updated resource
@@ -106,15 +131,15 @@ class SubscriberController extends Controller
         //
         $subscriber = Subscriber::findOrFail($id);
         $subscriber->update($request->validated());
-        return response()->json(['message'=>'Subscriber updated successfully'],201);
+        return response()->json(['message' => 'Subscriber updated successfully'], 201);
     }
 
-   /**
-    * Delete specified subscriber resource
-    *
-    * @param string $id
-    * @return void
-    */
+    /**
+     * Delete specified subscriber resource
+     *
+     * @param string $id
+     * @return void
+     */
     public function destroy(string $id)
     {
         //
