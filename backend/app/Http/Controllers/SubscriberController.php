@@ -16,8 +16,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subscriber;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\SubscriberRequest;
+use App\Mail\SubscriptionConfirmationMail;
 use App\Http\Requests\UpdateSubscriberRequest;
 
 /**
@@ -62,7 +65,11 @@ class SubscriberController extends Controller
        
         $validatedData = $request->validated();
         $validatedData['ip_address'] = $request->ip();
+        $validatedData['token'] = Str::random(32);
         $subscriber = Subscriber::create($validatedData);
+
+        //send confirmation email
+        Mail::to($subscriber->email)->send(new SubscriptionConfirmationMail($subscriber->token,$subscriber->email));
 
         return response()->json([
             'message' => 'Subscriber created successfully.',
