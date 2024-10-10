@@ -21,6 +21,8 @@ Route::get('/blogs/{id}',[BlogController::class, 'getSingleBlog']);
 
 //Route to create subscriber
 Route::post('/subscriber',[SubscriberController::class,'store']);
+//Route to confrm subscriber subscription
+Route::get('/subscriber/confirm/{token}',[SubscriberController::class,'confirmSubscription']);
 
 
 // restricted access api routes
