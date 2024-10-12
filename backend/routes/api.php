@@ -26,7 +26,7 @@ Route::post('/subscriber',[SubscriberController::class,'store']);
 Route::get('/subscriber/confirm/{token}',[SubscriberController::class,'confirmSubscription']);
 
 //Route to store contact us info
-Route::post('/contactus',[ContactUsController::class,'Store']);
+Route::post('/contact',[ContactUsController::class,'Store']);
 
 
 // restricted access api routes
