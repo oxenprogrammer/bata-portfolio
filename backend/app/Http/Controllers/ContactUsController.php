@@ -33,7 +33,7 @@ class ContactUsController extends Controller
     {
         $page_title = 'Admin View Contacts';
         $contacts = Contact::orderBy('created_at','desc')->paginate(10);
-        return view('contacts.index',compact('page_title'));
+        return view('contacts.index',compact('page_title','contacts'));
     }
     //
     /**
@@ -68,5 +68,16 @@ class ContactUsController extends Controller
                 'message' => 'There was an error sending your message. Please try again later.'
             ], 500);
         }
+    }
+
+    public function show(string $id)
+    {
+
+    }
+    public function destroy(string $id)
+    {
+        $contact = Contact::findOrFail($id);
+        $contact->delete();
+        return redirect()->route('admin.contact.view')->with('success', 'Contact deleted successfully!');
     }
 }
