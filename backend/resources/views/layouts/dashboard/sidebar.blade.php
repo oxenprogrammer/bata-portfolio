@@ -64,7 +64,7 @@
           <div id="contacts" class="az-iconbar-pane">
               <h6 class="az-iconbar-title">Contacts </h6>
               <ul class="nav">
-                  <li class='nav-item'><a href="#" class="nav-link">View Contacts</a></li>
+                  <li class='nav-item'><a href="{{ route('admin.contact.view') }}" class="nav-link">View Contacts</a></li>
               </ul>
           </div><!-- az-iconbar-pane -->
           <div id="images" class="az-iconbar-pane">
