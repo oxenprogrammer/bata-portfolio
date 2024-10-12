@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use App\Models\Contact;
+use App\Mail\ContactUsMail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\ContactUsRequest;
+
+/**
+ * This is a contact us class 
+ * 
+ *
+ * PHP version 8
+ *
+ * @category  Controllers
+ * @package    App\Http\Controllers
+ * @author     Kibooli Felix <kiboolif@gmail.com>
+ * @license  MIT (https://opensource.org/licenses/MIT)
+ * @link       https://github.com/KIBOOLI-FELIX/mribrahimsite.git
+ */
+class ContactUsController extends Controller
+{
+    //
+    /**
+     * Store contact us info
+     *
+     * @param ContactUsRequest $request
+     * @return void
+     */
+    public function store(ContactUsRequest $request)
+    {
+
+        try {
+            $validatedData = $request->validated();
+            Contact::create($validatedData);
+            $users = User::all()->pluck('email')->toArray();
+
+            //send email to adminPanel users with contact info
+            Mail::to($users)->send(new ContactUsMail($validatedData));
+            return response()->json([
+                'message' => 'Your message has been sent successfully'
+            ], 201);
+        } catch (\Exception $e) {
+            
+            Log::error('Contact form email failed to send: ' . $e->getMessage(),[
+                'error' => $e->getMessage(),
+                'data' => $request->all(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            // Return a user-friendly error message
+            return response()->json([
+                'message' => 'There was an error sending your message. Please try again later.'
+            ], 500);
+        }
+    }
+}
