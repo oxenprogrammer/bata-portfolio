@@ -24,6 +24,17 @@ use App\Http\Requests\ContactUsRequest;
  */
 class ContactUsController extends Controller
 {
+    /**
+     * Dislay latest contact us messages
+     *
+     * @return void
+     */
+    public function index()
+    {
+        $page_title = 'Admin View Contacts';
+        $contacts = Contact::orderBy('created_at','desc')->paginate(10);
+        return view('contacts.index',compact('page_title'));
+    }
     //
     /**
      * Store contact us info
