@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\SubscriberController;
@@ -43,6 +44,11 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/subscriber/edit/{id}', [SubscriberController::class, 'edit'])->name('subscriber.edit');
     Route::put('/subscriber/update/{id}', [SubscriberController::class, 'update'])->name('subscriber.update');
     Route::delete('/subscriber/destroy/{id}', [SubscriberController::class, 'destroy'])->name('subscriber.destroy');
+
+    //contact routes
+    Route::get('/contacts/view',[ContactUsController::class,'index'])->name('contact.view');
+    Route::get('/contact/details/{id}', [ContactUsController::class, 'show'])->name('contact.detail');
+    Route::delete('/contact/destroy/{id}', [ContactUsController::class, 'destroy'])->name('contact.destroy');
 });
 
 
