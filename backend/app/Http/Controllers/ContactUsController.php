@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Contact;
+use App\Mail\ContactReply;
 use App\Mail\ContactUsMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -32,8 +33,8 @@ class ContactUsController extends Controller
     public function index()
     {
         $page_title = 'Admin View Contacts';
-        $contacts = Contact::orderBy('created_at','desc')->paginate(10);
-        return view('contacts.index',compact('page_title','contacts'));
+        $contacts = Contact::orderBy('created_at', 'desc')->paginate(10);
+        return view('contacts.index', compact('page_title', 'contacts'));
     }
     //
     /**
@@ -56,8 +57,8 @@ class ContactUsController extends Controller
                 'message' => 'Your message has been sent successfully'
             ], 201);
         } catch (\Exception $e) {
-            
-            Log::error('Contact form email failed to send: ' . $e->getMessage(),[
+
+            Log::error('Contact form email failed to send: ' . $e->getMessage(), [
                 'error' => $e->getMessage(),
                 'data' => $request->all(),
                 'trace' => $e->getTraceAsString(),
@@ -70,16 +71,47 @@ class ContactUsController extends Controller
         }
     }
 
+    /**
+     * Show contact resource
+     *
+     * @param string $id
+     * @return void
+     */
     public function show(string $id)
     {
         $page_title = "Admin Detailed Contact View";
         $contact = Contact::findOrFail($id);
-        return view('contacts.show',compact("page_title","contact"));
+        return view('contacts.show', compact("page_title", "contact"));
     }
+
+    /**
+     * Delete resource contact resource
+     *
+     * @param string $id
+     * @return void
+     */
     public function destroy(string $id)
     {
         $contact = Contact::findOrFail($id);
         $contact->delete();
         return redirect()->route('admin.contact.view')->with('success', 'Contact deleted successfully!');
+    }
+
+    public function reply(string $id)
+    {
+        $contact = Contact::findOrFail($id);
+        Mail::to($contact->email)->send(new ContactReply(request()->response));
+        $contact->replied_to = true;
+        $contact->save();
+
+        return redirect()->route('contact.show', $contact->id)->with('success', 'Response sent');
+    }
+
+    public function markReplied(string $id)
+    {
+        $contact = Contact::findOrFail($id);
+        $contact->replied_to =true;
+        $contact->save();
+        return redirect()->route('contact.show',$contact->id)->with('success','marked as replied to');
     }
 }
