@@ -33,7 +33,7 @@
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Subject</th>
-                                <th>Message</th>
+                                <th>Reply Status</th>
                                 <th>Received At</th>
                                 <th>Actions</th>
                             </tr>
@@ -46,7 +46,13 @@
                                     <td>{{ $contact->email }}</td>
                                     <td>{{ $contact->phone }}</td>
                                     <td>{{ $contact->subject }}</td>
-                                    <td>{{ $contact->message }}</td>
+                                    <td>
+                                        @if ($contact->replied_to)
+                                            <span class="badge bg-success">Replied</span>
+                                        @else
+                                            <span class="badge bg-warning">Pending</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $contact->created_at->format('M d, Y h:i A') }}</td>
                                     <td>
                                         <a href="{{ route('admin.contact.detail', $contact->id) }}"
