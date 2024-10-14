@@ -72,7 +72,9 @@ class ContactUsController extends Controller
 
     public function show(string $id)
     {
-
+        $page_title = "Admin Detailed Contact View";
+        $contact = Contact::findOrFail($id);
+        return view('contacts.show',compact("page_title","contact"));
     }
     public function destroy(string $id)
     {
