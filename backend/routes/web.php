@@ -49,8 +49,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/contacts/view',[ContactUsController::class,'index'])->name('contact.view');
     Route::get('/contact/details/{id}', [ContactUsController::class, 'show'])->name('contact.detail');
     Route::delete('/contact/destroy/{id}', [ContactUsController::class, 'destroy'])->name('contact.destroy');
-    Route::get('/contact/show/{id}', [ContactUsController::class, 'show'])->name('contact.show');
-
+    Route::post('/contact/reply/{id}', [ContactUsController::class, 'reply'])->name('contact.reply');
+    Route::post('/contact/replied/{id}', [ContactUsController::class, 'markReplied'])->name('contact.mark-replied');
 });
 
 
