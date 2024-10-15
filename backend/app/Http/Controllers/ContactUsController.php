@@ -97,21 +97,43 @@ class ContactUsController extends Controller
         return redirect()->route('admin.contact.view')->with('success', 'Contact deleted successfully!');
     }
 
+    /**
+     * Reply to contact
+     *
+     * @param string $id
+     * @return void
+     */
     public function reply(string $id)
     {
-        $contact = Contact::findOrFail($id);
-        Mail::to($contact->email)->send(new ContactReply(request()->response));
-        $contact->replied_to = true;
-        $contact->save();
+        try {
+            $contact = Contact::findOrFail($id);
+            $emailData = request()->response;
+            $emailData->subject = $contact->subject;
+            Mail::to($contact->email)->send(new ContactReply($emailData));
+            $contact->replied_to = true;
+            $contact->save();
 
-        return redirect()->route('contact.show', $contact->id)->with('success', 'Response sent');
+            return redirect()->route('contact.show', $contact->id)->with('success', 'Response sent');
+        } catch (\Exception $e) {
+            Log::error('Contact form email failed to send: ' . $e->getMessage(), [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->route('contact.show', $contact->id)->with('error', 'Unexpected error');
+        }
     }
 
+    /**
+     * Mark as contact query as replied to
+     *
+     * @param string $id
+     * @return void
+     */
     public function markReplied(string $id)
     {
         $contact = Contact::findOrFail($id);
-        $contact->replied_to =true;
+        $contact->replied_to = true;
         $contact->save();
-        return redirect()->route('contact.show',$contact->id)->with('success','marked as replied to');
+        return redirect()->route('contact.show', $contact->id)->with('success', 'marked as replied to');
     }
 }
