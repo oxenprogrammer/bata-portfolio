@@ -50,7 +50,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/contact/details/{id}', [ContactUsController::class, 'show'])->name('contact.detail');
     Route::delete('/contact/destroy/{id}', [ContactUsController::class, 'destroy'])->name('contact.destroy');
     Route::post('/contact/reply/{id}', [ContactUsController::class, 'reply'])->name('contact.reply');
-    Route::post('/contact/replied/{id}', [ContactUsController::class, 'markReplied'])->name('contact.mark-replied');
+    Route::get('/contact/replied/{id}', [ContactUsController::class, 'markReplied'])->name('contact.mark-replied');
 });
 
 
