@@ -107,19 +107,20 @@ class ContactUsController extends Controller
     {
         try {
             $contact = Contact::findOrFail($id);
-            $emailData = request()->response;
-            $emailData->subject = $contact->subject;
+            $emailData=$contact;
+            $emailData->response = request()->response;
             Mail::to($contact->email)->send(new ContactReply($emailData));
             $contact->replied_to = true;
+            unset($contact->response);
             $contact->save();
 
-            return redirect()->route('contact.show', $contact->id)->with('success', 'Response sent');
+            return redirect()->route('admin.contact.view', $contact->id)->with('success', 'Response sent');
         } catch (\Exception $e) {
             Log::error('Contact form email failed to send: ' . $e->getMessage(), [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
-            return redirect()->route('contact.show', $contact->id)->with('error', 'Unexpected error');
+            return redirect()->route('admin.contact.view', $contact->id)->with('error', ' Unexpected error occured while sending reply');
         }
     }
 
@@ -134,6 +135,6 @@ class ContactUsController extends Controller
         $contact = Contact::findOrFail($id);
         $contact->replied_to = true;
         $contact->save();
-        return redirect()->route('contact.show', $contact->id)->with('success', 'marked as replied to');
+        return redirect()->route('admin.contact.view', $contact->id)->with('success', 'marked as replied to');
     }
 }
