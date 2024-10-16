@@ -37,9 +37,9 @@
             <img src="https://via.placeholder.com/100" alt="Company Logo" class="mb-4">
         </div> --}}
 
-        <h2 class="text-primary">Hello,!</h2>
+        <h2 class="text-primary">Hello, {{$emailData->name}}!</h2>
         <blockquote class="blockquote">
-            <p>{{ $message->response }}</p>
+            {!!$emailData->response!!}
         </blockquote>
         <div class="footer">
             {{-- <p>&copy; 2024 [Company Name], All Rights Reserved.</p>
