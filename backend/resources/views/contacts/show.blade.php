@@ -7,9 +7,9 @@
 
 <!-- Main Content Section -->
 @section('content')
-<div class="container">
-    <div class="row mb-4">
-        <div class="col-md-12">
+<div class="cont">
+    <div class="row mb-4 d-flex justify-content-center">
+        <div class="col-md-8"> <!-- Change col-md-12 to col-md-8 for a wider card -->
             <div class="card shadow-sm">
                 <div class="card-header">
                     <h4 class="card-title">Contact Details</h4>
@@ -20,6 +20,10 @@
                     </div>
                     <div class="mb-3">
                         <strong>Email:</strong> <span>{{ $contact->email }}</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Subject:</strong>
+                        <p>{{ $contact->subject }}</p>
                     </div>
                     <div class="mb-3">
                         <strong>Message:</strong>
@@ -33,7 +37,7 @@
                             <span class="badge bg-warning">Pending</span>
                         @endif
                     </div>
-
+    
                     <!-- Response Form -->
                     @if (!$contact->replied_to)
                         <form action="{{ route('admin.contact.reply', $contact->id) }}" method="POST">
@@ -60,6 +64,7 @@
             </div>
         </div>
     </div>
+    
 </div>
 @endsection
 
