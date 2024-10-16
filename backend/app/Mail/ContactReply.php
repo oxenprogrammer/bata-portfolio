@@ -40,9 +40,6 @@ class ContactReply extends Mailable
     {
         return new Content(
             view: 'emails.contact_us_reply',
-            with: [
-                'message' => $this->emailData,
-            ],
         );
     }
 
