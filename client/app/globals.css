@@ -20,13 +20,21 @@ html {
   scroll-behavior: smooth;
 }
 
-#__next {
+html,
+body {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  overflow-x: auto;
-  overflow-y: scroll;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#__next {
   display: flex;
   flex-direction: column;
   min-height: 100vh;

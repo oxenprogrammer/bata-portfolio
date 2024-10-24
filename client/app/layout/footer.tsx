@@ -12,6 +12,9 @@ import {
 } from "../shared/icons";
 
 const StyledFooter = styled("footer")(({ theme }) => ({
+  position: "absolute",
+  width: "100%",
+  bottom: 0,
   mt: "auto",
   padding: theme.spacing(4, 0),
   backgroundColor: theme.palette.gray[10],

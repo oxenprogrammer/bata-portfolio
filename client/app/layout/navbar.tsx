@@ -55,7 +55,6 @@ const StyledLink = styled(Link)(({ theme }) => ({
   },
 }));
 
-
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   "& .MuiDrawer-paper": {
     backgroundColor: theme.palette.blue[70],
@@ -66,10 +65,10 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
 
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   borderRadius: 6,
-  '&:hover': {
-    backgroundColor: 'rgba(30, 41, 59, 0.3)',
+  "&:hover": {
+    backgroundColor: "rgba(30, 41, 59, 0.3)",
     color: theme.palette.common.white,
-  }
+  },
 }));
 
 const MobileMenuItemWrapper = styled("div")(({ theme }) => ({
@@ -166,10 +165,12 @@ const Navbar: React.FC = () => {
         <ListItem key={item} disablePadding>
           <Link
             href={getItemHref(item)}
-            style={{ width: '100%', textDecoration: 'none', color: 'inherit' }}
+            style={{ width: "100%", textDecoration: "none", color: "inherit" }}
             onClick={() => handleNavItemClick(item)}
           >
-            <MobileMenuItemWrapper className={activeItem === item ? "active" : ""}>
+            <MobileMenuItemWrapper
+              className={activeItem === item ? "active" : ""}
+            >
               {item}
             </MobileMenuItemWrapper>
           </Link>
@@ -199,7 +200,7 @@ const Navbar: React.FC = () => {
                 edge="start"
                 onClick={handleDrawerToggle}
               >
-                <MenuIcon sx={{ fontSize: '40px !important' }} />
+                <MenuIcon sx={{ fontSize: "40px !important" }} />
               </StyledIconButton>
               <StyledDrawer
                 anchor="right"
