@@ -25,7 +25,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12 table-responsive" >
+        <div class="col-md-12 table-responsive">
             <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                     <tr>
@@ -44,14 +44,26 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ ucwords($user->first_name . ' ' . $user->last_name) }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{!! $user->biography !!}</td>
-                            <td>{{ $user->skills }}</td>
                             <td>
-    
+                                @if (!empty($user->biography))
+                                    {!! Str::limit($user->biography, 100) !!}
+                                @else
+                                    No biography provided.
+                                @endif
+                            </td>
+                            <td>
+                                @if (!empty($user->skills))
+                                    {{ implode(', ', $user->skills) }}
+                                @else
+                                    No skills listed.
+                                @endif
+                            </td>
+                            <td>
+
                                 <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
-                                @if (Auth::user()->admin && $user->id !== Auth::user()->id)
+                                @if (Auth::user()->is_admin && $user->id !== Auth::user()->id)
                                     <form action="{{ route('admin.user.destroy', $user->id) }}" method="POST"
                                         style="display:inline;">
                                         @csrf
