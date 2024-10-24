@@ -26,7 +26,17 @@ const slideIn = keyframes`
   }
 `;
 
-// Layout wrapper to ensure proper content flow
+const imageFadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;
+
 const LayoutWrapper = styled(Box)({
   display: "flex",
   flexDirection: "column",
@@ -41,11 +51,11 @@ const MainContent = styled(Box)({
 
 const HeroContainer = styled(Box)(({ theme }) => ({
   position: "relative",
-  minHeight: "calc(100vh - 64px)", // Subtract navbar height
+  minHeight: "calc(100vh - 64px)",
   display: "flex",
   overflow: "hidden",
   backgroundColor: theme.palette.blue[70],
-  flexGrow: 1, // Allow container to grow but maintain minimum height
+  flexGrow: 1,
   [theme.breakpoints.down("md")]: {
     minHeight: "100vh",
   },
@@ -79,6 +89,7 @@ const ImageContainer = styled(Box)(({ theme }) => ({
   width: "50%",
   height: "100%",
   backgroundColor: theme.palette.common.white,
+  animation: `${imageFadeIn} 1.5s ease-out`,
   [theme.breakpoints.down("md")]: {
     width: "100%",
     opacity: 0.1,
@@ -91,6 +102,7 @@ const StyledImage = styled("div")<{ url: string }>(({ url }) => ({
   backgroundImage: `url(${url})`,
   backgroundSize: "cover",
   backgroundPosition: "center",
+  animation: `${imageFadeIn} 1.5s ease-out`,
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -116,7 +128,6 @@ const OutlineButton = styled(StyledButton)(({ theme }) => ({
   },
 }));
 
-// Layout component that wraps the entire application
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <LayoutWrapper>
@@ -125,7 +136,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   );
 };
 
-const Hero: React.FC = () => {
+const HeroSection: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -195,4 +206,4 @@ const Hero: React.FC = () => {
   );
 };
 
-export default Hero;
+export default HeroSection;
