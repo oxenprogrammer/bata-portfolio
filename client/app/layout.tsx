@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeRegistry } from "./layout/theme-registry";
+import Navbar from "./layout/navbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,6 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
       <ThemeRegistry options={{ key: "mui" }}>
+        <Navbar />
         {children}
       </ThemeRegistry>
       </body>

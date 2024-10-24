@@ -1,3 +1,5 @@
+name: Laravel Test Workflow
+
 on:
   push:
     branches:
@@ -14,6 +16,22 @@ jobs:
       run:
         working-directory: backend
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testing_db
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -22,7 +40,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          extensions: mbstring, xml, mysql
+          extensions: mbstring, xml, pdo_mysql
           tools: composer
 
       - name: Cache Composer dependencies
@@ -38,6 +56,21 @@ jobs:
 
       - name: Copy .env.example to .env
         run: cp .env.example .env
+
+      - name: Update .env for MySQL
+        run: |
+          sed -i 's/DB_CONNECTION=sqlite/DB_CONNECTION=mysql/' .env
+          sed -i 's/DB_DATABASE=.*/DB_DATABASE=testing_db/' .env
+          sed -i 's/DB_USERNAME=.*/DB_USERNAME=test_user/' .env
+          sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=test_password/' .env
+          sed -i 's/DB_HOST=.*/DB_HOST=127.0.0.1/' .env
+
+      - name: Install Dockerize
+        run: sudo curl -sSL https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz | sudo tar -C /usr/local/bin -xzv
+
+      - name: Wait for MySQL to be ready
+        run: |
+          dockerize -wait tcp://mysql:3306 -timeout 1m
 
       - name: Generate application key
         run: php artisan key:generate
