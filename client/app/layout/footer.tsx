@@ -12,7 +12,7 @@ import {
 } from "../shared/icons";
 
 const StyledFooter = styled("footer")(({ theme }) => ({
-  position: "absolute",
+  position: "relative",
   width: "100%",
   bottom: 0,
   mt: "auto",

@@ -1,9 +1,7 @@
-import { Container, Typography } from "@mui/material";
+import HeroSection from "./home/components/hero";
 
 export default function Home() {
   return (
-    <Container>
-      <Typography variant="h1">Hello World</Typography>
-    </Container>
+    <HeroSection />
   );
 }
