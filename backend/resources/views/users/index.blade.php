@@ -9,7 +9,7 @@
 @section('content')
     <div class="row mb-4">
         <div class="col-md-8">
-            <h2>All Documents</h2>
+            <h2>All Users</h2>
             <!-- Display Success Message -->
             @if (session('success'))
                 <div class="alert alert-success">
