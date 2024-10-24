@@ -25,7 +25,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 table-responsive" >
             <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                     <tr>
@@ -47,9 +47,7 @@
                             <td>{!! $user->biography !!}</td>
                             <td>{{ $user->skills }}</td>
                             <td>
-                                @php
-                                    use Illuminate\Support\Facades\Auth;
-                                @endphp
+    
                                 <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
