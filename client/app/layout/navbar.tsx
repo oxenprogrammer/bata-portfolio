@@ -8,7 +8,6 @@ import {
   IconButton,
   Drawer,
   List,
-  ListItemText,
   useMediaQuery,
   useTheme,
   ListItem,
@@ -46,6 +45,59 @@ const StyledLink = styled(Link)(({ theme }) => ({
     bottom: 0,
     left: 0,
     width: "100%",
+    height: "2px",
+    backgroundColor: theme.palette.teal[50],
+    transform: "scaleX(0)",
+    transition: "transform 0.3s ease-in-out",
+  },
+  "&.active::after": {
+    transform: "scaleX(1)",
+  },
+}));
+
+
+const StyledDrawer = styled(Drawer)(({ theme }) => ({
+  "& .MuiDrawer-paper": {
+    backgroundColor: theme.palette.blue[70],
+    width: 240,
+    color: theme.palette.common.white,
+  },
+}));
+
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+  borderRadius: 6,
+  '&:hover': {
+    backgroundColor: 'rgba(30, 41, 59, 0.3)',
+    color: theme.palette.common.white,
+  }
+}));
+
+const MobileMenuItemWrapper = styled("div")(({ theme }) => ({
+  width: "100%",
+  padding: theme.spacing(2),
+  color: "inherit",
+  textDecoration: "none",
+  position: "relative",
+  cursor: "pointer",
+  "&:hover": {
+    "&::before": {
+      content: '""',
+      position: "absolute",
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      backgroundColor: theme.palette.common.white,
+      opacity: 0.1,
+      pointerEvents: "none",
+    },
+  },
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    bottom: 0,
+    left: theme.spacing(2),
+    right: theme.spacing(2),
     height: "2px",
     backgroundColor: theme.palette.teal[50],
     transform: "scaleX(0)",
@@ -109,15 +161,18 @@ const Navbar: React.FC = () => {
   };
 
   const drawer = (
-    <List>
+    <List sx={{ pt: 2 }}>
       {navItems.map((item) => (
-        <ListItem
-          key={item}
-          component={Link}
-          href={getItemHref(item)}
-          onClick={() => handleNavItemClick(item)}
-        >
-          <ListItemText primary={item} />
+        <ListItem key={item} disablePadding>
+          <Link
+            href={getItemHref(item)}
+            style={{ width: '100%', textDecoration: 'none', color: 'inherit' }}
+            onClick={() => handleNavItemClick(item)}
+          >
+            <MobileMenuItemWrapper className={activeItem === item ? "active" : ""}>
+              {item}
+            </MobileMenuItemWrapper>
+          </Link>
         </ListItem>
       ))}
     </List>
@@ -138,21 +193,21 @@ const Navbar: React.FC = () => {
           </Typography>
           {isSmallDevice ? (
             <>
-              <IconButton
+              <StyledIconButton
                 color="inherit"
                 aria-label="open drawer"
                 edge="start"
                 onClick={handleDrawerToggle}
               >
-                <MenuIcon />
-              </IconButton>
-              <Drawer
+                <MenuIcon sx={{ fontSize: '40px !important' }} />
+              </StyledIconButton>
+              <StyledDrawer
                 anchor="right"
                 open={mobileOpen}
                 onClose={handleDrawerToggle}
               >
                 {drawer}
-              </Drawer>
+              </StyledDrawer>
             </>
           ) : (
             <Box sx={{ display: "flex", gap: theme.spacing(2) }}>
