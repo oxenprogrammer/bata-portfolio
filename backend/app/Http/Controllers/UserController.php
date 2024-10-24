@@ -52,6 +52,8 @@ class UserController extends Controller
     public function create()
     {
         //
+        $page_title = "Admin Panel Create User";
+        return view('users.create', compact('page_title'));
     }
 
     /**
