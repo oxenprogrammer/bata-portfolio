@@ -107,6 +107,9 @@ class UserController extends Controller
     public function edit(string $id)
     {
         //
+        $page_title = "Admin Panel Edit User";
+        $user = User::findOrFail($id);
+        return view('users.edit', compact('page_title', 'user'));
     }
 
     /**
