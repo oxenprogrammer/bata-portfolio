@@ -51,6 +51,16 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::delete('/contact/destroy/{id}', [ContactUsController::class, 'destroy'])->name('contact.destroy');
     Route::post('/contact/reply/{id}', [ContactUsController::class, 'reply'])->name('contact.reply');
     Route::get('/contact/replied/{id}', [ContactUsController::class, 'markReplied'])->name('contact.mark-replied');
+
+    //users routes
+    Route::get('/user/view', [DocumentController::class, 'index'])->name('user.view');
+    Route::get('/user/create', [DocumentController::class, 'create'])->name('user.create');
+    Route::post('/user/store', [DocumentController::class, 'store'])->name('user.store');
+    Route::get('/user/edit/{id}', [DocumentController::class, 'edit'])->name('user.edit');
+    Route::put('/user/update/{id}', [DocumentController::class, 'update'])->name('user.update');
+    Route::delete('/user/destroy/{id}', [DocumentController::class, 'destroy'])->name('user.destroy');
+
+
 });
 
 
