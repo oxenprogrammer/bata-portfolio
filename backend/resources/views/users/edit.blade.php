@@ -53,7 +53,7 @@
                         </div>
                 
                         <div class="form-check mb-3">
-                            <input type="checkbox" class="form-check-input" id="is_admin" name="is_admin" value="1" {{ $user->admin ? 'checked' : '' }}>
+                            <input type="checkbox" class="form-check-input" id="is_admin" name="is_admin" value="1" {{ $user->is_admin ? 'checked' : '' }}>
                             <label class="form-check-label" for="is_admin">Is Admin?</label>
                         </div>
                         <a href="{{ route('admin.user.view') }}" class="btn btn-secondary">Cancel</a>
