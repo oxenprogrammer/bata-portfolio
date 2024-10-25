@@ -53,7 +53,7 @@
                             </td>
                             <td>
                                 @if (!empty($user->skills))
-                                    {{ implode(', ', $user->skills) }}
+                                    {{ implode(',', $user->skills) }}
                                 @else
                                     No skills listed.
                                 @endif
