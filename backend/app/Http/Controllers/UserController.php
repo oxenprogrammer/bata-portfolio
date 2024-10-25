@@ -15,6 +15,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUserRequest;
 use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -115,9 +116,17 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, string $id)
     {
         //
+        try {
+            $user = User::findOrFail($id);
+            $user->update($request->validated());
+            return redirect()->route('admin.user.view')->with('success', 'User updated successfully.');
+        } catch (\Exception $e) {
+            Log::error('Error updating user: ' . $e->getMessage());
+            return back()->withErrors('An error occurred while updating the user.')->withInput();
+        }
     }
 
     /**
