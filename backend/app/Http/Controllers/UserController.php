@@ -15,14 +15,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateUserRequest;
 use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
+use function PHPSTORM_META\map;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Log;
 
-use function PHPSTORM_META\map;
+use App\Http\Resources\UserResource;
+use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Http\JsonResponse;
 
 /**
  * This is  Users Controller class 
@@ -138,5 +140,17 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
         return redirect()->route('admin.user.view')->with('success', 'User deleted successfully!');
+    }
+    public function getUsers()
+    {
+        try {
+            $users = User::all();
+            return UserResource::collection($users);
+        } catch (\Exception $e) {
+            Log::error('Error retrieving users: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'An error occurred while retrieving users.'
+            ], 500); 
+        }
     }
 }
