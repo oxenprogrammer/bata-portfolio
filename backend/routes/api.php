@@ -3,8 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
-use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\SubscriberController;
 
 // Publicly accessible API routes
@@ -27,7 +28,8 @@ Route::get('/subscriber/confirm/{token}',[SubscriberController::class,'confirmSu
 
 //Route to store contact us info
 Route::post('/contact',[ContactUsController::class,'Store']);
-
+//route to get users info
+Route::get('/users', [UserController::class, 'getUsers']);
 
 // restricted access api routes
 Route::get('/user', function (Request $request) {
