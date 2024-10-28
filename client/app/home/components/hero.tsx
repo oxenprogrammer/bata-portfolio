@@ -136,7 +136,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   );
 };
 
-const HeroSection: React.FC = () => {
+export const HeroSection: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -205,5 +205,3 @@ const HeroSection: React.FC = () => {
     </Layout>
   );
 };
-
-export default HeroSection;
