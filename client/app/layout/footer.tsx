@@ -10,6 +10,7 @@ import {
   LinkedInIcon,
   TwitterIcon,
 } from "../shared/icons";
+import { SocialLink } from "../shared/components";
 
 const StyledFooter = styled("footer")(({ theme }) => ({
   position: "relative",
@@ -18,15 +19,6 @@ const StyledFooter = styled("footer")(({ theme }) => ({
   mt: "auto",
   padding: theme.spacing(4, 0),
   backgroundColor: theme.palette.gray[10],
-}));
-
-const SocialLink = styled(Link)(({ theme }) => ({
-  color: theme.palette.primary.main,
-  textDecoration: "none",
-  transition: "color 0.2s ease-in-out",
-  "&:hover": {
-    color: "#4DB6AC",
-  },
 }));
 
 const NewsletterInput = styled("input")(({ theme }) => ({
@@ -55,15 +47,14 @@ const SubscribeButton = styled("button")(({ theme }) => ({
   },
 }));
 
-const Footer: React.FC = () => {
-  const socialLinks = [
-    { icon: <TwitterIcon />, href: "https://twitter.com/bata" },
-    { icon: <LinkedInIcon />, href: "https://linkedin.com/in/bata" },
-    { icon: <EmailIcon />, href: "mailto:contact@bata.com" },
-    { icon: <FacebookIcon />, href: "mailto:contact@bata.com" },
-  ];
+const socialLinks = [
+  { icon: <TwitterIcon />, href: "https://twitter.com/bata" },
+  { icon: <LinkedInIcon />, href: "https://linkedin.com/in/bata" },
+  { icon: <EmailIcon />, href: "mailto:contact@bata.com" },
+  { icon: <FacebookIcon />, href: "mailto:contact@bata.com" },
+];
 
-  return (
+const Footer: React.FC = () => (
     <StyledFooter>
       <Container maxWidth="lg">
         {/* Newsletter Section */}
@@ -172,17 +163,13 @@ const Footer: React.FC = () => {
               <SocialLink
                 key={index}
                 href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {link.icon}
-              </SocialLink>
+                icon={link.icon}
+              />
             ))}
           </Box>
         </Box>
       </Container>
     </StyledFooter>
   );
-};
 
 export default Footer;
