@@ -6,13 +6,13 @@ import { motion } from "framer-motion";
 
 const AboutContainer = styled(Container)(({ theme }) => ({
   position: "relative",
-  padding: theme.spacing(12, 2),
+  padding: theme.spacing(2),
   overflow: "hidden",
 }));
 
 const BackgroundText = styled(motion.div)(({ theme }) => ({
   position: "absolute",
-  top: theme.spacing(6),
+  top: theme.spacing(-4),
   left: "7px",
   fontSize: "120px",
   fontWeight: 700,
@@ -25,7 +25,7 @@ const BackgroundText = styled(motion.div)(({ theme }) => ({
   "@media (max-width: 600px)": {
     fontSize: "80px",
     left: 0,
-    top: "70px",
+    top: "-10px",
   },
 }));
 

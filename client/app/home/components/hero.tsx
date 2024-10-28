@@ -51,7 +51,7 @@ const MainContent = styled(Box)({
 
 const HeroContainer = styled(Box)(({ theme }) => ({
   position: "relative",
-  minHeight: "calc(100vh - 64px)",
+  minHeight: "calc(100vh - 64px + 60px)",
   display: "flex",
   overflow: "hidden",
   backgroundColor: theme.palette.blue[70],
@@ -85,9 +85,9 @@ const TextContent = styled(Box)(({ theme }) => ({
 const ImageContainer = styled(Box)(({ theme }) => ({
   position: "absolute",
   right: 0,
-  top: 0,
+  top: "-60px",
   width: "50%",
-  height: "100%",
+  height: "calc(100% + 60px)",
   backgroundColor: theme.palette.common.white,
   animation: `${imageFadeIn} 1.5s ease-out`,
   [theme.breakpoints.down("md")]: {
