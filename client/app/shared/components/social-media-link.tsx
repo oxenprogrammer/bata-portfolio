@@ -1,4 +1,5 @@
-import { styled } from "@mui/system";
+"use client";
+import { styled } from "@mui/material";
 import Link from "next/link";
 import { ReactNode } from "react";
 

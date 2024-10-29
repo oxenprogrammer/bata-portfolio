@@ -4,10 +4,11 @@ import { Box, Container } from "@mui/material";
 import { styled } from "@mui/system";
 import { motion } from "framer-motion";
 
-const AboutContainer = styled(Container)(({ theme }) => ({
+const MainContainer = styled(Container)(({ theme }) => ({
   position: "relative",
   padding: theme.spacing(2),
   overflow: "hidden",
+  backgroundColor: "white",
 }));
 
 const BackgroundText = styled(motion.div)(({ theme }) => ({
@@ -120,7 +121,7 @@ const HomeContent: React.FC<HomeContentProps> = ({
 
   return (
     <Box component="section" sx={{ backgroundColor: "white" }} ref={sectionRef}>
-      <AboutContainer maxWidth="lg">
+      <MainContainer maxWidth="lg">
         <BackgroundText
           initial="hidden"
           animate={isVisible ? "visible" : "hidden"}
@@ -142,7 +143,7 @@ const HomeContent: React.FC<HomeContentProps> = ({
           
           {children}
         </Box>
-      </AboutContainer>
+      </MainContainer>
     </Box>
   );
 };

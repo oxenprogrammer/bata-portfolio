@@ -57,7 +57,7 @@ const HeroContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.blue[70],
   flexGrow: 1,
   [theme.breakpoints.down("md")]: {
-    minHeight: "100vh",
+    minHeight: "calc(100vh - 64px + 160px)",
   },
 }));
 
@@ -92,7 +92,8 @@ const ImageContainer = styled(Box)(({ theme }) => ({
   animation: `${imageFadeIn} 1.5s ease-out`,
   [theme.breakpoints.down("md")]: {
     width: "100%",
-    opacity: 0.1,
+    opacity: 0.9,
+    top: "-154px",
   },
 }));
 
