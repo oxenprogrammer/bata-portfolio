@@ -16,7 +16,7 @@ const CarouselContainer = styled(Box)({
   height: "100%",
   width: "100%",
   overflow: "hidden",
-  backgroundColor: "white",
+  backgroundColor: "gray.5",
 });
 
 const CarouselContent = styled(Box)({
