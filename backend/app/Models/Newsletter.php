@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Newsletter extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'subject',
+        'attachments',
+        'content',
+        'scheduled_at',
+        'is_sent'
+    ];
 }
