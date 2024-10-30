@@ -36,7 +36,7 @@
                         <!-- Content -->
                         <div class="form-group">
                             <label for="newslettercontent">Newsletter Content</label>
-                            <textarea name="newslettercontent" id="newslettercontent" class="form-control" rows="5" placeholder="Write newsletter content here" required></textarea>
+                            <textarea name="content" id="content" class="form-control" rows="5" placeholder="Write blog content here"></textarea>
                             @error('content')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -45,7 +45,7 @@
                         <!-- Attachments -->
                         <div class="form-group mb-3" id="attachments">
                             <label for="attachments[]">Attachment Links (Google Drive)</label>
-                            <input type="url" name="attachments[]" class="form-control mb-2" placeholder="Enter Google Drive link" required>
+                            <input type="url" name="attachments[]" class="form-control mb-2" placeholder="Enter Google Drive link">
                             @error('attachments.*')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror

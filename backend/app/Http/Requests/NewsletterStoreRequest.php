@@ -23,9 +23,9 @@ class NewsletterStoreRequest extends FormRequest
     {
         return [
             'subject' => 'required|string|max:255',
-            'newslettercontent' => 'required|string',
+            'content' => 'required|string',
             'scheduled_at' => 'nullable|date',
-            'attachments.*' => 'url',
+            'attachments.*' => 'url|nullable',
         ];
     }
 }
