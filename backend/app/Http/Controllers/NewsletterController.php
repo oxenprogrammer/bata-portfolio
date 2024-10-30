@@ -31,5 +31,15 @@ use Illuminate\Http\Request;
  */
 class NewsletterController extends Controller
 {
-
+    /**
+     * Return newsletter creation form
+     *
+     * @return void
+     */
+    public function create()
+    {
+        //
+        $page_title = "Admin Panel Create Newsletter";
+        return view('newsletters.create', compact('page_title'));
+    }
 }
