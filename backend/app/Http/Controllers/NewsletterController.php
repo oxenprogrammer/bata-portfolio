@@ -15,7 +15,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Newsletter;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use App\Http\Requests\NewsletterStoreRequest;
 
 /**
  * This is  Newsletter Controller class 
@@ -41,5 +45,37 @@ class NewsletterController extends Controller
         //
         $page_title = "Admin Panel Create Newsletter";
         return view('newsletters.create', compact('page_title'));
+    }
+
+    /**
+     * Store news letter resource
+     *
+     * @param NewsletterStoreRequest $request
+     * @return void
+     */
+    public function store(NewsletterStoreRequest $request)
+    {
+        try {
+            $validateData = $request->validated();
+            $attachments = $request->input('attachments', []);
+            $content = Str::sanitize($validateData['content']);
+
+            $newsletter = Newsletter::create([
+                'subject' => $validateData['subject'],
+                'content' => $content,
+                'attachments' => json_encode($attachments),
+                'scheduled_at' => $validateData['scheduled_at'],
+            ]);
+
+            return redirect()->route('admin.newsletter.view')->with('success', 'Newsletter created.');
+
+        } catch (\Exception $e) {
+            Log::error('Failed to save newsletter: ' . $e->getMessage(), [
+                'error' => $e->getMessage(),
+                'data' => $request->except(['attachments']),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->back()->with('error', 'Failed to create newsletter.');
+        }
     }
 }
