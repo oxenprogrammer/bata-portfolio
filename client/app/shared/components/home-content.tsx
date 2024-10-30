@@ -24,7 +24,7 @@ const BackgroundText = styled(motion.div)(({ theme }) => ({
   textTransform: "uppercase",
   opacity: 0.2,
   "@media (max-width: 600px)": {
-    fontSize: "80px",
+    fontSize: "67px",
     left: 0,
     top: "-10px",
   },

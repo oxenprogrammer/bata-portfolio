@@ -2,6 +2,7 @@ import {
   AboutSection,
   FormerWorkSection,
   HeroSection,
+  ProjectsSection,
 } from "./home/components";
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
       <HeroSection />
       <AboutSection />
       <FormerWorkSection />
+      <ProjectsSection />
     </>
   );
 }
