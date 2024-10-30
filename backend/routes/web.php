@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\SubscriberController;
 
 // Home route
@@ -44,6 +45,14 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/subscriber/edit/{id}', [SubscriberController::class, 'edit'])->name('subscriber.edit');
     Route::put('/subscriber/update/{id}', [SubscriberController::class, 'update'])->name('subscriber.update');
     Route::delete('/subscriber/destroy/{id}', [SubscriberController::class, 'destroy'])->name('subscriber.destroy');
+
+     //Newsletter routes
+     Route::get('/newsletter/view',[NewsletterController::class,'index'])->name('newsletter.view');
+     Route::get('/newsletter/create', [NewsletterController::class, 'create'])->name('newsletter.create');
+     Route::post('/newsletter/store', [NewsletterController::class, 'store'])->name('newsletter.store');
+     Route::get('/newsletter/edit/{id}', [NewsletterController::class, 'edit'])->name('newsletter.edit');
+     Route::put('/newsletter/update/{id}', [NewsletterController::class, 'update'])->name('newsletter.update');
+     Route::delete('/newsletter/destroy/{id}', [NewsletterController::class, 'destroy'])->name('newsletter.destroy');
 
     //contact routes
     Route::get('/contacts/view',[ContactUsController::class,'index'])->name('contact.view');
