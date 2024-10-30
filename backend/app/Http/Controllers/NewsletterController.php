@@ -35,6 +35,13 @@ use App\Http\Requests\NewsletterStoreRequest;
  */
 class NewsletterController extends Controller
 {
+
+    public function index()
+    {
+        $page_title = 'Admin Panel View Newsletters';
+        $newsletters = Newsletter::all();
+        return view('newsletters.index', compact('page_title', 'newsletters'));
+    }
     /**
      * Return newsletter creation form
      *
