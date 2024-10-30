@@ -5,3 +5,7 @@ export interface Project {
   imageUrl: string;
   link: string;
 }
+
+export type ProjectApiResponse = {
+  project: Project;
+};

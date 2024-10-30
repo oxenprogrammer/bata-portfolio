@@ -49,7 +49,7 @@ interface ProjectCardProps {
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   return (
-    <Link href={project.link} style={{ textDecoration: 'none' }}>
+    <Link href={`/projects/${project.id}`} style={{ textDecoration: 'none' }}>
       <StyledCard>
         <ProjectImage sx={{ backgroundImage: `url(${project.imageUrl})` }} />
         <CardOverlay>

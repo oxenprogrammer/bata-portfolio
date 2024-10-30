@@ -75,3 +75,8 @@ export const getProjects = async (): Promise<Project[]> => {
   // return await fetch('api/projects').then(res => res.json());
   return mockProjects;
 };
+
+export const getProjectById = async (id: string): Promise<Project | undefined> => {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  return mockProjects.find(project => project.id === id);
+};
