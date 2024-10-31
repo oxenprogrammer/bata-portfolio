@@ -1,5 +1,6 @@
 import {
   AboutSection,
+  BlogsSection,
   FormerWorkSection,
   HeroSection,
   ProjectsSection,
@@ -12,6 +13,7 @@ export default function Home() {
       <AboutSection />
       <FormerWorkSection />
       <ProjectsSection />
+      <BlogsSection />
     </>
   );
 }

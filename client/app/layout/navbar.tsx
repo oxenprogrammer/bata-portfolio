@@ -109,7 +109,7 @@ const MobileMenuItemWrapper = styled("div")(({ theme }) => ({
 
 const navItems = [
   "HOME",
-  "ABOUT",
+  "BLOGS",
   "PROJECTS",
   "COURSES",
   "MENTORSHIP",

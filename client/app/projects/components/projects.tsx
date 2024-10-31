@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Box, styled } from "@mui/material";
 import { getProjects } from "@/app/api/projects";
 import HomeContent from "@/app/shared/components/home-content";
-import { AnimateProjectCard, LoadingProjectGrid, Pagination } from "@/app/shared/components";
+import { AnimateCard, LoadingProjectGrid, Pagination, ProjectCard } from "@/app/shared/components";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -58,11 +58,12 @@ export const Projects = () => {
     <HomeContent backgroundText="projects" title="My Projects">
       <StyledContainer>
         {currentProjects?.map((project, index) => (
-          <AnimateProjectCard 
+          <AnimateCard 
             key={project.id} 
-            project={project} 
             index={index}
-          />
+          >
+            <ProjectCard project={project} />
+          </AnimateCard>
         ))}
       </StyledContainer>
       

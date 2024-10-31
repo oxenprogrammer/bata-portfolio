@@ -1,8 +1,10 @@
 export { SocialLink } from "./social-media-link";
 export { InfiniteCarousel } from "./infinite-carousel";
 export { ProjectCard } from "./project-card";
+export { BlogCard } from "./blog-card";
 // export { ProjectCardSkeleton } from "./project-card-skeleton";
 export { ViewMoreButtonComponent } from "./view-more-button";
-export  { AnimateProjectCard } from "./animate-project-card";
+export  { AnimateCard } from "./animate-card";
 export { Pagination } from "./pagination";
 export {LoadingProjectGrid} from "./loading-project-grid";
+export {LoadingBlogGrid} from "./loading-blog-grid";

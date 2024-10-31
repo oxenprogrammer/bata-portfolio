@@ -1,11 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Project } from '../types';
-import { ProjectCard } from './project-card';
 
-interface AnimatedProjectCardProps {
-  project: Project;
+
+interface AnimateCardProps {
   index: number;
+  children?: React.ReactNode;
 }
 
 const cardVariants = {
@@ -18,13 +17,13 @@ const cardVariants = {
     y: 0,
     transition: {
       duration: 0.5,
-      delay: index * 0.2, // Stagger effect based on card index
+      delay: index * 0.2,
       ease: "easeOut"
     }
   })
 };
 
-export const AnimateProjectCard: React.FC<AnimatedProjectCardProps> = ({ project, index }) => {
+export const AnimateCard: React.FC<AnimateCardProps> = ({ index, children }) => {
   return (
     <motion.div
       variants={cardVariants}
@@ -33,7 +32,9 @@ export const AnimateProjectCard: React.FC<AnimatedProjectCardProps> = ({ project
       viewport={{ once: true, margin: "-50px" }}
       custom={index}
     >
-      <ProjectCard project={project} />
+      {
+        children
+      }
     </motion.div>
   );
 };
