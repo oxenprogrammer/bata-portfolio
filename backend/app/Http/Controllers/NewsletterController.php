@@ -87,6 +87,20 @@ class NewsletterController extends Controller
     }
 
     /**
+     * Return specific newsletter resource for update
+     *
+     * @param string $id
+     * @return void
+     */
+    public function edit(string $id)
+    {
+        //
+        $page_title = "Admin Panel Edit Newsletter";
+        $newsletter = Newsletter::findOrFail($id);
+        return view('newsletters.edit', compact('page_title', 'newsletter'));
+    }
+
+    /**
      * Destroys specific news letter resource
      *
      * @param string $id
