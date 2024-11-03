@@ -72,6 +72,7 @@
                                 @if(!$newsletter->is_sent)
                                     <form action="{{ route('admin.newsletter.destroy', $newsletter->id) }}" method="POST" class="d-inline-block">
                                         @csrf
+                                        @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">
                                             <i class="fas fa-trash"></i> Delete
                                         </button>
