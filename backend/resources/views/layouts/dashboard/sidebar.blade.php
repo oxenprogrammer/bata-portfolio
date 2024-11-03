@@ -70,9 +70,10 @@
           <div id="images" class="az-iconbar-pane">
               <h6 class="az-iconbar-title">News Letter</h6>
               <ul class="nav">
-                  <li class='nav-item'><a href="{{ route('admin.newsletter.create') }}" class="nav-link">
-                          News Letter</a>
+                  <li class='nav-item'><a href="{{ route('admin.newsletter.create') }}" class="nav-link">Create</a>
                   </li>
+                  <li class='nav-item'><a href="{{ route('admin.newsletter.view') }}" class="nav-link">View</a>
+            </li>
               </ul>
           </div><!-- az-iconbar-pane -->
       </div><!-- az-iconbar-body -->
