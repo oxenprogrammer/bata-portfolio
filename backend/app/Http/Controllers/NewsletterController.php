@@ -75,7 +75,6 @@ class NewsletterController extends Controller
             ]);
 
             return redirect()->route('admin.newsletter.view')->with('success', 'Newsletter created.');
-
         } catch (\Exception $e) {
             Log::error('Failed to save newsletter: ' . $e->getMessage(), [
                 'error' => $e->getMessage(),
@@ -99,6 +98,51 @@ class NewsletterController extends Controller
         $newsletter = Newsletter::findOrFail($id);
         return view('newsletters.edit', compact('page_title', 'newsletter'));
     }
+
+    /**
+     * Update newsletter resource.
+     *
+     * @param NewsletterStoreRequest $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(NewsletterStoreRequest $request, $id)
+    {
+        try {
+            $validatedData = $request->validated();
+
+            // Retrieve the newsletter or fail
+            $newsletter = Newsletter::findOrFail($id);
+
+            // Retrieve existing attachments directly as an array
+            $existingAttachments = $newsletter->attachments ?? [];
+            $newAttachments = $request->input('attachments', []);
+
+            // Merge the attachments, ensuring unique entries
+            $mergedAttachments = array_unique(array_merge($existingAttachments, $newAttachments));
+
+            // Sanitize the content
+            $content = Str::sanitize($validatedData['content']);
+
+            // Update the newsletter with the validated data
+            $newsletter->update([
+                'subject' => $validatedData['subject'],
+                'content' => $content,
+                'attachments' => $mergedAttachments, // No need for json_encode since it's cast to array
+                'scheduled_at' => $validatedData['scheduled_at'],
+            ]);
+
+            return redirect()->route('admin.newsletter.view')->with('success', 'Newsletter updated successfully.');
+        } catch (\Exception $e) {
+            Log::error('Failed to update newsletter: ' . $e->getMessage(), [
+                'error' => $e->getMessage(),
+                'data' => $request->except(['attachments']),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->back()->with('error', 'Failed to update newsletter.');
+        }
+    }
+
 
     /**
      * Destroys specific news letter resource
