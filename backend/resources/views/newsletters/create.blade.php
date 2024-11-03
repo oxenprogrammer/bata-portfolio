@@ -36,7 +36,7 @@
                         <!-- Content -->
                         <div class="form-group">
                             <label for="newslettercontent">Newsletter Content</label>
-                            <textarea name="content" id="content" class="form-control" rows="5" placeholder="Write blog content here"></textarea>
+                            <textarea name="content" id="content" class="form-control" rows="5" placeholder="Write  content here"></textarea>
                             @error('content')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
