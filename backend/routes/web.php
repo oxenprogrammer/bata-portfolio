@@ -50,7 +50,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
      Route::get('/newsletter/view',[NewsletterController::class,'index'])->name('newsletter.view');
      Route::get('/newsletter/create', [NewsletterController::class, 'create'])->name('newsletter.create');
      Route::post('/newsletter/store', [NewsletterController::class, 'store'])->name('newsletter.store');
-     Route::post('/newsletter/send', [NewsletterController::class, 'send'])->name('newsletter.send');
+     Route::post('/newsletter/send/{id}', [NewsletterController::class, 'send'])->name('newsletter.send');
      Route::get('/newsletter/edit/{id}', [NewsletterController::class, 'edit'])->name('newsletter.edit');
      Route::put('/newsletter/update/{id}', [NewsletterController::class, 'update'])->name('newsletter.update');
      Route::delete('/newsletter/destroy/{id}', [NewsletterController::class, 'destroy'])->name('newsletter.destroy');
