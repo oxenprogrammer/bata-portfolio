@@ -17,5 +17,6 @@ class Newsletter extends Model
     ];
     protected $casts = [
         'scheduled_at' => 'datetime',
+        'attachments' => 'array',
     ];
 }
