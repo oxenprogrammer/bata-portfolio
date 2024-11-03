@@ -36,6 +36,7 @@
                         <th>Excerpt</th>
                         <th>Sent Status</th>
                         <th>Created At</th>
+                        <th>Scheduled For</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -44,7 +45,7 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $newsletter->subject }}</td>
-                            <td>{!! Str::limit($newsletter->content, 50)!!}</td> <!-- Display excerpt of content -->
+                            <td>{!! Str::limit($newsletter->content, 50)!!}</td>
                             <td>
                                 @if($newsletter->is_sent)
                                     <span class="badge badge-success">
@@ -55,6 +56,7 @@
                                 @endif
                             </td>
                             <td>{{ $newsletter->created_at->format('M d, Y h:i A') }}</td>
+                            <td>{{ $newsletter->scheduled_at ? $newsletter->scheduled_at->format('M d, Y h:i A') : 'Not Scheduled' }}</td>
                             <td class="d-flex justify-content-center">
                                 <a href="{{ route('admin.newsletter.edit', $newsletter->id) }}" class="btn btn-sm btn-warning me-2">
                                     <i class="fas fa-edit"></i> Edit
@@ -64,6 +66,14 @@
                                         @csrf
                                         <button type="submit" class="btn btn-sm btn-primary">
                                             <i class="fas fa-paper-plane"></i> Send
+                                        </button>
+                                    </form>
+                                @endif
+                                @if(!$newsletter->is_sent)
+                                    <form action="{{ route('admin.newsletter.destroy', $newsletter->id) }}" method="POST" class="d-inline-block">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash"></i> Delete
                                         </button>
                                     </form>
                                 @endif
