@@ -15,4 +15,7 @@ class Newsletter extends Model
         'scheduled_at',
         'is_sent'
     ];
+    protected $casts = [
+        'scheduled_at' => 'datetime',
+    ];
 }
