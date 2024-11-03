@@ -85,4 +85,18 @@ class NewsletterController extends Controller
             return redirect()->back()->with('error', 'Failed to create newsletter.');
         }
     }
+
+    /**
+     * Destroys specific news letter resource
+     *
+     * @param string $id
+     * @return void
+     */
+    public function destroy(string $id)
+    {
+        //
+        $newsletter = Newsletter::findOrFail($id);
+        $newsletter->delete();
+        return redirect()->route('admin.newsletter.view')->with('success', 'Newsletter deleted successfully!');
+    }
 }
