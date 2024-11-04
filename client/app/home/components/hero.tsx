@@ -66,7 +66,7 @@ const ContentContainer = styled(Container)(({ theme }) => ({
   alignItems: "center",
   position: "relative",
   zIndex: 2,
-  padding: theme.spacing(4, 2),
+  padding: theme.spacing(4, 0),
   [theme.breakpoints.down("md")]: {
     textAlign: "center",
     justifyContent: "center",
@@ -159,10 +159,10 @@ export const HeroSection: React.FC = () => {
               }}
             >
               <Box component="span" sx={{ color: theme.palette.common.white }}>
-                HEL
+              How
               </Box>
               <Box component="span" sx={{ color: theme.palette.teal[50] }}>
-                LO,
+                dy,
               </Box>
             </Typography>
 
@@ -178,7 +178,7 @@ export const HeroSection: React.FC = () => {
                 mb: 2,
               }}
             >
-              BATA IBRAHIM.
+              Ibrahim W. Batambuze.
             </Typography>
 
             <Typography
@@ -189,7 +189,7 @@ export const HeroSection: React.FC = () => {
                 fontSize: { xs: "1.2rem", md: "1.5rem" },
               }}
             >
-              A versatile and results-driven Businessman.
+              A Strategic Communications Advisor.
             </Typography>
 
             <Box sx={{ display: "flex", gap: 2, justifyContent: isMobile ? "center" : "flex-start" }}>

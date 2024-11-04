@@ -10,9 +10,8 @@ import {
 import { Box, styled, Typography } from "@mui/material";
 
 const contentBlocks = [
-  "Lorem ipsum dolor amet, consectetuer adipiscing elit. Curabitur parturient ornare iaculis libero ante venenatis.",
-  "Lorem ipsum dolor amet, consectetuer adipiscing elit.",
-  "Lorem ipsum dolor amet, consectetuer adipiscing elit. Aptent lacinia egestas ac conubia luctus facilisi congue pulvinar.",
+  "A Strategic Communications Advisor, lawyer, technologist and recruiter based in Uganda and Kenya.",
+  "I advise non profits, people and foundations on using communications for good.",
 ];
 
 const socialLinks = [
@@ -23,10 +22,10 @@ const socialLinks = [
 ];
 
 const ContentText = styled(Typography)(({ theme }) => ({
-  fontSize: "1.1rem",
-  lineHeight: 1.7,
-  color: theme.palette.grey[700],
-  marginBottom: theme.spacing(3),
+  fontSize: "1.6rem",
+  lineHeight: 1.5,
+  color: theme.palette.gray[70],
+  marginBottom: theme.spacing(1),
   maxWidth: "800px",
 }));
 

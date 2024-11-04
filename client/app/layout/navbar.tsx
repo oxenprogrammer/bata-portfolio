@@ -109,11 +109,10 @@ const MobileMenuItemWrapper = styled("div")(({ theme }) => ({
 
 const navItems = [
   "HOME",
-  "BLOGS",
+  "ABOUT",
   "PROJECTS",
-  "COURSES",
   "MENTORSHIP",
-  "COFFEE?",
+  "BLOGS",
 ];
 
 const Navbar: React.FC = () => {
@@ -134,9 +133,9 @@ const Navbar: React.FC = () => {
       const normalizedPath = path.slice(1).toUpperCase();
 
       return navItems.find((item) => {
-        if (item === "COFFEE?") {
-          return normalizedPath.startsWith("COFFEE");
-        }
+        // if (item === "COFFEE?") {
+        //   return normalizedPath.startsWith("COFFEE");
+        // }
         return normalizedPath.startsWith(item) || 
                normalizedPath.startsWith(item.toLowerCase());
       }) || "HOME";
