@@ -1,19 +1,8 @@
-import {
-  AboutSection,
-  BlogsSection,
-  FormerWorkSection,
-  HeroSection,
-  ProjectsSection,
-} from "./home/components";
+import { Home } from "./home/components/home";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <>
-      <HeroSection />
-      <AboutSection />
-      <FormerWorkSection />
-      <ProjectsSection />
-      <BlogsSection />
-    </>
+
+      <Home />
   );
 }
