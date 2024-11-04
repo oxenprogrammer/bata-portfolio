@@ -16,6 +16,11 @@
                 {{ session('success') }}
             </div>
         @endif
+        @if (session('error'))
+        <div class="alert alert-danger">
+            <span> {{ session('error') }} </span>
+        </div>
+    @endif
     </div>
     <div class="col-md-4 text-right">
         <a href="{{ route('admin.newsletter.create') }}" class="btn btn-primary">
@@ -58,9 +63,11 @@
                             <td>{{ $newsletter->created_at->format('M d, Y h:i A') }}</td>
                             <td>{{ $newsletter->scheduled_at ? $newsletter->scheduled_at->format('M d, Y h:i A') : 'Not Scheduled' }}</td>
                             <td class="d-flex justify-content-center">
+                                @if(!$newsletter->is_sent)
                                 <a href="{{ route('admin.newsletter.edit', $newsletter->id) }}" class="btn btn-sm btn-warning me-2">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
+                                @endif
                                 @if(!$newsletter->is_sent)
                                     <form action="{{ route('admin.newsletter.send', $newsletter->id) }}" method="POST" class="d-inline-block">
                                         @csrf
@@ -69,7 +76,6 @@
                                         </button>
                                     </form>
                                 @endif
-                                @if(!$newsletter->is_sent)
                                     <form action="{{ route('admin.newsletter.destroy', $newsletter->id) }}" method="POST" class="d-inline-block">
                                         @csrf
                                         @method('DELETE')
@@ -77,7 +83,6 @@
                                             <i class="fas fa-trash"></i> Delete
                                         </button>
                                     </form>
-                                @endif
                             </td>
                         </tr>
                     @endforeach
