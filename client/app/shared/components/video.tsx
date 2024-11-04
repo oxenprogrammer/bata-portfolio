@@ -5,12 +5,13 @@ import { useEffect, useRef, useState } from "react";
 const AspectRatioWrapper = styled(Box)({
   position: "relative",
   width: "100%",
-  paddingTop: "56.25%", // 56.25% = 9/16 (maintains 16:9 aspect ratio)
+  paddingTop: "56.25%",
 });
 
 const StyledCard = styled(Container)(({ theme }) => ({
   position: "relative",
   overflow: "hidden",
+  padding: theme.spacing(8, 2),
   [theme.breakpoints.up("xs")]: {
     maxWidth: theme.breakpoints.values.sm,
   },
