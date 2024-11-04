@@ -16,9 +16,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Newsletter;
+use App\Models\Subscriber;
 use Illuminate\Support\Str;
+use App\Mail\NewsletterMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\NewsletterStoreRequest;
 
 /**
@@ -156,5 +159,32 @@ class NewsletterController extends Controller
         $newsletter = Newsletter::findOrFail($id);
         $newsletter->delete();
         return redirect()->route('admin.newsletter.view')->with('success', 'Newsletter deleted successfully!');
+    }
+
+    public function send($id)
+    {
+        try {
+
+            $newsletter = Newsletter::findOrFail($id);
+            $subscribers = Subscriber::where('status','active')->get();
+            
+            foreach ($subscribers as $subscriber) {
+                // Log::info('Attachments:', $newsletter->attachments); 
+                Mail::to($subscriber->email)->send(new NewsletterMail(
+                    $newsletter->subject,
+                    $newsletter->content,
+                    $newsletter->attachments,
+                ));
+            }
+            $newsletter->update(['is_sent' => true]);
+            return redirect()->route('admin.newsletter.view')->with('success', 'Newsletter sent successfully.');
+        } catch (\Exception $e) {
+            Log::error('Failed to send newsletter: ' . $e->getMessage(), [
+                'newsletter_subject' => $newsletter->subject,
+                'attachments' => $newsletter->attachments,
+                'error_trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->back()->with('error', 'Failed to send newsletter.');
+        }
     }
 }
