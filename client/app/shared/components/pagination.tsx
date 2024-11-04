@@ -1,5 +1,7 @@
+"use client";
 import React from 'react';
-import { Box, IconButton, Button, styled } from '@mui/material';
+import { Box, IconButton, Button } from '@mui/material';
+import { styled } from '@mui/system';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
 interface PaginationProps {

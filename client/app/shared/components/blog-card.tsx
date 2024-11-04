@@ -1,4 +1,6 @@
-import { Card, Typography, Box, styled } from '@mui/material';
+"use client";
+import { Card, Typography, Box } from '@mui/material';
+import { styled } from '@mui/system';
 import Link from 'next/link';
 import { Blog } from '../types';
 

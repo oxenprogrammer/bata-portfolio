@@ -1,4 +1,6 @@
-import { Button, styled } from "@mui/material";
+"use client";
+import { Button } from "@mui/material";
+import { styled } from '@mui/system';
 import Link from "next/link";
 
 const ViewMoreButton = styled(Button)(({ theme }) => ({

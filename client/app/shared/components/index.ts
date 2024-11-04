@@ -8,3 +8,4 @@ export  { AnimateCard } from "./animate-card";
 export { Pagination } from "./pagination";
 export {LoadingProjectGrid} from "./loading-project-grid";
 export {LoadingBlogGrid} from "./loading-blog-grid";
+export {Video} from "./video";
