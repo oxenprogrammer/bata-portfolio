@@ -43,14 +43,14 @@
                         </div>
 
                         <!-- Attachments -->
-                        <div class="form-group mb-3" id="attachments">
+                        {{-- <div class="form-group mb-3" id="attachments">
                             <label for="attachments[]">Attachment Links (Google Drive)</label>
                             <input type="url" name="attachments[]" class="form-control mb-2" placeholder="Enter Google Drive link">
                             @error('attachments.*')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <button type="button" onclick="addAttachmentField()" class="btn btn-secondary mb-3">Add Another Link</button>
+                        <button type="button" onclick="addAttachmentField()" class="btn btn-secondary mb-3">Add Another Link</button> --}}
 
                         <!-- Schedule Date (optional) -->
                         <div class="form-group mb-3">
