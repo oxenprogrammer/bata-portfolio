@@ -13,12 +13,17 @@ class NewsletterMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $subject;
+    public $content;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($subject, $content)
     {
         //
+        $this->subject = $subject;
+        $this->content = $content;
     }
 
     /**
@@ -27,7 +32,7 @@ class NewsletterMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Newsletter Mail',
+            subject: $this->subject,
         );
     }
 
@@ -38,6 +43,11 @@ class NewsletterMail extends Mailable
     {
         return new Content(
             markdown: 'emails.newsletter',
+            with: [
+                'subject' => $this->subject,
+                'content' => $this->content,
+                // 'attachments' => $this->attachments,
+            ]
         );
     }
 
