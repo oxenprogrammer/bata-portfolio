@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('documents', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Reference to the user
             $table->string('title');
             $table->bigInteger('file_size');
             $table->longText('description')->nullable();
-            $table->string('file_path');
-            $table->string('file_type');
+            $table->string('file_path')->nullable();
+            $table->string('file_type')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });

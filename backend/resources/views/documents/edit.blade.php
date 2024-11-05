@@ -25,7 +25,7 @@
                         <div class="form-group">
                             <label for="file_type">File Type</label>
                             <input type="text" name="file_type" id="file_type" class="form-control"
-                                value="{{ old('file_type', $document->file_type) }}" required>
+                                value="{{ old('file_type', $document->file_type) }}">
                         </div>
 
                         <div class="form-group">
