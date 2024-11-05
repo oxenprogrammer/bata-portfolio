@@ -11,6 +11,8 @@
  */
 namespace App\Providers;
 
+use Illuminate\Support\Str;
+use Mews\Purifier\Facades\Purifier;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -45,5 +47,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        Str::macro('sanitize', function ($content) {
+            return Purifier::clean($content);
+        });
     }
 }

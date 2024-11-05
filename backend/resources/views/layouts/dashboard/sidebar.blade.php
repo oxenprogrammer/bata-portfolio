@@ -13,7 +13,7 @@
                   class="typcn typcn-user-add"></i></a>
           <a href="#contacts" class="nav-link" data-toggle="tooltip-primary" title="Contacts"><i
                   class="typcn typcn-phone"></i></a>
-          <a href="#images" class="nav-link" data-toggle="tooltip-primary" title="News Letter"><i
+          <a href="#newsletter" class="nav-link" data-toggle="tooltip-primary" title="News Letter"><i
                   class="typcn typcn-mail"></i></a>
       </nav>
   </div><!-- az-iconbar -->
@@ -50,8 +50,8 @@
           <div id="users" class="az-iconbar-pane">
               <h6 class="az-iconbar-title">Users</h6>
               <ul class="nav">
-                  <li class="nav-item"><a href="#" class="nav-link">View Users</a></li>
-                  <li class="nav-item"><a href="#" class="nav-link">Create User</a></li>
+                  <li class="nav-item"><a href="{{route('admin.user.view')}}" class="nav-link">View Users</a></li>
+                  <li class="nav-item"><a href="{{route('admin.user.create')}}" class="nav-link">Create User</a></li>
               </ul>
           </div><!-- az-iconbar-pane -->
           <div id="subscribers" class="az-iconbar-pane">
@@ -67,12 +67,13 @@
                   <li class='nav-item'><a href="{{ route('admin.contact.view') }}" class="nav-link">View Contacts</a></li>
               </ul>
           </div><!-- az-iconbar-pane -->
-          <div id="images" class="az-iconbar-pane">
+          <div id="newsletter" class="az-iconbar-pane">
               <h6 class="az-iconbar-title">News Letter</h6>
               <ul class="nav">
-                  <li class='nav-item'><a href="#" class="nav-link">
-                          News Letter</a>
+                  <li class='nav-item'><a href="{{ route('admin.newsletter.create') }}" class="nav-link">Create</a>
                   </li>
+                  <li class='nav-item'><a href="{{ route('admin.newsletter.view') }}" class="nav-link">View</a>
+            </li>
               </ul>
           </div><!-- az-iconbar-pane -->
       </div><!-- az-iconbar-body -->

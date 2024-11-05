@@ -2,10 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\SubscriberController;
 
 // Home route
@@ -45,12 +47,31 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::put('/subscriber/update/{id}', [SubscriberController::class, 'update'])->name('subscriber.update');
     Route::delete('/subscriber/destroy/{id}', [SubscriberController::class, 'destroy'])->name('subscriber.destroy');
 
+     //Newsletter routes
+     Route::get('/newsletter/view',[NewsletterController::class,'index'])->name('newsletter.view');
+     Route::get('/newsletter/create', [NewsletterController::class, 'create'])->name('newsletter.create');
+     Route::post('/newsletter/store', [NewsletterController::class, 'store'])->name('newsletter.store');
+     Route::post('/newsletter/send/{id}', [NewsletterController::class, 'send'])->name('newsletter.send');
+     Route::get('/newsletter/edit/{id}', [NewsletterController::class, 'edit'])->name('newsletter.edit');
+     Route::put('/newsletter/update/{id}', [NewsletterController::class, 'update'])->name('newsletter.update');
+     Route::delete('/newsletter/destroy/{id}', [NewsletterController::class, 'destroy'])->name('newsletter.destroy');
+
     //contact routes
     Route::get('/contacts/view',[ContactUsController::class,'index'])->name('contact.view');
     Route::get('/contact/details/{id}', [ContactUsController::class, 'show'])->name('contact.detail');
     Route::delete('/contact/destroy/{id}', [ContactUsController::class, 'destroy'])->name('contact.destroy');
     Route::post('/contact/reply/{id}', [ContactUsController::class, 'reply'])->name('contact.reply');
     Route::get('/contact/replied/{id}', [ContactUsController::class, 'markReplied'])->name('contact.mark-replied');
+
+    //users routes
+    Route::get('/user/view', [UserController::class, 'index'])->name('user.view');
+    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+    Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
+
 });
 
 

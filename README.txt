@@ -128,6 +128,24 @@ To test the API locally, follow these steps:
 
 ---
 
+#### 5. Fetch Users
+
+- **Method**: `GET`
+- **URL**: `/api/users`
+- **Description**: Returns all users.
+
+#### 6. Store Subscriber
+
+- **Method**: `POST`
+- **URL**: `/api/subscriber`
+- **Description**: Stores subscriber.
+
+#### 7. Store Contact
+
+- **Method**: `POST`
+- **URL**: `/api/contact`
+- **Description**: Stores inquiry from contact form.
+
 ### Example Postman Collection
 
 You can import the following JSON collection into Postman to have pre-configured endpoints for testing.
