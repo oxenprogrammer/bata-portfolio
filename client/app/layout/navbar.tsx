@@ -111,9 +111,8 @@ const navItems = [
   "HOME",
   "ABOUT",
   "PROJECTS",
-  "COURSES",
   "MENTORSHIP",
-  "COFFEE?",
+  "BLOGS",
 ];
 
 const Navbar: React.FC = () => {
@@ -126,19 +125,23 @@ const Navbar: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const path = pathname.slice(1).toUpperCase();
-    if (pathname === "/" || pathname === "/home") {
-      setActiveItem("HOME");
-    } else {
-      const matchedItem =
-        navItems.find((item) => {
-          if (item === "COFFEE?") {
-            return path.startsWith("COFFEE");
-          }
-          return item === path;
-        }) || "HOME";
-      setActiveItem(matchedItem);
-    }
+    const determineActiveItem = (path: string) => {
+      if (path === "/" || path === "/home") {
+        return "HOME";
+      }
+
+      const normalizedPath = path.slice(1).toUpperCase();
+
+      return navItems.find((item) => {
+        // if (item === "COFFEE?") {
+        //   return normalizedPath.startsWith("COFFEE");
+        // }
+        return normalizedPath.startsWith(item) || 
+               normalizedPath.startsWith(item.toLowerCase());
+      }) || "HOME";
+    };
+
+    setActiveItem(determineActiveItem(pathname));
   }, [pathname]);
 
   const handleDrawerToggle = () => {

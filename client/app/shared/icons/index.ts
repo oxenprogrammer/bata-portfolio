@@ -2,3 +2,8 @@ export * from './email-icon';
 export * from './facebook-icon';
 export * from './linkedin-icon';
 export * from './twitter-icon';
+export * from './arrow-up-icon';
+export *  from './mo-ibrahim-foundation-icon';
+export * from "./bmw-icon";
+export * from './samsung-icon';
+export * from './mastercard-foundation-icon';
