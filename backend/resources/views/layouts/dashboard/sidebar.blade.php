@@ -50,8 +50,8 @@
           <div id="users" class="az-iconbar-pane">
               <h6 class="az-iconbar-title">Users</h6>
               <ul class="nav">
-                  <li class="nav-item"><a href="#" class="nav-link">View Users</a></li>
-                  <li class="nav-item"><a href="#" class="nav-link">Create User</a></li>
+                  <li class="nav-item"><a href="{{route('admin.user.view')}}" class="nav-link">View Users</a></li>
+                  <li class="nav-item"><a href="{{route('admin.user.create')}}" class="nav-link">Create User</a></li>
               </ul>
           </div><!-- az-iconbar-pane -->
           <div id="subscribers" class="az-iconbar-pane">

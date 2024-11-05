@@ -2,11 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\SubscriberController;
 
 // Home route
@@ -61,6 +62,16 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::delete('/contact/destroy/{id}', [ContactUsController::class, 'destroy'])->name('contact.destroy');
     Route::post('/contact/reply/{id}', [ContactUsController::class, 'reply'])->name('contact.reply');
     Route::get('/contact/replied/{id}', [ContactUsController::class, 'markReplied'])->name('contact.mark-replied');
+
+    //users routes
+    Route::get('/user/view', [UserController::class, 'index'])->name('user.view');
+    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+    Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
+
 });
 
 
