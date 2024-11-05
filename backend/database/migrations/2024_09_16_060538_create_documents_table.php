@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('title');
             $table->bigInteger('file_size');
             $table->longText('description')->nullable();
-            $table->string('file_path');
-            $table->string('file_type');
+            $table->string('file_path')->nullable();
+            $table->string('file_type')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });
