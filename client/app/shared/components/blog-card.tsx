@@ -54,7 +54,7 @@ export const BlogCard: React.FC<BlogCardProps> = ({ blog }) => {
   return (
     <Link href={`/blogs/${blog.id}`} style={{ textDecoration: 'none' }}>
       <StyledCard>
-        <BlogImage sx={{ backgroundImage: `url(${blog.imageUrl})` }} />
+        <BlogImage sx={{ backgroundImage: `url(${blog.images[0]})` }} />
         <CardOverlay>
           <Typography
             variant="h5"
