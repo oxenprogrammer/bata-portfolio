@@ -13,13 +13,103 @@ class BlogSeeder extends Seeder
      */
     public function run(): void
     {
-        // 
+        //
         $blogs = [
             [
                 'user_id' => 1, // Replace with actual user ID
                 'title' => 'First Blog Post',
                 'content' => 'Content of the first blog post.',
                 'excerpt' => 'This is a short excerpt of the first blog post.',
+                'status' => 'published',
+                'published_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 1, // Replace with actual user ID
+                'title' => 'Second Blog Post',
+                'content' => 'Content of the second blog post.',
+                'excerpt' => 'This is a short excerpt of the second blog post.',
+                'status' => 'published',
+                'published_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 1, // Replace with actual user ID
+                'title' => 'Second Blog Post',
+                'content' => 'Content of the second blog post.',
+                'excerpt' => 'This is a short excerpt of the second blog post.',
+                'status' => 'published',
+                'published_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 1, // Replace with actual user ID
+                'title' => 'Second Blog Post',
+                'content' => 'Content of the second blog post.',
+                'excerpt' => 'This is a short excerpt of the second blog post.',
+                'status' => 'published',
+                'published_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 1, // Replace with actual user ID
+                'title' => 'Second Blog Post',
+                'content' => 'Content of the second blog post.',
+                'excerpt' => 'This is a short excerpt of the second blog post.',
+                'status' => 'published',
+                'published_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 1, // Replace with actual user ID
+                'title' => 'Second Blog Post',
+                'content' => 'Content of the second blog post.',
+                'excerpt' => 'This is a short excerpt of the second blog post.',
+                'status' => 'published',
+                'published_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 1, // Replace with actual user ID
+                'title' => 'Second Blog Post',
+                'content' => 'Content of the second blog post.',
+                'excerpt' => 'This is a short excerpt of the second blog post.',
+                'status' => 'published',
+                'published_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 1, // Replace with actual user ID
+                'title' => 'Second Blog Post',
+                'content' => 'Content of the second blog post.',
+                'excerpt' => 'This is a short excerpt of the second blog post.',
+                'status' => 'published',
+                'published_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 1, // Replace with actual user ID
+                'title' => 'Second Blog Post',
+                'content' => 'Content of the second blog post.',
+                'excerpt' => 'This is a short excerpt of the second blog post.',
+                'status' => 'published',
+                'published_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 1, // Replace with actual user ID
+                'title' => 'Second Blog Post',
+                'content' => 'Content of the second blog post.',
+                'excerpt' => 'This is a short excerpt of the second blog post.',
                 'status' => 'published',
                 'published_at' => now(),
                 'created_at' => now(),

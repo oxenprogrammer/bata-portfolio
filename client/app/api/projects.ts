@@ -1,82 +1,40 @@
 import { Project } from "../shared/types";
 
-// Mock data - replace with actual API call later
-const mockProjects: Project[] = [
-  {
-    id: '1',
-    title: 'E-Commerce Platform',
-    description: 'A modern e-commerce solution built with Next.js and Material UI',
-    imageUrl: '/images/project-1.jpg',
-    link: 'https://project1.com'
-  },
-  {
-    id: '2',
-    title: 'Healthcare Dashboard',
-    description: 'Analytics dashboard for healthcare providers using React Query',
-    imageUrl: '/images/project-2.png',
-    link: 'https://project2.com'
-  },
-  {
-    id: '3',
-    title: 'AI Content Platform',
-    description: 'Content generation platform powered by machine learning',
-    imageUrl: '/images/project-3.png',
-    link: 'https://project3.com'
-  },
-  {
-    id: '4',
-    title: 'E-Commerce Platform',
-    description: 'A modern e-commerce solution built with Next.js and Material UI',
-    imageUrl: '/images/project-4.avif',
-    link: 'https://project1.com'
-  },
-  {
-    id: '5',
-    title: 'Healthcare Dashboard',
-    description: 'Analytics dashboard for healthcare providers using React Query',
-    imageUrl: 'https://picsum.photos/300/200',
-    link: 'https://project2.com'
-  },
-  {
-    id: '6',
-    title: 'AI Content Platform',
-    description: 'Content generation platform powered by machine learning',
-    imageUrl: 'https://picsum.photos/300/200',
-    link: 'https://project3.com'
-  },
-  {
-    id: '7',
-    title: 'E-Commerce Platform',
-    description: 'A modern e-commerce solution built with Next.js and Material UI',
-    imageUrl: 'https://picsum.photos/300/200',
-    link: 'https://project1.com'
-  },
-  {
-    id: '8',
-    title: 'Healthcare Dashboard',
-    description: 'Analytics dashboard for healthcare providers using React Query',
-    imageUrl: 'https://picsum.photos/300/200',
-    link: 'https://project2.com'
-  },
-  {
-    id: '9',
-    title: 'AI Content Platform',
-    description: 'Content generation platform powered by machine learning',
-    imageUrl: 'https://picsum.photos/300/200',
-    link: 'https://project3.com'
-  },
-];
+interface ApiResponse {
+  data: {
+    id: number;
+    title: string;
+    description: string;
+    url: string;
+    created_at: string;
+    updated_at: string;
+  }[];
+}
 
 export const getProjects = async (): Promise<Project[]> => {
-  // Mock API delay
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  const response = await fetch('http://127.0.0.1:8000/api/documents');
+  const { data } = await response.json() as ApiResponse;
   
-  // Replace this with actual API call when ready
-  // return await fetch('api/projects').then(res => res.json());
-  return mockProjects;
+  return data.map(item => ({
+    id: item.id.toString(),
+    title: item.title,
+    description: item.description,
+    imageUrl: 'https://picsum.photos/300/200',
+    link: item.url
+  }));
 };
 
 export const getProjectById = async (id: string): Promise<Project | undefined> => {
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  return mockProjects.find(project => project.id === id);
+  const response = await fetch(`http://127.0.0.1:8000/api/documents/${id}`);
+  const { data } = await response.json() as { data: ApiResponse['data'][0] };
+  
+  if (!data) return undefined;
+  
+  return {
+    id: data.id.toString(),
+    title: data.title,
+    description: data.description,
+    imageUrl: 'https://picsum.photos/300/200',
+    link: data.url
+  };
 };
