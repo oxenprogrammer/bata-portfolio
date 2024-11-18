@@ -19,9 +19,11 @@ use App\Models\Subscriber;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Database\QueryException;
 use App\Http\Requests\SubscriberRequest;
 use App\Mail\SubscriptionConfirmationMail;
 use App\Http\Requests\UpdateSubscriberRequest;
+use Illuminate\Validation\ValidationException;
 
 /**
  * This File Class handles subscribers
@@ -62,18 +64,32 @@ class SubscriberController extends Controller
      */
     public function store(SubscriberRequest $request)
     {
+        
 
-        $validatedData = $request->validated();
-        $validatedData['ip_address'] = $request->ip();
-        $validatedData['token'] = Str::random(32);
-        $subscriber = Subscriber::create($validatedData);
-
-        //send confirmation email
-        Mail::to($subscriber->email)->send(new SubscriptionConfirmationMail($subscriber->token, $subscriber->email));
-
-        return response()->json([
-            'message' => 'Subscriber created successfully.',
-        ], 201);
+        try {
+            // Validate the incoming request
+            $validatedData = $request->validated();
+            return response()->json($validatedData);
+            $validatedData['ip_address'] = $request->ip();
+            $validatedData['token'] = Str::random(32);
+            $subscriber = Subscriber::create($validatedData);
+            // Send confirmation email
+            Mail::to($subscriber->email)->send(new SubscriptionConfirmationMail($subscriber->token, $subscriber->email));
+            return response()->json([
+                'message' => 'Subscriber created successfully.',
+            ], 201);
+            
+        }catch (QueryException $e) {
+            return response()->json([
+                'message' => 'Database error occurred while creating the subscriber.',
+                'error' => $e->getMessage(),
+            ], 500);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An unexpected error occurred.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
