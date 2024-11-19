@@ -54,7 +54,7 @@ const HeroContainer = styled(Box)(({ theme }) => ({
   minHeight: "calc(100vh - 64px + 60px)",
   display: "flex",
   overflow: "hidden",
-  backgroundColor: theme.palette.blue[70],
+  backgroundColor: "#18202b",
   flexGrow: 1,
   [theme.breakpoints.down("md")]: {
     minHeight: "calc(100vh - 64px + 112px)",

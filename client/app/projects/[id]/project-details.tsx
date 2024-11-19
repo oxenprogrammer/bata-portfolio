@@ -57,6 +57,11 @@ const Sidebar = styled(Box)(({ theme }) => ({
   "&::-webkit-scrollbar": {
     display: "none",
   },
+  [theme.breakpoints.down("md")]: {
+    height: "100%",
+    borderLeft: "none",
+    borderTop: `1px solid ${theme.palette.divider}`,
+  },
 
   // Hide scrollbar for IE, Edge and Firefox
   msOverflowStyle: "none", // IE and Edge
@@ -122,7 +127,7 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
   }, []);
 
   return (
-    <Container sx={{ position: "relative", minHeight: "100vh" }}>
+    <Container sx={({breakpoints})  => ({ position: "relative", minHeight: "100vh", [breakpoints.down('md')]: { minHeight: 'auto' } })}>
       <AnimatePresence>
         <LayoutContainer>
           {/* Image Section */}

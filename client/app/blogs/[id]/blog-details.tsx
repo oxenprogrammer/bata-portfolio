@@ -11,7 +11,7 @@ interface Blog {
   id: string;
   title: string;
   description: string;
-  images: string;
+  images: string[];
   link: string;
   createdBy: string;
   publishedAt: Date;

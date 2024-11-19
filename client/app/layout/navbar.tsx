@@ -57,7 +57,7 @@ const StyledLink = styled(Link)(({ theme }) => ({
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   "& .MuiDrawer-paper": {
-    backgroundColor: theme.palette.blue[70],
+    backgroundColor: "#18202b",
     width: 240,
     color: theme.palette.common.white,
   },
@@ -183,7 +183,7 @@ const Navbar: React.FC = () => {
   );
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "blue.70" }}>
+    <AppBar position="static" sx={{ backgroundColor: "blue.100" }}>
       <Toolbar>
         <Container
           sx={{
