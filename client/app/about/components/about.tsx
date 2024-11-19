@@ -116,22 +116,22 @@ export const About: React.FC = () => {
 
   const containerAnimation = {
     hidden: { opacity: 0 },
-    visible: { 
+    visible: {
       opacity: 1,
       transition: {
         delayChildren: 0.3,
-        staggerChildren: 0.2
-      }
-    }
+        staggerChildren: 0.2,
+      },
+    },
   };
 
   const itemAnimation = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { duration: 0.5 }
-    }
+      transition: { duration: 0.5 },
+    },
   };
 
   return (
@@ -182,13 +182,15 @@ export const About: React.FC = () => {
                   Full Stack Developer & Tech Enthusiast
                 </Typography>
                 <Typography>
-                  I&apos;m passionate about creating elegant solutions to complex
-                  problems. With expertise in modern web technologies and a keen
-                  eye for design, I build scalable and user-friendly applications
-                  that make a difference.
+                  I&apos;m passionate about creating elegant solutions to
+                  complex problems. With expertise in modern web technologies
+                  and a keen eye for design, I build scalable and user-friendly
+                  applications that make a difference.
                 </Typography>
 
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1, my: 2 }}>
+                <Box
+                  sx={{ display: "flex", alignItems: "center", gap: 1, my: 2 }}
+                >
                   <WorkIcon color="primary" />
                   <Typography variant="h6">
                     Senior Software Engineer at TechCorp
@@ -196,11 +198,8 @@ export const About: React.FC = () => {
                 </Box>
 
                 <Skills>
-                  {skills.map((skill, index) => (
-                    <Skill
-                      key={skill}
-                      variants={itemAnimation}
-                    >
+                  {skills.map((skill) => (
+                    <Skill key={skill} variants={itemAnimation}>
                       {skill}
                     </Skill>
                   ))}
@@ -236,9 +235,9 @@ export const About: React.FC = () => {
           </ContentSection>
 
           <ContentSection
-            sx={{ 
+            sx={{
               flexDirection: isMobile ? "column-reverse" : "row",
-              mt: 8
+              mt: 8,
             }}
           >
             <Box sx={{ maxWidth: 600 }}>
@@ -248,8 +247,8 @@ export const About: React.FC = () => {
                 </Typography>
                 <Typography>
                   I believe in writing clean, maintainable code and creating
-                  intuitive user experiences. My background in both front-end and
-                  back-end development allows me to approach projects
+                  intuitive user experiences. My background in both front-end
+                  and back-end development allows me to approach projects
                   holistically, ensuring seamless integration across the entire
                   stack.
                 </Typography>
@@ -267,7 +266,7 @@ export const About: React.FC = () => {
             >
               <ImageContainer>
                 <Image
-                   src="/images/profile_picture_2.jpg"
+                  src="/images/profile_picture_2.jpg"
                   alt="Professional headshot"
                   priority
                   fill

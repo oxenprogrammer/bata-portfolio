@@ -34,7 +34,7 @@ const ImageSection = styled(Box)(({ theme }) => ({
 }));
 
 // New ImageOverlay component for the download button
-const ImageOverlay = styled(Box)(({ theme }) => ({
+const ImageOverlay = styled(Box)(() => ({
   position: "absolute",
   top: 0,
   left: 0,
