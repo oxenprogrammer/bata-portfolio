@@ -33,7 +33,7 @@ export default function RootLayout({
         <ThemeRegistry options={{ key: "mui" }}>
           <Providers>
             <Navbar />
-            {children}
+            <div style={{ paddingTop: "64px" }}>{children}</div>
             <Footer />
           </Providers>
         </ThemeRegistry>

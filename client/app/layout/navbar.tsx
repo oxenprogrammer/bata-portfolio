@@ -57,7 +57,7 @@ const StyledLink = styled(Link)(({ theme }) => ({
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
   "& .MuiDrawer-paper": {
-    backgroundColor: "#18202b",
+    backgroundColor: theme.palette.blue[100],
     width: 240,
     color: theme.palette.common.white,
   },
@@ -163,7 +163,7 @@ const Navbar: React.FC = () => {
   };
 
   const drawer = (
-    <List sx={{ pt: 2 }}>
+    <List sx={{ pt: "64px" }}>
       {navItems.map((item) => (
         <ListItem key={item} disablePadding>
           <Link
@@ -183,7 +183,7 @@ const Navbar: React.FC = () => {
   );
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "blue.100" }}>
+    <AppBar position="fixed" sx={{ backgroundColor: "blue.100", zIndex: (theme) => theme.zIndex.drawer + 1  }}>
       <Toolbar>
         <Container
           sx={{
@@ -193,7 +193,7 @@ const Navbar: React.FC = () => {
           }}
         >
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <span style={{ color: "#4fc3f7" }}>Bata</span>
+            <Link href="/" style={{ color: "#4fc3f7" }}>Bata</Link>
           </Typography>
           {isSmallDevice ? (
             <>
