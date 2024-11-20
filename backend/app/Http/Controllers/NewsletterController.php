@@ -167,16 +167,21 @@ class NewsletterController extends Controller
 
             $newsletter = Newsletter::findOrFail($id);
             $subscribers = Subscriber::where('status','active')->get();
-            
-            foreach ($subscribers as $subscriber) {
-                // Log::info('Attachments:', $newsletter->attachments); 
-                Mail::to($subscriber->email)->send(new NewsletterMail(
-                    $newsletter->subject,
-                    $newsletter->content,
-                    $newsletter->attachments,
-                ));
+            if($subscribers)
+            {
+                foreach ($subscribers as $subscriber) {
+                    // Log::info('Attachments:', $newsletter->attachments); 
+                    Mail::to($subscriber->email)->send(new NewsletterMail(
+                        $newsletter->subject,
+                        $newsletter->content,
+                        $newsletter->attachments,
+                    ));
+                }
+                $newsletter->update(['is_sent' => true]);
+            }else{
+                return redirect()->route('admin.newsletter.view')->with('success', 'No active subscribers!');
             }
-            $newsletter->update(['is_sent' => true]);
+            
             return redirect()->route('admin.newsletter.view')->with('success', 'Newsletter sent successfully.');
         } catch (\Exception $e) {
             Log::error('Failed to send newsletter: ' . $e->getMessage(), [
