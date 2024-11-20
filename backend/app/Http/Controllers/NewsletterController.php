@@ -122,7 +122,7 @@ class NewsletterController extends Controller
             $newAttachments = $request->input('attachments', []);
 
             // Merge the attachments, ensuring unique entries
-            $mergedAttachments = array_unique(array_merge($existingAttachments, $newAttachments));
+            // $mergedAttachments = array_unique(array_merge($existingAttachments, $newAttachments));
 
             // Sanitize the content
             $content = Str::sanitize($validatedData['content']);
@@ -131,7 +131,8 @@ class NewsletterController extends Controller
             $newsletter->update([
                 'subject' => $validatedData['subject'],
                 'content' => $content,
-                'attachments' => $mergedAttachments, // No need for json_encode since it's cast to array
+                'is_sent'=>false,
+                // 'attachments' => $mergedAttachments,
                 'scheduled_at' => $validatedData['scheduled_at'],
             ]);
 
@@ -167,7 +168,7 @@ class NewsletterController extends Controller
 
             $newsletter = Newsletter::findOrFail($id);
             $subscribers = Subscriber::where('status','active')->get();
-            if($subscribers)
+            if($subscribers->isNotEmpty())
             {
                 foreach ($subscribers as $subscriber) {
                     // Log::info('Attachments:', $newsletter->attachments); 
