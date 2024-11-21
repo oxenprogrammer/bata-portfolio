@@ -18,6 +18,7 @@ namespace App\Http\Controllers;
 use App\Models\Subscriber;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\QueryException;
 use App\Http\Requests\SubscriberRequest;
@@ -64,7 +65,7 @@ class SubscriberController extends Controller
      */
     public function store(SubscriberRequest $request)
     {
-        
+
 
         try {
             // Validate the incoming request
@@ -78,8 +79,7 @@ class SubscriberController extends Controller
             return response()->json([
                 'message' => 'Subscriber created successfully.',
             ], 201);
-            
-        }catch (QueryException $e) {
+        } catch (QueryException $e) {
             return response()->json([
                 'message' => 'Database error occurred while creating the subscriber.',
                 'error' => $e->getMessage(),
@@ -162,5 +162,30 @@ class SubscriberController extends Controller
         $subscriber = Subscriber::findOrFail($id);
         $subscriber->delete();
         return redirect()->route('admin.subscriber.view')->with('success', 'Subscriber deleted successfully!');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function unsubscribe($token)
+    {
+        try {
+            $substatus = false;
+            $subscriber =  Subscriber::where('token', $token)->firstOrFail();
+            if($subscriber->isNotEmpty()) {
+                if ($subscriber->status === 'unsubscribed') {
+                    $substatus = true;
+                } else {
+                    $subscriber->update(['status' => 'unsubscribed', 'token' => null]);
+                }
+            }
+            return view('subscribers.unsubscribe', compact('substatus'));
+        } catch (\Exception $e) {
+            Log::error('Failed to unsubscribe: ' . $e->getMessage(), ['token' => $token]);
+            return abort(500, 'An error occurred while processing your request.');
+        }
     }
 }
