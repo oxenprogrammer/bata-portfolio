@@ -131,7 +131,7 @@ class NewsletterController extends Controller
             $newsletter->update([
                 'subject' => $validatedData['subject'],
                 'content' => $content,
-                'is_sent'=>false,
+                'is_sent' => false,
                 // 'attachments' => $mergedAttachments,
                 'scheduled_at' => $validatedData['scheduled_at'],
             ]);
@@ -162,27 +162,38 @@ class NewsletterController extends Controller
         return redirect()->route('admin.newsletter.view')->with('success', 'Newsletter deleted successfully!');
     }
 
+    /**
+     * Send news letter to active subscribers
+     *
+     * @param int $id
+     * @return void
+     */
     public function send($id)
     {
         try {
 
             $newsletter = Newsletter::findOrFail($id);
-            $subscribers = Subscriber::where('status','active')->get();
-            if($subscribers->isNotEmpty())
-            {
+            $subscribers = Subscriber::where('status', 'active')->get();
+            if ($subscribers->isNotEmpty()) {
+                $subscribers->each(function ($subscriber) {
+                    if (!$subscriber->token) {
+                        $subscriber->token = Str::random(32);
+                    }
+                });
+                Subscriber::upsert($subscribers->toArray(), ['id'], ['token']);
                 foreach ($subscribers as $subscriber) {
-                    // Log::info('Attachments:', $newsletter->attachments); 
                     Mail::to($subscriber->email)->send(new NewsletterMail(
                         $newsletter->subject,
                         $newsletter->content,
-                        $newsletter->attachments,
+                        // $newsletter->attachments,
+                        $subscriber->token,
                     ));
                 }
                 $newsletter->update(['is_sent' => true]);
-            }else{
+            } else {
                 return redirect()->route('admin.newsletter.view')->with('success', 'No active subscribers!');
             }
-            
+
             return redirect()->route('admin.newsletter.view')->with('success', 'Newsletter sent successfully.');
         } catch (\Exception $e) {
             Log::error('Failed to send newsletter: ' . $e->getMessage(), [
