@@ -17,10 +17,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\DocumentResource;
 use App\Http\Requests\StoreDocumentRequest;
 use App\Http\Requests\UpdateDocumentRequest;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 /**
  * This is  Document Controller class 
@@ -69,22 +71,65 @@ class DocumentController extends Controller
      */
     public function store(StoreDocumentRequest $request)
     {
-        //// The request is valid, proceed with storing the document
         $validatedData = $request->validated();
+        $imageUrls = [];
+        $failedUploads = [];
+    
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                try {
 
-        // Create the document with validated data
-        Document::create([
-            'user_id' => Auth::id(),
-            'title' => $validatedData['title'],
-            'description' => $validatedData['description'],
-            'file_size' => $validatedData['file_size'],
-            'file_path' => $validatedData['file_path'],
-            'file_type' => $validatedData['file_type'],
-            'status' => $validatedData['status'],
-        ]);
-
-        return redirect()->route('admin.document.view')->with('success', 'Document added successfully.');
+                    $uploadedImage = Cloudinary::upload($image->getRealPath(), [
+                        'folder' => 'project_images'
+                    ]);
+                    $imageUrls[] = $uploadedImage->getSecurePath();
+                } catch (\Exception $e) {
+                    Log::error('Image upload failed: ' . $e->getMessage());
+                    $failedUploads[] = $image->getClientOriginalName();
+                }
+            }
+        }
+    
+        if (count($imageUrls) === 0 && $request->hasFile('images')) {
+            return redirect()->back()->withErrors([
+                'images' => 'All image uploads failed. Please try again.'
+            ])->withInput();
+        }
+    
+        try {
+            // Attempt to create the document
+            Document::create([
+                'user_id' => Auth::id(),
+                'title' => $validatedData['title'],
+                'summary' => $validatedData['summary'],
+                'description' => $validatedData['description'],
+                'organization' => $validatedData['organization'],
+                'year' => $validatedData['year'],
+                'video_url' => $validatedData['video_url'],
+                'file_path' => $validatedData['file_path'],
+                'status' => $validatedData['status'],
+                'image_urls' => implode(',', $imageUrls), 
+                'category_ids' => implode(',', $validatedData['categories']),
+            ]);
+    
+            // Check for any partially failed uploads
+            $message = 'Document added successfully.';
+            if (count($failedUploads) > 0) {
+                $message .= ' However, the following images failed to upload: ' . implode(', ', $failedUploads) . '.';
+            }
+    
+            return redirect()->route('admin.document.view')->with('success', $message);
+    
+        } catch (\Exception $e) {
+            // Catch and log any errors during the database operation
+            Log::error('Document creation failed: ' . $e->getMessage());
+    
+            return redirect()->back()->withErrors([
+                'general' => 'An error occurred while saving the document. Please try again.'
+            ])->withInput();
+        }
     }
+    
 
     /**
      * Display the specified resource.
