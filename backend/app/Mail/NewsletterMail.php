@@ -15,15 +15,17 @@ class NewsletterMail extends Mailable
 
     public $subject;
     public $content;
+    public $subscriber_token;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($subject, $content)
+    public function __construct($subject, $content,$subscriber_token)
     {
         //
         $this->subject = $subject;
         $this->content = $content;
+        $this->subscriber_token=$subscriber_token;
     }
 
     /**
@@ -46,6 +48,7 @@ class NewsletterMail extends Mailable
             with: [
                 'subject' => $this->subject,
                 'content' => $this->content,
+                'token' =>$this->subscriber_token,
                 // 'attachments' => $this->attachments,
             ]
         );
