@@ -10,7 +10,7 @@
 @include('layouts.dashboard.common_nav')
 <div class="row mb-4">
     <div class="col-md-8">
-        <h2>All Documents</h2>
+        <h2>All Projects</h2>
          <!-- Display Success Message -->
          @if (session('success'))
          <div class="alert alert-success">
@@ -20,13 +20,13 @@
     </div>
     <div class="col-md-4 text-right">
         <a href="{{ route('admin.document.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus-circle"></i> Add New File
+            <i class="fas fa-plus-circle"></i> Add New Project
         </a>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 table-responsive">
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <tr>
