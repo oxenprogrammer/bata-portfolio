@@ -122,7 +122,7 @@ class NewsletterController extends Controller
             $newAttachments = $request->input('attachments', []);
 
             // Merge the attachments, ensuring unique entries
-            $mergedAttachments = array_unique(array_merge($existingAttachments, $newAttachments));
+            // $mergedAttachments = array_unique(array_merge($existingAttachments, $newAttachments));
 
             // Sanitize the content
             $content = Str::sanitize($validatedData['content']);
@@ -131,7 +131,8 @@ class NewsletterController extends Controller
             $newsletter->update([
                 'subject' => $validatedData['subject'],
                 'content' => $content,
-                'attachments' => $mergedAttachments, // No need for json_encode since it's cast to array
+                'is_sent' => false,
+                // 'attachments' => $mergedAttachments,
                 'scheduled_at' => $validatedData['scheduled_at'],
             ]);
 
@@ -161,22 +162,38 @@ class NewsletterController extends Controller
         return redirect()->route('admin.newsletter.view')->with('success', 'Newsletter deleted successfully!');
     }
 
+    /**
+     * Send news letter to active subscribers
+     *
+     * @param int $id
+     * @return void
+     */
     public function send($id)
     {
         try {
 
             $newsletter = Newsletter::findOrFail($id);
-            $subscribers = Subscriber::where('status','active')->get();
-            
-            foreach ($subscribers as $subscriber) {
-                // Log::info('Attachments:', $newsletter->attachments); 
-                Mail::to($subscriber->email)->send(new NewsletterMail(
-                    $newsletter->subject,
-                    $newsletter->content,
-                    $newsletter->attachments,
-                ));
+            $subscribers = Subscriber::where('status', 'active')->get();
+            if ($subscribers->isNotEmpty()) {
+                $subscribers->each(function ($subscriber) {
+                    if (!$subscriber->token) {
+                        $subscriber->token = Str::random(32);
+                    }
+                });
+                Subscriber::upsert($subscribers->toArray(), ['id'], ['token']);
+                foreach ($subscribers as $subscriber) {
+                    Mail::to($subscriber->email)->send(new NewsletterMail(
+                        $newsletter->subject,
+                        $newsletter->content,
+                        // $newsletter->attachments,
+                        $subscriber->token,
+                    ));
+                }
+                $newsletter->update(['is_sent' => true]);
+            } else {
+                return redirect()->route('admin.newsletter.view')->with('success', 'No active subscribers!');
             }
-            $newsletter->update(['is_sent' => true]);
+
             return redirect()->route('admin.newsletter.view')->with('success', 'Newsletter sent successfully.');
         } catch (\Exception $e) {
             Log::error('Failed to send newsletter: ' . $e->getMessage(), [

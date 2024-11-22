@@ -71,7 +71,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::put('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
-
+    //categories
+    Route::get('/categories/get', [AdminController::class, 'projectCategories'])->name('categories');
+    Route::post('/categories/store', [AdminController::class, 'store'])->name('store');
 });
 
 

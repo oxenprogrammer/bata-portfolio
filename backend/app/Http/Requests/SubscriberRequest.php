@@ -3,7 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 class SubscriberRequest extends FormRequest
 {
     /**
@@ -29,6 +30,24 @@ class SubscriberRequest extends FormRequest
     }
 
     /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     *
+     * @throws \Illuminate\Http\Exceptions\HttpResponseException
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'message' => 'Validation failed.',
+                'errors' => $validator->errors()
+            ], 422)
+        );
+    }
+
+    /**
      * Defaults status field to pending
      *
      * @return void
@@ -39,4 +58,6 @@ class SubscriberRequest extends FormRequest
             'status' => $this->status ?? 'pending',
         ]);
     }
+
+    
 }

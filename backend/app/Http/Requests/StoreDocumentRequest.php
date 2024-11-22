@@ -23,11 +23,19 @@ class StoreDocumentRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
+            'organization'=>'required',
+            'summary'=>'required',
             'description' => 'nullable|string',
-            'file_path' => 'required|url',
-            'file_type' => 'nullable|string|max:50',
-            'file_size'=>'nullable|string',
+            'file_path' => 'nullable|url',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'categories.*' =>'exists:categories,id',
             'status' => 'required|in:active,inactive',
+            'year' => 'required|date',
+            'video_url' => [
+                'nullable',
+                'url',
+                'regex:/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be|vimeo\.com)\/.+$/',
+            ]
         ];
     }
     public function messages()
@@ -36,6 +44,7 @@ class StoreDocumentRequest extends FormRequest
             'title.required' => 'Document title is required.',
             'file_path.required' => 'Google Drive document link is required.',
             'file_path.url' => 'Please provide a valid URL for the document link.',
+            'video_url.regex' => 'The video URL must be a valid YouTube or Vimeo link.'
         ];
     }
 }

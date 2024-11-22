@@ -14,13 +14,24 @@ class DocumentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $images = $this->image_urls ? explode(',',$this->image_urls ):[];
+        $categoryIds = $this->category_ids ? explode(',', $this->category_ids) : [];
+        $categoryNames = \App\Models\Category::whereIn('id', $categoryIds)->pluck('name');
         return [
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'url' => $this->file_path, // Change this according to your document's URL field
-            'created_at' => $this->created_at->format('M d, Y h:i A'), // Format to human-readable date
-            'updated_at' => $this->updated_at->format('M d, Y h:i A'), // Format to human-readable date
+            'file_url' => $this->file_path,
+            'date'=>$this->year,
+            'summary'=>$this->summary,
+            'organization'=>$this->organization,
+            'video_url'=>$this->video_url,
+            //  'images' => $this->image_urls,
+            // 'categories' => $this->category_ids,
+            'images' => $images,
+            'categories' => $categoryNames,
+            'created_at' => $this->created_at->format('M d, Y h:i A'),
+            'updated_at' => $this->updated_at->format('M d, Y h:i A'),
         ];
     }
 }

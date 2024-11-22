@@ -7,6 +7,7 @@
 
 <!-- Main content section -->
 @section('content')
+@include('layouts.dashboard.common_nav')
 <div class="row mb-4">
     <div class="col-md-8">
         <h2>All Posts</h2>
