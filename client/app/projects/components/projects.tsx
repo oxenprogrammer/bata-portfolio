@@ -68,7 +68,7 @@ export const Projects = () => {
 
   const filteredProjects = projects?.filter((project) => {
     if (activeFilter === "All") return true;
-    return project.category === activeFilter;
+    return project.categories.includes(activeFilter);
   });
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -127,10 +127,10 @@ export const Projects = () => {
 };
 
 interface ProjectCardProps {
-  imageUrl: string;
+  images: string[];
   date?: string;
   title: string;
-  description: string;
+  description: string | null;
 }
 
 const CardContainer = styled(Box)(({ theme }) => ({
@@ -210,7 +210,7 @@ const ActionContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ imageUrl, title, description }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ images, title, description }) => {
   const router = useRouter();
 
   const handleImageClick = () => {
@@ -221,7 +221,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ imageUrl, title, description 
   return (
     <CardContainer>
       <ImageContainer onClick={handleImageClick}>
-        <img src={imageUrl} alt={title} />
+        <img src={images[0]} alt={title} />
       </ImageContainer>
       <ContentContainer>
         <Box>
