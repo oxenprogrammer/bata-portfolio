@@ -7,6 +7,7 @@
 
 <!-- Main content section -->
 @section('content')
+@include('layouts.dashboard.common_nav')
 <div class="row mb-4">
     <div class="col-md-8">
         <h2>All Newsletters</h2>
@@ -41,7 +42,7 @@
                         <th>Excerpt</th>
                         <th>Sent Status</th>
                         <th>Created At</th>
-                        <th>Scheduled For</th>
+                        {{-- <th>Scheduled For</th> --}}
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -61,7 +62,7 @@
                                 @endif
                             </td>
                             <td>{{ $newsletter->created_at->format('M d, Y h:i A') }}</td>
-                            <td>{{ $newsletter->scheduled_at ? $newsletter->scheduled_at->format('M d, Y h:i A') : 'Not Scheduled' }}</td>
+                            {{-- <td>{{ $newsletter->scheduled_at ? $newsletter->scheduled_at->format('M d, Y h:i A') : 'Not Scheduled' }}</td> --}}
                             <td class="d-flex justify-content-center">
                                 <a href="{{ route('admin.newsletter.edit', $newsletter->id) }}" class="btn btn-sm btn-warning me-2">
                                     <i class="fas fa-edit"></i> Edit

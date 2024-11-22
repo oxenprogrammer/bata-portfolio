@@ -15,10 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Reference to the user
             $table->string('title');
-            $table->bigInteger('file_size');
+            $table->string('organization');
+            $table->string('summary');
+            $table->date('year');
+            $table->string('image_urls');
+            $table->string('video_url')->nullable();
+            $table->string('category_ids');
             $table->longText('description')->nullable();
             $table->string('file_path')->nullable();
-            $table->string('file_type')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });

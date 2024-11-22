@@ -25,6 +25,7 @@ Route::get('/blogs/{id}',[BlogController::class, 'getSingleBlog']);
 Route::post('/subscriber',[SubscriberController::class,'store']);
 //Route to confrm subscriber subscription
 Route::get('/subscriber/confirm/{token}',[SubscriberController::class,'confirmSubscription']);
+Route::get('/unsubscribe/{email}',[SubscriberController::class, 'unsubscribe'])->name('unsubscribe');
 
 //Route to store contact us info
 Route::post('/contact',[ContactUsController::class,'Store']);
