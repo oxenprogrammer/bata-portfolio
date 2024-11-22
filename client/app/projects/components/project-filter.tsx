@@ -1,5 +1,7 @@
 "use client";
+import { useQuery } from "@tanstack/react-query";
 import { Box, styled, Typography } from "@mui/material";
+import { getProjects } from "@/app/api/projects";
 
 const FilterContainer = styled(Box)(({ theme }) => ({
   position: "sticky",
@@ -23,17 +25,17 @@ const FilterOption = styled(Box)(({ theme }) => ({
   cursor: "pointer",
   padding: theme.spacing(1),
   borderRadius: theme.shape.borderRadius,
+  transition: theme.transitions.create(['background-color', 'color']),
   "&:hover": {
     backgroundColor: theme.palette.action.hover,
   },
 }));
 
-const FilterIcon = styled(Box)(({ theme }) => ({
-  width: 16,
-  height: 16,
-  marginRight: theme.spacing(1),
-  backgroundSize: "contain",
-  backgroundRepeat: "no-repeat",
+const FilterCount = styled(Typography)(() => ({
+  marginLeft: 'auto',
+  fontSize: '0.75rem',
+  color: 'inherit',
+  opacity: 0.8,
 }));
 
 interface DataFilterProps {
@@ -42,37 +44,74 @@ interface DataFilterProps {
 }
 
 export const ProjectFilter: React.FC<DataFilterProps> = ({ activeFilter, onFilterChange }) => {
-  const filters = [
-    { label: "All", icon: "" },
-    { label: "Data Artistry", icon: "" },
-    { label: "Data Products", icon: "" },
-    { label: "Data Trainings", icon: "" },
-    { label: "Data Governance", icon: "" },
-    { label: "Data Rights and Safety", icon: "" },
-  ];
+  const { data: projects } = useQuery({
+    queryKey: ["projects"],
+    queryFn: getProjects,
+    staleTime: 60 * 60 * 1000,
+    gcTime: 24 * 60 * 60 * 1000,
+  });
+
+  // Get unique categories and their counts
+  const categoryStats = projects?.reduce((acc, project) => {
+    project.categories.forEach(category => {
+      acc[category] = (acc[category] || 0) + 1;
+    });
+    return acc;
+  }, {} as Record<string, number>) ?? {};
+
+  // Add "All" category with total project count
+  const allFilters = {
+    All: projects?.length ?? 0,
+    ...categoryStats
+  };
 
   return (
     <FilterContainer>
       <FilterTitle>Filters</FilterTitle>
-      {filters.map((filter, index) => (
+      {Object.entries(allFilters).map(([category, count]) => (
         <FilterOption
-          key={index}
-          onClick={() => onFilterChange(filter.label)}
+          key={category}
+          onClick={() => onFilterChange(category)}
           sx={{
             backgroundColor:
-              activeFilter === filter.label ? "primary.main" : "transparent",
+              activeFilter === category ? "primary.main" : "transparent",
             color:
-              activeFilter === filter.label ? "common.white" : "text.primary",
+              activeFilter === category ? "common.white" : "text.primary",
           }}
         >
-          <FilterIcon
+          <Typography
             sx={{
-              backgroundImage: `url('/icons/${filter.icon}.svg')`,
+              fontSize: '0.875rem',
+              fontWeight: activeFilter === category ? 'medium' : 'regular',
             }}
-          />
-          <Typography>{filter.label}</Typography>
+          >
+            {category}
+          </Typography>
+          <FilterCount>
+            ({count})
+          </FilterCount>
         </FilterOption>
       ))}
     </FilterContainer>
-);
+  );
+};
+
+// Optional: Export these utilities if you need them elsewhere
+export const getUniqueCategories = (projects: Array<{ categories: string[] }>) => {
+  const categoriesSet = new Set<string>();
+  projects?.forEach(project => {
+    project.categories.forEach(category => {
+      categoriesSet.add(category);
+    });
+  });
+  return Array.from(categoriesSet);
+};
+
+export const getCategoryCounts = (projects: Array<{ categories: string[] }>) => {
+  return projects?.reduce((acc, project) => {
+    project.categories.forEach(category => {
+      acc[category] = (acc[category] || 0) + 1;
+    });
+    return acc;
+  }, {} as Record<string, number>);
 };

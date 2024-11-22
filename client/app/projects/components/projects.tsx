@@ -1,14 +1,14 @@
 "use client";
-import { useState } from 'react';
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Box, styled, Typography, IconButton, InputBase } from "@mui/material";
-import { getProjects } from "@/app/api/projects";
+import { getProjects, Project } from "@/app/api/projects";
 import HomeContent from "@/app/shared/components/home-content";
 import { LoadingProjectGrid, Pagination } from "@/app/shared/components";
 import { useRouter } from "next/navigation";
-import { ChevronRightRounded } from '@mui/icons-material';
-import SearchIcon from '@mui/icons-material/Search';
-import { ProjectFilter } from './project-filter';
+import { ChevronRightRounded } from "@mui/icons-material";
+import SearchIcon from "@mui/icons-material/Search";
+import { ProjectFilter } from "./project-filter";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -23,8 +23,8 @@ const StyledContainer = styled(Box)(({ theme }) => ({
 }));
 
 const SearchBar = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
+  display: "flex",
+  alignItems: "center",
   backgroundColor: theme.palette.background.paper,
   border: `1px solid ${theme.palette.divider}`,
   borderRadius: theme.shape.borderRadius,
@@ -41,14 +41,14 @@ const SearchButton = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(1),
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.common.white,
-  '&:hover': {
+  "&:hover": {
     backgroundColor: theme.palette.primary.dark,
   },
 }));
 
 export const Projects = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [activeFilter, setActiveFilter] = useState("All");
 
   const {
@@ -64,11 +64,24 @@ export const Projects = () => {
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value);
+    setCurrentPage(1); // Reset to first page when searching
   };
 
   const filteredProjects = projects?.filter((project) => {
-    if (activeFilter === "All") return true;
-    return project.categories.includes(activeFilter);
+    // First apply category filter
+    const matchesCategory =
+      activeFilter === "All" || project.categories.includes(activeFilter);
+
+    // Then apply search text filter
+    const searchLower = searchText.toLowerCase();
+    const matchesSearch =
+      searchText === "" ||
+      project.title.toLowerCase().includes(searchLower) ||
+      project.categories.some((category) =>
+        category.toLowerCase().includes(searchLower)
+      );
+
+    return matchesCategory && matchesSearch;
   });
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -98,7 +111,7 @@ export const Projects = () => {
       <SearchBar>
         <SearchInput
           placeholder="Search projects..."
-          inputProps={{ 'aria-label': 'search' }}
+          inputProps={{ "aria-label": "search" }}
           value={searchText}
           onChange={handleSearch}
         />
@@ -107,13 +120,22 @@ export const Projects = () => {
         </SearchButton>
       </SearchBar>
       <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-        <ProjectFilter activeFilter={activeFilter} onFilterChange={setActiveFilter} />
+        <ProjectFilter
+          activeFilter={activeFilter}
+          onFilterChange={setActiveFilter}
+        />
 
-        <StyledContainer>
-          {currentProjects?.map((project, index) => (
-            <ProjectCard key={index} {...project} />
-          ))}
-        </StyledContainer>
+        {filteredProjects?.length === 0 ? (
+          <Box sx={{ textAlign: "center", py: 4, color: "text.secondary" }}>
+            <Typography>No projects found matching your criteria</Typography>
+          </Box>
+        ) : (
+          <StyledContainer>
+            {currentProjects?.map((project, index) => (
+              <ProjectCard key={project.id || index} {...project} />
+            ))}
+          </StyledContainer>
+        )}
       </Box>
 
       <Pagination
@@ -126,110 +148,158 @@ export const Projects = () => {
   );
 };
 
-interface ProjectCardProps {
-  images: string[];
-  date?: string;
-  title: string;
-  description: string | null;
+interface ProjectCardProps extends Project {
+  onClick?: () => void;
 }
 
 const CardContainer = styled(Box)(({ theme }) => ({
-  position: 'relative',
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100%',
+  position: "relative",
+  display: "flex",
+  flexDirection: "column",
+  height: "100%",
   borderRadius: theme.shape.borderRadius,
-  overflow: 'hidden',
-  transition: 'all 0.3s ease',
-  '&:hover $imageContainer': {
-    filter: 'grayscale(100%)',
+  overflow: "hidden",
+  transition: "all 0.3s ease",
+  "&:hover $imageContainer": {
+    filter: "grayscale(100%)",
   },
 }));
 
 const ImageContainer = styled(Box)(() => ({
-  position: 'relative',
-  width: '100%',
-  paddingTop: '60%',
-  overflow: 'hidden',
-  cursor: 'pointer',
-  '& img': {
-    position: 'absolute',
+  position: "relative",
+  width: "100%",
+  paddingTop: "60%",
+  overflow: "hidden",
+  cursor: "pointer",
+  "& img": {
+    position: "absolute",
     top: 0,
     left: 0,
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-    transition: 'filter 0.3s ease',
-    filter: 'grayscale(0%)',
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    transition: "filter 0.3s ease",
+    filter: "grayscale(0%)",
   },
-  '&:hover img': {
-    filter: 'grayscale(100%)',
+  "&:hover img": {
+    filter: "grayscale(100%)",
   },
 }));
 
 const ContentContainer = styled(Box)(({ theme }) => ({
-  flex: '1 1 auto',
+  flex: "1 1 auto",
   padding: theme.spacing(2),
   backgroundColor: theme.palette.background.paper,
   borderTop: `1px solid ${theme.palette.divider}`,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
 }));
 
 const DateText = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
-  fontSize: '0.875rem',
+  fontSize: "0.875rem",
   marginBottom: theme.spacing(1),
 }));
 
 const TitleText = styled(Typography)(({ theme }) => ({
-  fontWeight: 'bold',
-  fontSize: '1.125rem',
+  fontWeight: "bold",
+  fontSize: "1.125rem",
   marginBottom: theme.spacing(1),
 }));
 
 const DescriptionText = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
-  fontSize: '0.875rem',
-  display: '-webkit-box',
+  fontSize: "0.875rem",
+  display: "-webkit-box",
   WebkitLineClamp: 2,
-  WebkitBoxOrient: 'vertical',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
+  WebkitBoxOrient: "vertical",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+}));
+
+const CategoryList = styled(Box)(({ theme }) => ({
+  display: "flex",
+  gap: theme.spacing(1),
+  flexWrap: "wrap",
+  marginTop: theme.spacing(1),
+}));
+
+const CategoryChip = styled(Typography)(({ theme }) => ({
+  fontSize: "0.75rem",
+  padding: theme.spacing(0.5, 1),
+  backgroundColor: theme.palette.action.hover,
+  borderRadius: theme.shape.borderRadius,
+  color: theme.palette.text.secondary,
 }));
 
 const ActionContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
   color: theme.palette.primary.main,
-  cursor: 'pointer',
-  '& svg': {
+  cursor: "pointer",
+  marginTop: theme.spacing(2),
+  "& svg": {
     marginLeft: theme.spacing(1),
   },
 }));
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ images, title, description }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({
+  id,
+  images,
+  title,
+  description,
+  summary,
+  date,
+  organization,
+  categories,
+  onClick,
+}) => {
   const router = useRouter();
 
-  const handleImageClick = () => {
-    // Redirect to project details page
-    router.push(`/projects/${title.toLowerCase().replace(/\s/g, '-')}`);
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      router.push(`/projects/${id}`);
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
   };
 
   return (
     <CardContainer>
-      <ImageContainer onClick={handleImageClick}>
+      <ImageContainer onClick={handleClick}>
         <img src={images[0]} alt={title} />
       </ImageContainer>
       <ContentContainer>
         <Box>
-          <DateText>66666666666</DateText>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <DateText>{formatDate(date)}</DateText>
+            <Typography color="text.secondary">{organization}</Typography>
+          </Box>
           <TitleText>{title}</TitleText>
-          <DescriptionText>{description}</DescriptionText>
+          <DescriptionText>{description || summary}</DescriptionText>
+          <CategoryList>
+            {categories.map((category, index) => (
+              <CategoryChip key={index}>{category}</CategoryChip>
+            ))}
+          </CategoryList>
         </Box>
-        <ActionContainer onClick={handleImageClick}>
+        <ActionContainer onClick={handleClick}>
           View Project <ChevronRightRounded />
         </ActionContainer>
       </ContentContainer>
