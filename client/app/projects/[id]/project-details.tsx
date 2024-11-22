@@ -140,7 +140,7 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
             >
               <Box
                 component="a"
-                href={project.link}
+                href={project.fileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
@@ -152,7 +152,7 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
               >
                 <Box
                   component="img"
-                  src={project.imageUrl}
+                  src={project.images[0]}
                   alt={project.title}
                   sx={{
                     width: "100%",
@@ -196,72 +196,7 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
               </Typography>
 
               <DescriptionContainer color="text.secondary">
-                {project.description}
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg erdtfds
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg erdtfds
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg erdtfds
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg
-                erdtfdsadfhgfdsadhgfdsadfghfdsadfg erdtfds
+                {project.summary}
               </DescriptionContainer>
 
               {/* Additional content can be added here */}

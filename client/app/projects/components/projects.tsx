@@ -5,10 +5,9 @@ import { Box, styled, Typography, IconButton, InputBase } from "@mui/material";
 import { getProjects, Project } from "@/app/api/projects";
 import HomeContent from "@/app/shared/components/home-content";
 import { LoadingProjectGrid, Pagination } from "@/app/shared/components";
-import { useRouter } from "next/navigation";
-import { ChevronRightRounded } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import { ProjectFilter } from "./project-filter";
+import Link from "next/link";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -233,18 +232,6 @@ const CategoryChip = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const ActionContainer = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  color: theme.palette.primary.main,
-  cursor: "pointer",
-  marginTop: theme.spacing(2),
-  "& svg": {
-    marginLeft: theme.spacing(1),
-  },
-}));
-
 const ProjectCard: React.FC<ProjectCardProps> = ({
   id,
   images,
@@ -254,18 +241,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   date,
   organization,
   categories,
-  onClick,
 }) => {
-  const router = useRouter();
-
-  const handleClick = () => {
-    if (onClick) {
-      onClick();
-    } else {
-      router.push(`/projects/${id}`);
-    }
-  };
-
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -276,9 +252,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
   return (
     <CardContainer>
-      <ImageContainer onClick={handleClick}>
-        <img src={images[0]} alt={title} />
-      </ImageContainer>
+      <Link href={`/projects/${id}`} style={{ textDecoration: 'none' }}>
+        <ImageContainer >
+          <img src={images[0]} alt={title} />
+        </ImageContainer>
+      </Link>
       <ContentContainer>
         <Box>
           <Box
@@ -299,9 +277,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             ))}
           </CategoryList>
         </Box>
-        <ActionContainer onClick={handleClick}>
-          View Project <ChevronRightRounded />
-        </ActionContainer>
       </ContentContainer>
     </CardContainer>
   );

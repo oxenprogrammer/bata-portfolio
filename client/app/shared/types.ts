@@ -1,9 +1,16 @@
 export interface Project {
   id: string;
   title: string;
-  description: string;
-  imageUrl: string;
-  link: string;
+  description: string | null;
+  summary: string;
+  date: string;
+  organization: string;
+  fileUrl: string;
+  videoUrl: string | null;
+  images: string[];
+  categories: string[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export type ProjectApiResponse = {

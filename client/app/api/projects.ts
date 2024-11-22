@@ -5,13 +5,13 @@ const ProjectSchema = z.object({
   id: z.number(),
   title: z.string(),
   description: z.string().nullable(),
-  file_url: z.string().url(),
-  date: z.string(),
-  summary: z.string(),
-  organization: z.string(),
-  video_url: z.string().url().nullable(),
-  images: z.array(z.string().url()),
-  categories: z.array(z.string()),
+  file_url: z.string().url().optional(), // Made optional
+  date: z.string().optional(), // Made optional
+  summary: z.string().optional(), // Made optional
+  organization: z.string().optional(), // Made optional
+  video_url: z.string().url().nullable().optional(), // Made optional
+  images: z.array(z.string().url()).default([]), // Default empty array
+  categories: z.array(z.string()).default([]), // Default empty array
   created_at: z.string(),
   updated_at: z.string()
 });
@@ -44,13 +44,13 @@ const transformProject = (data: ApiProject): Project => ({
   id: data.id.toString(),
   title: data.title,
   description: data.description,
-  summary: data.summary,
-  date: data.date,
-  organization: data.organization,
-  fileUrl: data.file_url,
-  videoUrl: data.video_url,
-  images: data.images,
-  categories: data.categories,
+  summary: data.summary ?? '', // Provide default value
+  date: data.date ?? '', // Provide default value
+  organization: data.organization ?? '', // Provide default value
+  fileUrl: data.file_url ?? '', // Provide default value
+  videoUrl: data.video_url ?? null,
+  images: data.images ?? [],
+  categories: data.categories ?? [],
   createdAt: new Date(data.created_at),
   updatedAt: new Date(data.updated_at)
 });
@@ -100,14 +100,24 @@ export const getProjects = async (): Promise<Project[]> => {
 };
 
 export const getProjectById = async (id: string): Promise<Project | undefined> => {
-  const rawData = await fetchWithErrorHandling(`${API_BASE_URL}/documents/${id}`) as { data: ApiProject };
-  
-  // Validate the response data
   try {
+    const rawData = await fetchWithErrorHandling(`${API_BASE_URL}/documents/${id}`);
+    console.log('Raw API response:', rawData); // Add this log
+    
+    // Check if we have the expected data structure
+    if (!rawData || !rawData.data) {
+      console.error('Invalid API response structure:', rawData);
+      return undefined;
+    }
+
     const validatedData = ProjectSchema.parse(rawData.data);
     return transformProject(validatedData);
   } catch (error) {
-    console.error('Failed to validate project data:', error);
+    if (error instanceof z.ZodError) {
+      console.error('Validation issues:', error.issues);
+    } else {
+      console.error('Unexpected error:', error);
+    }
     return undefined;
   }
 };
