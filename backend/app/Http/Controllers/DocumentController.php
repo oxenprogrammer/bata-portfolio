@@ -69,16 +69,20 @@ class DocumentController extends Controller
      * @param StoreDocumentRequest $request
      * @return void
      */
-    public function store(StoreDocumentRequest $request)
+    public function store(StoreDocumentRequest $request) 
     {
         $validatedData = $request->validated();
         $imageUrls = [];
         $failedUploads = [];
     
+        // Strip HTML tags from specific fields
+        $validatedData['title'] = strip_tags($validatedData['title']);
+        $validatedData['summary'] = strip_tags($validatedData['summary']);
+        $validatedData['description'] = strip_tags($validatedData['description']);
+    
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 try {
-
                     $uploadedImage = Cloudinary::upload($image->getRealPath(), [
                         'folder' => 'project_images'
                     ]);
