@@ -1,7 +1,14 @@
 "use client";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Box, styled, Typography, IconButton, InputBase } from "@mui/material";
+import {
+  Box,
+  styled,
+  Typography,
+  IconButton,
+  InputBase,
+  Container,
+} from "@mui/material";
 import { getProjects, Project } from "@/app/api/projects";
 import HomeContent from "@/app/shared/components/home-content";
 import { LoadingProjectGrid, Pagination } from "@/app/shared/components";
@@ -18,12 +25,13 @@ const StyledContainer = styled(Box)(({ theme }) => ({
   width: "100%",
   [theme.breakpoints.up("md")]: {
     gridTemplateColumns: "repeat(2, 1fr)",
+    width: "80%",
   },
 }));
 
 const SearchBar = styled(Box)(({ theme }) => ({
+  width: "400px",
   display: "flex",
-  alignItems: "center",
   backgroundColor: theme.palette.background.paper,
   border: `1px solid ${theme.palette.divider}`,
   borderRadius: theme.shape.borderRadius,
@@ -106,44 +114,61 @@ export const Projects = () => {
   }
 
   return (
-    <>
-      <SearchBar>
-        <SearchInput
-          placeholder="Search projects..."
-          inputProps={{ "aria-label": "search" }}
-          value={searchText}
-          onChange={handleSearch}
-        />
-        <SearchButton type="button" aria-label="search">
-          <SearchIcon />
-        </SearchButton>
-      </SearchBar>
-      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-        <ProjectFilter
-          activeFilter={activeFilter}
-          onFilterChange={setActiveFilter}
-        />
-
-        {filteredProjects?.length === 0 ? (
-          <Box sx={{ textAlign: "center", py: 4, color: "text.secondary" }}>
-            <Typography>No projects found matching your criteria</Typography>
-          </Box>
-        ) : (
-          <StyledContainer>
-            {currentProjects?.map((project, index) => (
-              <ProjectCard key={project.id || index} {...project} />
-            ))}
-          </StyledContainer>
-        )}
+    <Container
+      sx={{ ddisplay: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+        <SearchBar>
+          <SearchInput
+            placeholder="Search projects..."
+            inputProps={{ "aria-label": "search" }}
+            value={searchText}
+            onChange={handleSearch}
+          />
+          <SearchButton type="button" aria-label="search">
+            <SearchIcon />
+          </SearchButton>
+        </SearchBar>
       </Box>
+      <Box sx={{ position: "relative", width: "100%" }}>
+        <Box
+          sx={{
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            mb: 2,
+          }}
+        >
+          <ProjectFilter
+            activeFilter={activeFilter}
+            onFilterChange={setActiveFilter}
+            sx={{ position: "absolute", zIndex: 1,  }}
+          />
+          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+            {filteredProjects?.length === 0 ? (
+              <Box sx={{ textAlign: "center", py: 4, color: "text.secondary" }}>
+                <Typography>
+                  No projects found matching your criteria
+                </Typography>
+              </Box>
+            ) : (
+              <StyledContainer>
+                {currentProjects?.map((project, index) => (
+                  <ProjectCard key={project.id || index} {...project} />
+                ))}
+              </StyledContainer>
+            )}
+          </Box>
+        </Box>
 
-      <Pagination
-        totalItems={projects?.length || 0}
-        itemsPerPage={ITEMS_PER_PAGE}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      />
-    </>
+        <Pagination
+          totalItems={projects?.length || 0}
+          itemsPerPage={ITEMS_PER_PAGE}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+        />
+      </Box>
+    </Container>
   );
 };
 
@@ -252,8 +277,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
   return (
     <CardContainer>
-      <Link href={`/projects/${id}`} style={{ textDecoration: 'none' }}>
-        <ImageContainer >
+      <Link href={`/projects/${id}`} style={{ textDecoration: "none" }}>
+        <ImageContainer>
           <img src={images[0]} alt={title} />
         </ImageContainer>
       </Link>

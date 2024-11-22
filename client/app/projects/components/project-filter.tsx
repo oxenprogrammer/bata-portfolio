@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { Box, styled, Typography } from "@mui/material";
+import { Box, styled, SxProps, Theme, Typography } from "@mui/material";
 import { getProjects } from "@/app/api/projects";
 
 const FilterContainer = styled(Box)(({ theme }) => ({
@@ -41,9 +41,10 @@ const FilterCount = styled(Typography)(() => ({
 interface DataFilterProps {
   activeFilter: string;
   onFilterChange: (filter: string) => void;
+  sx?: SxProps<Theme>;
 }
 
-export const ProjectFilter: React.FC<DataFilterProps> = ({ activeFilter, onFilterChange }) => {
+export const ProjectFilter: React.FC<DataFilterProps> = ({ activeFilter, onFilterChange, sx }) => {
   const { data: projects } = useQuery({
     queryKey: ["projects"],
     queryFn: getProjects,
@@ -66,7 +67,7 @@ export const ProjectFilter: React.FC<DataFilterProps> = ({ activeFilter, onFilte
   };
 
   return (
-    <FilterContainer>
+    <FilterContainer sx={sx}>
       <FilterTitle>Filters</FilterTitle>
       {Object.entries(allFilters).map(([category, count]) => (
         <FilterOption
