@@ -61,7 +61,7 @@ interface ProjectCardProps extends Project {
     fontWeight: "bold",
     fontSize: "1.125rem",
     marginBottom: theme.spacing(1),
-    textAlign: "right",
+    textAlign: "left",
   }));
   
   const DescriptionText = styled(Typography)(({ theme }) => ({
@@ -102,8 +102,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     const formatDate = (dateString: string) => {
       return new Date(dateString).toLocaleDateString("en-US", {
         year: "numeric",
-        month: "long",
-      });
+        month: "short",
+      }).toUpperCase();
     };
   
     return (
@@ -120,6 +120,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
+                height: "68px",
               }}
             >
               <DateText>{formatDate(date)}</DateText>

@@ -21,7 +21,7 @@ const ITEMS_PER_PAGE = 4;
 const StyledContainer = styled(Box)(({ theme }) => ({
   display: "grid",
   gridTemplateColumns: "1fr",
-  gap: theme.spacing(1),
+  gap: theme.spacing(4),
   width: "100%",
   [theme.breakpoints.up("md")]: {
     gridTemplateColumns: "repeat(2, 1fr)",
@@ -33,8 +33,8 @@ const SearchBar = styled(Box)(({ theme }) => ({
   width: "400px",
   display: "flex",
   backgroundColor: theme.palette.background.paper,
-  border: `1px solid ${theme.palette.divider}`,
-  borderRadius: theme.shape.borderRadius,
+  border: `1px solid #fc6d46`,
+  borderRadius: theme.borderRadii.xl,
   padding: theme.spacing(1),
   marginBottom: theme.spacing(2),
 }));
@@ -118,13 +118,13 @@ export const Projects = () => {
       <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
         <SearchBar>
           <SearchInput
-            placeholder="Search projects..."
+            placeholder="Search projects by title or category"
             inputProps={{ "aria-label": "search" }}
             value={searchText}
             onChange={handleSearch}
           />
           <SearchButton type="button" aria-label="search">
-            <SearchIcon />
+            <SearchIcon sx={{ color: "#fc6d46"}} />
           </SearchButton>
         </SearchBar>
       </Box>
@@ -146,7 +146,7 @@ export const Projects = () => {
                 xs: "100%",
                 md: "80%",
               },
-              top: "64px",
+              top: "72px",
               marginTop: "100px",
               [breakpoints.down(678)]: { display: "none" },
             })}
