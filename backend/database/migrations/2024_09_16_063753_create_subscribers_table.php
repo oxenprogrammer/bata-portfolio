@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('subscribers', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->string('token');
+            $table->string('token')->nullable();
             $table->string('email');
             $table->enum('status', ['active', 'inactive','pending','unsubscribed'])->default('inactive');
             $table->string('ip_address');
