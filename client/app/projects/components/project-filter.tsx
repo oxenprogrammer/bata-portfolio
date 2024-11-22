@@ -8,7 +8,7 @@ const FilterContainer = styled(Box)(({ theme }) => ({
   top: theme.spacing(2),
   width: 200,
   marginRight: theme.spacing(2),
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: "#fc6d46",
   borderRadius: theme.shape.borderRadius,
   boxShadow: theme.shadows[1],
   padding: theme.spacing(2),
@@ -68,7 +68,7 @@ export const ProjectFilter: React.FC<DataFilterProps> = ({ activeFilter, onFilte
 
   return (
     <FilterContainer sx={sx}>
-      <FilterTitle>Filters</FilterTitle>
+      <FilterTitle>Select by Category</FilterTitle>
       {Object.entries(allFilters).map(([category, count]) => (
         <FilterOption
           key={category}

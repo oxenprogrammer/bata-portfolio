@@ -9,12 +9,12 @@ import {
   InputBase,
   Container,
 } from "@mui/material";
-import { getProjects, Project } from "@/app/api/projects";
+import { getProjects } from "@/app/api/projects";
 import HomeContent from "@/app/shared/components/home-content";
 import { LoadingProjectGrid, Pagination } from "@/app/shared/components";
 import SearchIcon from "@mui/icons-material/Search";
 import { ProjectFilter } from "./project-filter";
-import Link from "next/link";
+import ProjectCard from "./project-card";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -25,11 +25,11 @@ const StyledContainer = styled(Box)(({ theme }) => ({
   width: "100%",
   [theme.breakpoints.up("md")]: {
     gridTemplateColumns: "repeat(2, 1fr)",
-    width: "80%",
   },
 }));
 
 const SearchBar = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(2),
   width: "400px",
   display: "flex",
   backgroundColor: theme.palette.background.paper,
@@ -71,15 +71,13 @@ export const Projects = () => {
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value);
-    setCurrentPage(1); // Reset to first page when searching
+    setCurrentPage(1);
   };
 
   const filteredProjects = projects?.filter((project) => {
-    // First apply category filter
     const matchesCategory =
       activeFilter === "All" || project.categories.includes(activeFilter);
 
-    // Then apply search text filter
     const searchLower = searchText.toLowerCase();
     const matchesSearch =
       searchText === "" ||
@@ -130,19 +128,28 @@ export const Projects = () => {
           </SearchButton>
         </SearchBar>
       </Box>
-      <Box sx={{ position: "relative", width: "100%" }}>
+      <Box sx={{ width: "100%" }}>
         <Box
           sx={{
-            position: "relative",
             display: "flex",
-            alignItems: "center",
+            alignItems: "start",
             mb: 2,
           }}
         >
           <ProjectFilter
             activeFilter={activeFilter}
             onFilterChange={setActiveFilter}
-            sx={{ position: "absolute", zIndex: 1,  }}
+            sx={({ breakpoints }) => ({
+              position: "sticky",
+              zIndex: 1,
+              width:{
+                xs: "100%",
+                md: "80%",
+              },
+              top: "64px",
+              marginTop: "100px",
+              [breakpoints.down(678)]: { display: "none" },
+            })}
           />
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             {filteredProjects?.length === 0 ? (
@@ -171,140 +178,3 @@ export const Projects = () => {
     </Container>
   );
 };
-
-interface ProjectCardProps extends Project {
-  onClick?: () => void;
-}
-
-const CardContainer = styled(Box)(({ theme }) => ({
-  position: "relative",
-  display: "flex",
-  flexDirection: "column",
-  height: "100%",
-  borderRadius: theme.shape.borderRadius,
-  overflow: "hidden",
-  transition: "all 0.3s ease",
-  "&:hover $imageContainer": {
-    filter: "grayscale(100%)",
-  },
-}));
-
-const ImageContainer = styled(Box)(() => ({
-  position: "relative",
-  width: "100%",
-  paddingTop: "60%",
-  overflow: "hidden",
-  cursor: "pointer",
-  "& img": {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    transition: "filter 0.3s ease",
-    filter: "grayscale(0%)",
-  },
-  "&:hover img": {
-    filter: "grayscale(100%)",
-  },
-}));
-
-const ContentContainer = styled(Box)(({ theme }) => ({
-  flex: "1 1 auto",
-  padding: theme.spacing(2),
-  backgroundColor: theme.palette.background.paper,
-  borderTop: `1px solid ${theme.palette.divider}`,
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-}));
-
-const DateText = styled(Typography)(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  fontSize: "0.875rem",
-  marginBottom: theme.spacing(1),
-}));
-
-const TitleText = styled(Typography)(({ theme }) => ({
-  fontWeight: "bold",
-  fontSize: "1.125rem",
-  marginBottom: theme.spacing(1),
-}));
-
-const DescriptionText = styled(Typography)(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  fontSize: "0.875rem",
-  display: "-webkit-box",
-  WebkitLineClamp: 2,
-  WebkitBoxOrient: "vertical",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-}));
-
-const CategoryList = styled(Box)(({ theme }) => ({
-  display: "flex",
-  gap: theme.spacing(1),
-  flexWrap: "wrap",
-  marginTop: theme.spacing(1),
-}));
-
-const CategoryChip = styled(Typography)(({ theme }) => ({
-  fontSize: "0.75rem",
-  padding: theme.spacing(0.5, 1),
-  backgroundColor: theme.palette.action.hover,
-  borderRadius: theme.shape.borderRadius,
-  color: theme.palette.text.secondary,
-}));
-
-const ProjectCard: React.FC<ProjectCardProps> = ({
-  id,
-  images,
-  title,
-  description,
-  summary,
-  date,
-  organization,
-  categories,
-}) => {
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
-  return (
-    <CardContainer>
-      <Link href={`/projects/${id}`} style={{ textDecoration: "none" }}>
-        <ImageContainer>
-          <img src={images[0]} alt={title} />
-        </ImageContainer>
-      </Link>
-      <ContentContainer>
-        <Box>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <DateText>{formatDate(date)}</DateText>
-            <Typography color="text.secondary">{organization}</Typography>
-          </Box>
-          <TitleText>{title}</TitleText>
-          <DescriptionText>{description || summary}</DescriptionText>
-          <CategoryList>
-            {categories.map((category, index) => (
-              <CategoryChip key={index}>{category}</CategoryChip>
-            ))}
-          </CategoryList>
-        </Box>
-      </ContentContainer>
-    </CardContainer>
-  );
-};
-
-export default ProjectCard;
