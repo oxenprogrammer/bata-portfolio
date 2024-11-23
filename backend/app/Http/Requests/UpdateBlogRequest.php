@@ -22,14 +22,24 @@ class UpdateBlogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255', // Blog title must be present
-            'content' => 'required|string', // Blog content must be present
-            'excerpt' => 'nullable|string|max:255',
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'excerpt' => 'nullable|string|max:400',
             'status' => 'required|in:draft,published',
-            'tags'=>'required',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate images (if provided)
-            'delete_images' => 'array|nullable', // Accept an array for deleted images (can be null)
-            'delete_images.*' => 'string|url', // Each image URL to be deleted must be a string and a valid URL
+            'tags'=>'required|string',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'delete_images' => 'array|nullable',
+            'delete_images.*' => 'string|url', 
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'tags' => $this->tags ? json_encode(explode(',', $this->tags)) : null,
+        ]);
     }
 }

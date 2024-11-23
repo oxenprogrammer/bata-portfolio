@@ -71,19 +71,20 @@ class BlogController extends Controller
      */
     public function store(StoreBlogRequest $request)
     {
+        return response()->json($request);
         // Begin a transaction to ensure data consistency
         DB::beginTransaction();
-
         try {
+            $validatedData = $request->validated();
             // Create the blog post
             $blog = Blog::create([
                 'user_id' => Auth::id(),
-                'title' => $request->input('title'),
-                'content' => $request->input('content'),
-                'excerpt' => $request->input('excerpt'),
-                'tags'=>$request->input('tags'),
-                'status' => $request->input('status'),
-                'published_at' => $request->input('published_at'),
+                'title' =>  $validatedData['title'],
+                'content' =>  $validatedData['content'],
+                'excerpt' =>  $validatedData['excerpt'],
+                'tags'=> $validatedData['tags'],
+                'status' =>  $validatedData['status'],
+                'published_at' => $validatedData['published_at'],
             ]);
 
             // Check if images are uploaded
@@ -92,7 +93,8 @@ class BlogController extends Controller
                     // Upload image to Cloudinary and get the URL
                     $uploadedFileUrl = cloudinary()->upload($image->getRealPath(), [
                         'folder' => 'blog_images', // Optional: specify a folder in Cloudinary
-                        'public_id' => pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME), // Optional: specify a public ID
+                        'public_id' => pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME),
+                        'timeout' => 30,
                     ])->getSecurePath();
 
                     // Save image URL to the BlogImage model
@@ -110,7 +112,7 @@ class BlogController extends Controller
         } catch (\Exception $e) {
             // Rollback if there is an error
             DB::rollback();
-            return response()->json('failed to save:' . $e->getMessage());
+            // return response()->json('failed to save:' . $e->getMessage());
 
             return redirect()->back()->with('error', 'Failed to create blog post.');
         }
@@ -200,7 +202,6 @@ class BlogController extends Controller
     public function destroy(string $id)
     {
         //
-
         // Find the blog post by ID
         $blog = Blog::findOrFail($id);
 

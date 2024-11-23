@@ -20,14 +20,15 @@ class BlogResource extends JsonResource
             'excerpt' => $this->excerpt,
             'content' => $this->content,
             'created_by' => $this->user->first_name . ' ' . $this->user->last_name,
+            'tags' => json_decode($this->tags, true),
             'images' => $this->images->map(function ($image) {
                 return [
                     'id' => $image->id,
                     'url' => $image->image_path,
                 ];
             }),
-            'published_at' => $this->created_at->format('M d, Y h:i A'), // Format to human-readable date
-            'updated_at' => $this->updated_at->format('M d, Y h:i A'), // Format to human-readable date
+            'published_at' => $this->created_at->format('M d, Y h:i A'),
+            'updated_at' => $this->updated_at->format('M d, Y h:i A'),
         ];
     }
 }

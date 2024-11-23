@@ -25,7 +25,7 @@
                     @endif
 
 
-                    <form method="POST" action="{{ route('admin.blog.update', $blog->id) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('admin.blog.update', $blog->id) }}" enctype="multipart/form-data" id="addBlogForm">
                         @csrf
                         @method('PUT')
                         <!-- Title -->
@@ -41,9 +41,13 @@
                         <!--tags-->
                         <div class="form-group">
                             <label for="tags">Tags (comma-separated)</label>
-                            <input type="text" class="form-control" id="tags" value="{{implode(',', json_decode($user->tags, true) ?? []))}}" placeholder="e.g communication,mentorship" name="tags" value="{{ old('tags') }}">
+                            <input type="text" class="form-control" id="tags"
+                                value="{{ old('tags', implode(', ', json_decode($blog->tags, true) ?? [])) }}"
+                                placeholder="e.g communication,mentorship" name="tags">
                             <small class="form-text text-muted">Enter tags separated by commas.</small>
-                            <span class="text-danger">{{ $message }}</span>
+                            @error('tags')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- Content -->
@@ -117,7 +121,11 @@
 
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('admin.blog.view') }}" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary">Update Blog Post</button>
+                            <button type="submit" class="btn btn-primary" id="addBlogBtn">
+                                <span id="addBlogText">Update Blog</span>
+                                <span class="spinner-border spinner-border-sm d-none" role="status" id="addBlogSpinner"
+                                    aria-hidden="true"></span>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -127,4 +135,18 @@
 @endsection
 @section('scripts')
     @include('components.common')
+    <script>
+        $(document).ready(function () {
+            //adding loading spinner 
+            $('#addBlogForm').on('submit', function() {
+                const $addBlogBtn = $('#addBlogBtn');
+                const $addBlogText = $('#addBlogText');
+                const $addBlogSpinner = $('#addBlogSpinner');
+                // Disable button and show spinner
+                $addBlogBtn.prop('disabled', true);
+                $addBlogText.addClass('d-none');
+                $addBlogSpinner.removeClass('d-none');
+            }); 
+        });
+    </script>
 @endsection

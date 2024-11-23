@@ -13,7 +13,6 @@ class BlogSeeder extends Seeder
      */
     public function run(): void
     {
-        // 
         $blogs = [
             [
                 'user_id' => 1, // Replace with actual user ID
@@ -21,6 +20,7 @@ class BlogSeeder extends Seeder
                 'content' => 'Content of the first blog post.',
                 'excerpt' => 'This is a short excerpt of the first blog post.',
                 'status' => 'published',
+                'tags' => json_encode(['tag1', 'tag2']), // Encode the array as JSON string
                 'published_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -31,6 +31,7 @@ class BlogSeeder extends Seeder
                 'content' => 'Content of the second blog post.',
                 'excerpt' => 'This is a short excerpt of the second blog post.',
                 'status' => 'published',
+                'tags' => json_encode(['tag1', 'tag2']), // Encode the array as JSON string
                 'published_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -39,7 +40,7 @@ class BlogSeeder extends Seeder
         ];
 
         foreach ($blogs as $blogData) {
-            // Create a blog post
+            // Insert blog post and get the ID
             $blogId = DB::table('blogs')->insertGetId($blogData);
 
             // Sample image URLs to associate with the blog post

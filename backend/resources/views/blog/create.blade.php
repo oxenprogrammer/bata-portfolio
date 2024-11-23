@@ -19,32 +19,23 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('admin.blog.store') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('admin.blog.store') }}" enctype="multipart/form-data" id='addBlogForm'>
                         @csrf
-                        <!-- Title -->
                         <div class="form-group mb-3">
                             <label for="title">Blog Title</label>
-                            <input type="text" name="title" id="title" value="{{ old('title') }}" class="form-control"
-                                placeholder="Enter the blog title">
-                            @error('title')
+                            <input type="text" name="title" id="title" value="{{ old('title') }}"
+                                class="form-control" placeholder="Enter the blog title">
+                                @error('title')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="tags">Tags (comma-separated)</label>
-                            <input type="text" class="form-control" id="tags" placeholder="e.g communication,mentorship" name="tags" value="{{ old('tags') }}">
+                            <input type="text" class="form-control" id="tags"
+                                placeholder="e.g communication,mentorship" name="tags" value="{{ old('tags') }}">
                             <small class="form-text text-muted">Enter tags separated by commas.</small>
+                            @error('tags')
                             <span class="text-danger">{{ $message }}</span>
-                        </div>
-
-                        <!-- Content -->
-                        <div class="form-group">
-                            <label for="description">Content</label>
-                            <textarea name="content" id="content" class="form-control" rows="5" placeholder="Write blog content here">
-                            {{ old('title') }}
-                            </textarea>
-                            @error('content')
-                                <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <!-- Excerpt -->
@@ -53,16 +44,28 @@
                             <textarea name="excerpt" id="excerpt" class="form-control" rows="3"
                                 placeholder="Short summary of the blog post">{{ old('excerpt') }}</textarea>
                         </div>
-
+                        @error('excerpt')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <!-- Content -->
+                        <div class="form-group">
+                            <label for="description">Content</label>
+                            <textarea name="content" id="content" class="form-control" rows="5" placeholder="Write blog content here">
+                            {{ old('content') }}
+                            </textarea>
+                            @error('content')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
                         <!-- Status -->
                         <div class="form-group mb-3">
                             <label for="status">Status</label>
-                            <select name="status"  value="{{ old('status') }}" id="status" class="form-control">
-                                <option value="draft">Draft</option>
+                            <select name="status" value="{{ old('status') }}" id="status" class="form-control">
                                 <option value="published">Published</option>
+                                <option value="draft">Draft</option>
                             </select>
                             @error('status')
-                                <span class="text-danger">{{ $message }}</span>
+                                <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
 
@@ -73,7 +76,7 @@
                                 accept="image/*">
                             <small class="form-text text-muted">You can upload multiple images.</small>
                             @error('image.*')
-                                <div class="alert alert-danger">{{ $message }}</div>
+                                <div class="alert alert-danger">{{$message}}</div>
                             @enderror
                         </div>
 
@@ -85,7 +88,11 @@
 
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('admin.blog.view') }}" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary">Add Blog Post</button>
+                            <button type="submit" class="btn btn-primary" id="addBlogBtn">
+                                <span id="addBlogText">Add Post</span>
+                                <span class="spinner-border spinner-border-sm d-none" role="status" id="addBlogSpinner"
+                                    aria-hidden="true"></span>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -95,4 +102,18 @@
 @endsection
 @section('scripts')
     @include('components.common')
+    <script>
+        $(document).ready(function() {
+            //adding loading spinner 
+            $('#addBlogForm').on('submit', function() {
+                const $addBlogBtn = $('#addBlogBtn');
+                const $addBlogText = $('#addBlogText');
+                const $addBlogSpinner = $('#addBlogSpinner');
+                // Disable button and show spinner
+                $addBlogBtn.prop('disabled', true);
+                $addBlogText.addClass('d-none');
+                $addBlogSpinner.removeClass('d-none');
+            });
+        });
+    </script>
 @endsection
