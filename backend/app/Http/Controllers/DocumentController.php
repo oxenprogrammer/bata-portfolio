@@ -59,7 +59,7 @@ class DocumentController extends Controller
     public function create()
     {
         //
-        $page_title = "Admin Panel Create Document";
+        $page_title = "Admin Panel Create Project";
         return view('documents.create', compact('page_title'));
     }
 
@@ -84,7 +84,8 @@ class DocumentController extends Controller
             foreach ($request->file('images') as $image) {
                 try {
                     $uploadedImage = Cloudinary::upload($image->getRealPath(), [
-                        'folder' => 'project_images'
+                        'folder' => 'project_images',
+                        'timeout' => 30,
                     ]);
                     $imageUrls[] = $uploadedImage->getSecurePath();
                 } catch (\Exception $e) {
@@ -117,7 +118,7 @@ class DocumentController extends Controller
             ]);
     
             // Check for any partially failed uploads
-            $message = 'Document added successfully.';
+            $message = 'Project added successfully.';
             if (count($failedUploads) > 0) {
                 $message .= ' However, the following images failed to upload: ' . implode(', ', $failedUploads) . '.';
             }
@@ -126,7 +127,7 @@ class DocumentController extends Controller
     
         } catch (\Exception $e) {
             // Catch and log any errors during the database operation
-            Log::error('Document creation failed: ' . $e->getMessage());
+            Log::error('Project creation failed: ' . $e->getMessage());
     
             return redirect()->back()->withErrors([
                 'general' => 'An error occurred while saving the document. Please try again.'

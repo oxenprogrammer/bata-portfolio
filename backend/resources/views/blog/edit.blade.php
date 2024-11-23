@@ -38,6 +38,14 @@
                             @enderror
                         </div>
 
+                        <!--tags-->
+                        <div class="form-group">
+                            <label for="tags">Tags (comma-separated)</label>
+                            <input type="text" class="form-control" id="tags" value="{{implode(',', json_decode($user->tags, true) ?? []))}}" placeholder="e.g communication,mentorship" name="tags" value="{{ old('tags') }}">
+                            <small class="form-text text-muted">Enter tags separated by commas.</small>
+                            <span class="text-danger">{{ $message }}</span>
+                        </div>
+
                         <!-- Content -->
                         <div class="form-group">
                             <label for="description">Content</label>
