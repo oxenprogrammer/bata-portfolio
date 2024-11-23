@@ -71,7 +71,6 @@ class BlogController extends Controller
      */
     public function store(StoreBlogRequest $request)
     {
-        return response()->json($request);
         // Begin a transaction to ensure data consistency
         DB::beginTransaction();
         try {
@@ -84,7 +83,7 @@ class BlogController extends Controller
                 'excerpt' =>  $validatedData['excerpt'],
                 'tags'=> $validatedData['tags'],
                 'status' =>  $validatedData['status'],
-                'published_at' => $validatedData['published_at'],
+                // 'published_at' => $validatedData['published_at'],
             ]);
 
             // Check if images are uploaded
@@ -153,7 +152,6 @@ class BlogController extends Controller
         DB::beginTransaction();
         try {
             $blog = Blog::findOrFail($id);
-
             // Handle image deletions
             if ($request->filled('delete_images')) {
                 foreach ($request->delete_images as $imageUrl) {

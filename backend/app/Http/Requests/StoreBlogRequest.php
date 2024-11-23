@@ -29,7 +29,7 @@ class StoreBlogRequest extends FormRequest
             'tags'=>'required|string',
             'image' => 'nullable|array',
             'image.*' => 'file|image|max:2048', // Validate each image (up to 2MB)
-            'published_at' => 'nullable|date',
+            // 'published_at' => 'nullable|date',
         ];
     }
     /**
