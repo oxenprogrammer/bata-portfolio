@@ -5,102 +5,112 @@
 @endsection
 <!--main content section-->
 @section('content')
-<div class="row justify-content-center">
-    <div class="col-md-8 ">
-        <div class="card">
-            <div class="card-header">
-                <h2>Add New Project</h2>
-            </div>
-            <div class="card-body">
+    <div class="row justify-content-center">
+        <div class="col-md-8 ">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Add New Project</h2>
+                </div>
+                <div class="card-body">
 
-                <!-- Display Validation Errors -->
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                <form method="POST" action="{{ route('admin.document.store') }}" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group">
-                        <label for="title">Project Title</label>
-                        <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="summary">Project Summary</label>
-                        <textarea name="summary" id="summary" class="form-control" rows="5">{{ old('summary') }}</textarea>
-                    </div>
+                    <!-- Display Validation Errors -->
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <form method="POST" action="{{ route('admin.document.store') }}" enctype="multipart/form-data" id='addProjectForm'>
+                        @csrf
+                        <div class="form-group">
+                            <label for="title">Project Title</label>
+                            <input type="text" name="title" id="title" class="form-control"
+                                value="{{ old('title') }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="summary">Project Summary</label>
+                            <textarea name="summary" id="summary" class="form-control" rows="5">{{ old('summary') }}</textarea>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea name="description" id="description" class="form-control" rows="10">{{ old('description') }}</textarea>
-                    </div>
-                    <div class="row">
-                        <div class='form-group col-md-6'>
-                            <label for="file_type">Organization</label>
-                            <input type="text" name="organization" id="organization" class="form-control" value="{{ old('organization') }}">
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea name="description" id="description" class="form-control" rows="10">{{ old('description') }}</textarea>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="file_size">Date</label>
-                            <input type="date" name="year" id="year" class="form-control" value="{{ old('year') }}">
+                        <div class="row">
+                            <div class='form-group col-md-6'>
+                                <label for="file_type">Organization</label>
+                                <input type="text" name="organization" id="organization" class="form-control"
+                                    value="{{ old('organization') }}">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="file_size">Date</label>
+                                <input type="date" name="year" id="year" class="form-control"
+                                    value="{{ old('year') }}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-10">
-                            <label for="file_type">Project Category</label>
-                            <select class="form-control" name="categories[]" id="categories" multiple>
-                                <option value="" selected disabled>Select Category</option>
-                                <!-- Categories will be dynamically loaded here -->
+                        <div class="row">
+                            <div class="form-group col-md-10">
+                                <label for="file_type">Project Category</label>
+                                <select class="form-control" name="categories[]" id="categories" multiple>
+                                    <option value="" selected disabled>Select Category</option>
+                                    <!-- Categories will be dynamically loaded here -->
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <button type="button" class="btn btn-primary btn-sm mt-4" id="add-category-btn">
+                                    Add New
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="file_path">Google Drive Document Link</label>
+                            <input type="url" name="file_path" id="file_path" class="form-control"
+                                value="{{ old('file_path') }}">
+                            <small class="form-text text-muted">Enter the Google Drive link to the project document if
+                                any.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="file_path">Video Link</label>
+                            <input type="url" name="video_url" id="video_url" class="form-control"
+                                value="{{ old('video_link') }}">
+                            <small class="form-text text-muted">Enter the Video Link if any.</small>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label for="image">Upload Project Images</label>
+                            <input type="file" name="images[]" id="images" class="form-control" multiple
+                                accept="image/*">
+                            <small class="form-text text-muted">You can upload multiple images.</small>
+                            @error('image.*')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select name="status" id="status" class="form-control">
+                                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                                <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive
+                                </option>
                             </select>
                         </div>
-                        <div class="form-group col-md-2">
-                            <button type="button" class="btn btn-primary btn-sm mt-4" id="add-category-btn">
-                                Add New
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ route('admin.document.view') }}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary" id="addProjectBtn">
+                            <span id="addProjectText">Add Project</span>
+                            <span class="spinner-border spinner-border-sm d-none" role="status" id="addProjectSpinner"
+                                aria-hidden="true"></span>
                             </button>
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="file_path">Google Drive Document Link</label>
-                        <input type="url" name="file_path" id="file_path" class="form-control" value="{{ old('file_path') }}">
-                        <small class="form-text text-muted">Enter the Google Drive link to the project document if
-                            any.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="file_path">Video Link</label>
-                        <input type="url" name="video_url" id="video_url" class="form-control" value="{{ old('video_link') }}">
-                        <small class="form-text text-muted">Enter the Video Link if any.</small>
-                    </div>
-
-                    <div class="form-group mb-4">
-                        <label for="image">Upload Project Images</label>
-                        <input type="file" name="images[]" id="images" class="form-control" multiple
-                            accept="image/*">
-                        <small class="form-text text-muted">You can upload multiple images.</small>
-                        @error('image.*')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select name="status" id="status" class="form-control">
-                            <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
-                            <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                        </select>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <a href="{{ route('admin.document.view') }}" class="btn btn-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-primary">Add Project</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
     @include('documents.category_modal')
 @endsection
 <!--scripts section-->
@@ -128,7 +138,7 @@
                             $.each(response.data, function(index, category) {
                                 $categoryDropdown.append(
                                     `<option value="${category.id}">${category.name}</option>`
-                                    );
+                                );
                             });
                         }
                     },
@@ -171,6 +181,18 @@
                         alert(`Error: ${xhr.responseJSON.message || 'Something went wrong!'}`);
                     }
                 });
+            });
+
+            //adding loading spinner 
+            $('#addProjectForm').on('submit', function() {
+                const $addProjectBtn = $('#addProjectBtn');
+                const $addProjectText = $('#addProjectText');
+                const $addProjectSpinner = $('#addProjectSpinner');
+
+                // Disable button and show spinner
+                $addProjectBtn.prop('disabled', true);
+                $addProjectText.addClass('d-none');
+                $addProjectSpinner.removeClass('d-none');
             });
         });
     </script>

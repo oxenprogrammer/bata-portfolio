@@ -24,17 +24,25 @@
                         <!-- Title -->
                         <div class="form-group mb-3">
                             <label for="title">Blog Title</label>
-                            <input type="text" name="title" id="title" class="form-control"
+                            <input type="text" name="title" id="title" value="{{ old('title') }}" class="form-control"
                                 placeholder="Enter the blog title">
                             @error('title')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
+                        <div class="form-group">
+                            <label for="tags">Tags (comma-separated)</label>
+                            <input type="text" class="form-control" id="tags" placeholder="e.g communication,mentorship" name="tags" value="{{ old('tags') }}">
+                            <small class="form-text text-muted">Enter tags separated by commas.</small>
+                            <span class="text-danger">{{ $message }}</span>
+                        </div>
 
                         <!-- Content -->
                         <div class="form-group">
                             <label for="description">Content</label>
-                            <textarea name="content" id="content" class="form-control" rows="5" placeholder="Write blog content here"></textarea>
+                            <textarea name="content" id="content" class="form-control" rows="5" placeholder="Write blog content here">
+                            {{ old('title') }}
+                            </textarea>
                             @error('content')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -43,13 +51,13 @@
                         <div class="form-group mb-3">
                             <label for="excerpt">Excerpt</label>
                             <textarea name="excerpt" id="excerpt" class="form-control" rows="3"
-                                placeholder="Short summary of the blog post"></textarea>
+                                placeholder="Short summary of the blog post">{{ old('excerpt') }}</textarea>
                         </div>
 
                         <!-- Status -->
                         <div class="form-group mb-3">
                             <label for="status">Status</label>
-                            <select name="status" id="status" class="form-control">
+                            <select name="status"  value="{{ old('status') }}" id="status" class="form-control">
                                 <option value="draft">Draft</option>
                                 <option value="published">Published</option>
                             </select>

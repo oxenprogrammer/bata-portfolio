@@ -26,6 +26,7 @@ class StoreBlogRequest extends FormRequest
             'content' => 'required|string',
             'excerpt' => 'nullable|string|max:255',
             'status' => 'required|in:draft,published',
+            'tags'=>'required',
             'image' => 'nullable|array',
             'image.*' => 'file|image|max:2048', // Validate each image (up to 2MB)
             'published_at' => 'nullable|date',

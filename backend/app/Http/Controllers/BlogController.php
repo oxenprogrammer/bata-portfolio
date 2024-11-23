@@ -81,6 +81,7 @@ class BlogController extends Controller
                 'title' => $request->input('title'),
                 'content' => $request->input('content'),
                 'excerpt' => $request->input('excerpt'),
+                'tags'=>$request->input('tags'),
                 'status' => $request->input('status'),
                 'published_at' => $request->input('published_at'),
             ]);
@@ -157,7 +158,6 @@ class BlogController extends Controller
                     // Delete from Cloudinary
                     $publicId = pathinfo($imageUrl, PATHINFO_FILENAME); // Extract public ID from URL
                     cloudinary()->destroy($publicId);
-
                     // Delete from your BlogImage model
                     BlogImage::where('image_path', $imageUrl)->delete();
                 }

@@ -26,6 +26,7 @@ class UpdateBlogRequest extends FormRequest
             'content' => 'required|string', // Blog content must be present
             'excerpt' => 'nullable|string|max:255',
             'status' => 'required|in:draft,published',
+            'tags'=>'required',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate images (if provided)
             'delete_images' => 'array|nullable', // Accept an array for deleted images (can be null)
             'delete_images.*' => 'string|url', // Each image URL to be deleted must be a string and a valid URL

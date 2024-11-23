@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('title');
-            // $table->string('slug')->unique();
+            $table->string('tags');
             $table->longText('content');
             $table->text('excerpt')->nullable();
             $table->enum('status', ['draft', 'published'])->default('draft');
