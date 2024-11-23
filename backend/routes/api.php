@@ -6,6 +6,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\MentorshipController;
 use App\Http\Controllers\SubscriberController;
 
 // Publicly accessible API routes
@@ -26,6 +27,9 @@ Route::post('/subscriber',[SubscriberController::class,'store']);
 //Route to confrm subscriber subscription
 Route::get('/subscriber/confirm/{token}',[SubscriberController::class,'confirmSubscription']);
 Route::get('/unsubscribe/{email}',[SubscriberController::class, 'unsubscribe'])->name('unsubscribe');
+
+//mentorship
+Route::post('/mentorship',[MentorshipController::class,'store']);
 
 //Route to store contact us info
 Route::post('/contact',[ContactUsController::class,'Store']);

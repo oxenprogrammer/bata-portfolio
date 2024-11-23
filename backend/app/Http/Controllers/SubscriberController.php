@@ -70,7 +70,6 @@ class SubscriberController extends Controller
         try {
             // Validate the incoming request
             $validatedData = $request->validated();
-            return response()->json($validatedData);
             $validatedData['ip_address'] = $request->ip();
             $validatedData['token'] = Str::random(32);
             $subscriber = Subscriber::create($validatedData);

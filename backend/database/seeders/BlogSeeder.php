@@ -20,7 +20,7 @@ class BlogSeeder extends Seeder
                 'content' => 'Content of the first blog post.',
                 'excerpt' => 'This is a short excerpt of the first blog post.',
                 'status' => 'published',
-                'tags' => json_encode(['tag1', 'tag2']), // Encode the array as JSON string
+                'tags' => "[\"javascript\",\"react\",\"laravel\"]", // Encode the array as JSON string
                 'published_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -31,7 +31,7 @@ class BlogSeeder extends Seeder
                 'content' => 'Content of the second blog post.',
                 'excerpt' => 'This is a short excerpt of the second blog post.',
                 'status' => 'published',
-                'tags' => json_encode(['tag1', 'tag2']), // Encode the array as JSON string
+                'tags' =>  "[\"javascript\",\"react\",\"laravel\"]",
                 'published_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
