@@ -146,6 +146,12 @@ To test the API locally, follow these steps:
 - **URL**: `/api/contact`
 - **Description**: Stores inquiry from contact form.
 
+#### 7. Store Mentorship
+
+- **Method**: `POST`
+- **URL**: `/api/mentorship`
+- **Description**: Stores mentorship information.
+
 ### Example Postman Collection
 
 You can import the following JSON collection into Postman to have pre-configured endpoints for testing.
