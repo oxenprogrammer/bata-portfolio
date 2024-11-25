@@ -9,16 +9,17 @@ import {
   InputBase,
   Container,
 } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+import SearchIcon from "@mui/icons-material/Search";
 import { getProjects } from "@/app/api/projects";
 import HomeContent from "@/app/shared/components/home-content";
 import { LoadingProjectGrid, Pagination } from "@/app/shared/components";
-import SearchIcon from "@mui/icons-material/Search";
 import { ProjectFilter } from "./project-filter";
 import ProjectCard from "./project-card";
 
 const ITEMS_PER_PAGE = 4;
 
-const StyledContainer = styled(Box)(({ theme }) => ({
+const StyledContainer = styled(motion.div)(({ theme }) => ({
   display: "grid",
   gridTemplateColumns: "1fr",
   gap: theme.spacing(4),
@@ -28,7 +29,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const SearchBar = styled(Box)(({ theme }) => ({
+const SearchBar = styled(motion.div)(({ theme }) => ({
   marginTop: theme.spacing(2),
   width: "400px",
   display: "flex",
@@ -39,19 +40,42 @@ const SearchBar = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
-const SearchInput = styled(InputBase)(({ theme }) => ({
-  flex: 1,
-  marginLeft: theme.spacing(1),
-}));
-
-const SearchButton = styled(IconButton)(({ theme }) => ({
-  padding: theme.spacing(1),
-  backgroundColor: theme.palette.primary.main,
-  color: theme.palette.common.white,
-  "&:hover": {
-    backgroundColor: theme.palette.primary.dark,
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      staggerChildren: 0.1,
+    },
   },
-}));
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
+
+const searchBarVariants = {
+  hidden: { opacity: 0, x: -50 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.5,
+      type: "spring",
+      stiffness: 100,
+    },
+  },
+};
 
 export const Projects = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -113,19 +137,34 @@ export const Projects = () => {
 
   return (
     <Container
-      sx={{ ddisplay: "flex", flexDirection: "column", alignItems: "center" }}
+      component={motion.div}
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      sx={{ display: "flex", flexDirection: "column", marginBottom: 4 }}
     >
       <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
-        <SearchBar>
-          <SearchInput
+        <SearchBar
+          initial="hidden"
+          animate="visible"
+          variants={searchBarVariants}
+        >
+          <InputBase
             placeholder="Search projects by title or category"
             inputProps={{ "aria-label": "search" }}
             value={searchText}
             onChange={handleSearch}
+            sx={{ flex: 1, marginLeft: 1 }}
           />
-          <SearchButton type="button" aria-label="search">
-            <SearchIcon sx={{ color: "#fc6d46"}} />
-          </SearchButton>
+          <IconButton
+            component={motion.button}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            type="button"
+            aria-label="search"
+          >
+            <SearchIcon sx={{ color: "#fc6d46" }} />
+          </IconButton>
         </SearchBar>
       </Box>
       <Box sx={{ width: "100%" }}>
@@ -142,7 +181,7 @@ export const Projects = () => {
             sx={({ breakpoints }) => ({
               position: "sticky",
               zIndex: 1,
-              width:{
+              width: {
                 xs: "100%",
                 md: "80%",
               },
@@ -152,28 +191,56 @@ export const Projects = () => {
             })}
           />
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            {filteredProjects?.length === 0 ? (
-              <Box sx={{ textAlign: "center", py: 4, color: "text.secondary" }}>
-                <Typography>
-                  No projects found matching your criteria
-                </Typography>
-              </Box>
-            ) : (
-              <StyledContainer>
-                {currentProjects?.map((project, index) => (
-                  <ProjectCard key={project.id || index} {...project} />
-                ))}
-              </StyledContainer>
-            )}
+            <AnimatePresence mode="wait">
+              {filteredProjects?.length === 0 ? (
+                <motion.div
+                  key="no-results"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  style={{
+                    textAlign: "center",
+                    paddingTop: 4,
+                    paddingBottom: 4,
+                    color: "text.secondary",
+                  }}
+                >
+                  <Typography>
+                    No projects found matching your criteria
+                  </Typography>
+                </motion.div>
+              ) : (
+                <StyledContainer variants={containerVariants}>
+                  {currentProjects?.map((project, index) => (
+                    <motion.div
+                      key={project.id || index}
+                      variants={itemVariants}
+                      initial="hidden"
+                      animate="visible"
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ProjectCard {...project} />
+                    </motion.div>
+                  ))}
+                </StyledContainer>
+              )}
+            </AnimatePresence>
           </Box>
         </Box>
 
-        <Pagination
-          totalItems={projects?.length || 0}
-          itemsPerPage={ITEMS_PER_PAGE}
-          currentPage={currentPage}
-          onPageChange={setCurrentPage}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <Pagination
+            totalItems={projects?.length || 0}
+            itemsPerPage={ITEMS_PER_PAGE}
+            currentPage={currentPage}
+            onPageChange={setCurrentPage}
+          />
+        </motion.div>
       </Box>
     </Container>
   );
