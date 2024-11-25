@@ -51,6 +51,18 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
     },
   };
 
+  const containerStyle = {
+    scale: imageScale,
+    position: "relative" as const,
+    height: "50vh",
+    marginBottom: "4px",
+    overflow: "hidden",
+    borderRadius: "2px",
+    "@media (max-width: 600px)": {
+      height: "30vh",
+    },
+  };
+
   return (
     <Container maxWidth="lg" sx={{ pb: 8 }}>
       <Box
@@ -88,16 +100,7 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
       </Box>
 
       {/* Hero Image Section */}
-      <MotionBox
-        style={{
-          scale: imageScale,
-          position: "relative",
-          height: "70vh",
-          marginBottom: 4,
-          overflow: "hidden",
-          borderRadius: 2,
-        }}
-      >
+      <MotionBox style={containerStyle}>
         <Box
           component="img"
           src={project.images[0]}
@@ -120,7 +123,7 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
         >
           <MotionTypography
             style={{
-              fontSize: "3rem",
+              fontSize: "2rem",
               fontWeight: 700,
               color: "white",
               textShadow: "0 0 10px rgba(0,0,0,0.5)",

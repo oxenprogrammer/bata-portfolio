@@ -8,60 +8,74 @@ import { Toast } from ".";
 
 const NewsletterInput = styled("input")(({ theme }) => ({
   padding: theme.spacing(1.5),
-  border: "1px solid rgba(0, 0, 0, 0.12)",
+  border: "1px solid rgba(255, 255, 255, 0.2)", // Lighter border for dark mode
   borderRadius: theme.shape.borderRadius,
   marginRight: theme.spacing(1),
-  backgroundColor: theme.palette.white,
-  color: theme.palette.gray[90],
+  [theme.breakpoints.down("md")]: {
+    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+  },
+  backgroundColor: theme.palette.background.default, // Dark background
+  color: theme.palette.text.primary, // Text color for dark mode
   "&:focus": {
     outline: "none",
-    borderColor: theme.palette.primary.main,
+    borderColor: `${theme.palette.teal[80]} !important`,
   },
 }));
 
 const SubscribeButton = styled("button")(({ theme }) => ({
   padding: theme.spacing(1.5, 3),
-  backgroundColor: "#4DB6AC",
+  backgroundColor: `${theme.palette.teal[80]} !important`, // Teal color for button
   color: theme.palette.common.white,
   border: "none",
+  [theme.breakpoints.down("md")]: {
+    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+  },
   borderRadius: theme.shape.borderRadius,
   cursor: "pointer",
   transition: "background-color 0.2s ease-in-out",
   "&:hover": {
-    backgroundColor: "#3b9c90",
+    backgroundColor: `${theme.palette.teal[60]} !important`,
+  },
+  "&:disabled": {
+    backgroundColor: `${theme.palette.gray[60]} !important`,
+    cursor: "not-allowed",
   },
 }));
 
 export const Newsletter = ({ sx }: { sx?: React.CSSProperties }) => {
   const [showToast, setShowToast] = useState(false);
-  const [buttonState, setButtonState] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [buttonState, setButtonState] = useState<
+    "idle" | "loading" | "success"
+  >("idle");
 
   const mutation = useMutation({
     mutationFn: subscribeToNewsletter,
     onMutate: () => {
-      setButtonState('loading');
+      setButtonState("loading");
     },
     onSuccess: () => {
       setShowToast(true);
-      setButtonState('success');
+      setButtonState("success");
       setTimeout(() => {
         setShowToast(false);
       }, 5000);
     },
     onError: (error) => {
       console.error("Error subscribing to newsletter:", error);
-      setButtonState('idle');
+      setButtonState("idle");
     },
   });
 
   const getButtonText = () => {
     switch (buttonState) {
-      case 'loading':
-        return 'Subscribing...';
-      case 'success':
-        return 'Subscribed';
+      case "loading":
+        return "Subscribing...";
+      case "success":
+        return "Subscribed";
       default:
-        return 'Subscribe';
+        return "Subscribe";
     }
   };
 
@@ -78,34 +92,39 @@ export const Newsletter = ({ sx }: { sx?: React.CSSProperties }) => {
   return (
     <>
       {showToast && (
-        <Toast 
-          message="Successfully subscribed to newsletter!" 
-          onClose={() => setShowToast(false)} 
+        <Toast
+          message="Successfully subscribed to newsletter!"
+          onClose={() => setShowToast(false)}
         />
       )}
       <Box
-        sx={({ palette }) => ({
+        sx={({ palette, borderRadii }) => ({
           textAlign: "center",
           py: "16px",
           maxWidth: 800,
           mx: "auto",
           mb: 4,
-          backgroundColor: palette.white,
+          backgroundColor: palette.background.default, // Dark mode background
+          color: palette.text.primary, // Text color for dark mode
+          border: `1px solid ${palette.teal[80]}`,
+          borderRadius: borderRadii.xxl,
           ...sx,
         })}
       >
         <Typography
           variant="h4"
           component="h2"
-          sx={({ palette }) => ({ color: palette.primary.main })}
+          sx={({ palette }) => ({ color: palette.gray[20] })}
         >
           Join the Newsletter
         </Typography>
-        <Typography sx={({ palette }) => ({ color: palette.gray[80] })}>
+        <Typography sx={({ palette }) => ({ color: palette.text.secondary })}>
           Subscribe to receive regular updates on new products, articles, and
           courses.
         </Typography>
-        <Typography sx={({ palette }) => ({ mb: 3, color: palette.gray[80] })}>
+        <Typography
+          sx={({ palette }) => ({ mb: 3, color: palette.text.secondary })}
+        >
           Want to receive free Sepolia ETH for this? Visit{" "}
           <Link
             href="/faucet"
@@ -121,7 +140,7 @@ export const Newsletter = ({ sx }: { sx?: React.CSSProperties }) => {
           onSubmit={handleSubmit}
           sx={{
             display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
+            flexDirection: { xs: "column", md: "row" },
             gap: 2,
             maxWidth: "600px",
             mx: "auto",
@@ -141,15 +160,17 @@ export const Newsletter = ({ sx }: { sx?: React.CSSProperties }) => {
             required
             sx={{ flex: 1 }}
           />
-          <SubscribeButton 
-            type="submit" 
-            disabled={buttonState === 'loading' || buttonState === 'success'}
+          <SubscribeButton
+            type="submit"
+            disabled={buttonState === "loading" || buttonState === "success"}
           >
             {getButtonText()}
           </SubscribeButton>
         </Box>
 
-        <Typography sx={({ palette }) => ({ color: palette.gray[80], mb: 4 })}>
+        <Typography
+          sx={({ palette }) => ({ color: palette.text.secondary, mb: 4 })}
+        >
           We won&apos;t send you spam. Unsubscribe at any time.
         </Typography>
       </Box>

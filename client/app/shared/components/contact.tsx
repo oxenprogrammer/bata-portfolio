@@ -7,43 +7,47 @@ import { Toast } from ".";
 
 const ContactInput = styled("input")(({ theme }) => ({
   padding: theme.spacing(1.5),
-  border: "1px solid rgba(0, 0, 0, 0.12)",
+  border: "1px solid rgba(255, 255, 255, 0.2)",
   borderRadius: theme.shape.borderRadius,
   marginBottom: theme.spacing(2),
-  backgroundColor: theme.palette.white,
-  color: theme.palette.gray[90],
+  backgroundColor: theme.palette.background.default,
+  color: theme.palette.text.primary,
   "&:focus": {
     outline: "none",
-    borderColor: theme.palette.primary.main,
+    borderColor: `${theme.palette.teal[80]} !important`,
   },
 }));
 
 const ContactTextArea = styled("textarea")(({ theme }) => ({
   padding: theme.spacing(1.5),
-  border: "1px solid rgba(0, 0, 0, 0.12)",
+  border: "1px solid rgba(255, 255, 255, 0.2)",
   borderRadius: theme.shape.borderRadius,
   marginBottom: theme.spacing(2),
-  backgroundColor: theme.palette.white,
-  color: theme.palette.gray[90],
+  backgroundColor: theme.palette.background.default,
+  color: theme.palette.text.primary,
   minHeight: "120px",
   resize: "vertical",
   fontFamily: "inherit",
   "&:focus": {
     outline: "none",
-    borderColor: theme.palette.primary.main,
+    borderColor: `${theme.palette.teal[80]} !important`,
   },
 }));
 
 const SubmitButton = styled("button")(({ theme }) => ({
   padding: theme.spacing(1.5, 3),
-  backgroundColor: "#4DB6AC",
+  backgroundColor: `${theme.palette.teal[80]} !important`, // Teal color for button
   color: theme.palette.common.white,
   border: "none",
   borderRadius: theme.shape.borderRadius,
   cursor: "pointer",
   transition: "background-color 0.2s ease-in-out",
   "&:hover": {
-    backgroundColor: "#3b9c90",
+    backgroundColor: `${theme.palette.teal[60]} !important`,
+  },
+  "&:disabled": {
+    backgroundColor: theme.palette.gray[60],
+    cursor: "not-allowed",
   },
 }));
 
@@ -92,24 +96,35 @@ export const Contact = ({ sx }: { sx?: React.CSSProperties }) => {
         />
       )}
       <Box
-        sx={({ palette }) => ({
+        sx={({ palette, borderRadii }) => ({
           textAlign: "center",
           py: "16px",
           maxWidth: 800,
           mx: "auto",
           mb: 4,
-          backgroundColor: palette.white,
+          backgroundColor: palette.background.default, // Dark background
+          color: palette.text.primary,
+          border: `1px solid ${palette.teal[80]}`,
+          borderRadius: borderRadii.xxl,
           ...sx,
         })}
       >
         <Typography
           variant="h4"
           component="h2"
-          sx={({ palette }) => ({ color: palette.primary.main, mb: 2 })}
+          sx={({ palette }) => ({
+            color: palette.gray[20],
+            mb: 2,
+          })}
         >
           Coffee!
         </Typography>
-        <Typography sx={({ palette }) => ({ color: palette.gray[80], mb: 4 })}>
+        <Typography
+          sx={({ palette }) => ({
+            color: palette.text.secondary, // Adjust for contrast in dark mode
+            mb: 4,
+          })}
+        >
           Have a question or feedback? I&apos;d love to hear from you.
         </Typography>
 

@@ -16,9 +16,57 @@ const StyledFooter = styled("footer")(({ theme }) => ({
   position: "relative",
   width: "100%",
   bottom: 0,
-  mt: "auto",
+  marginTop: "auto",
   padding: theme.spacing(4, 0),
-  backgroundColor: theme.palette.gray[10],
+  backgroundColor: theme.palette.blue[100], // Dark bluish background
+  color: "#a0aec0", // Grayish text color
+  borderTop: `1px solid ${theme.palette.divider}`,
+}));
+
+const StyledContainer = styled(Container)(({ theme }) => ({
+  "& hr": {
+    borderColor: "rgba(255, 255, 255, 0.1)", // Subtle divider color
+  },
+}));
+
+const SocialLinksContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  gap: theme.spacing(2),
+  justifyContent: "center",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: "auto",
+  },
+  "& svg": {
+    color: "#a0aec0", // Match text color
+    transition: "color 0.2s ease-in-out",
+    "&:hover": {
+      color: "#fff", // Brighten on hover
+    },
+  },
+}));
+
+const Copyright = styled(Typography)(({ theme }) => ({
+  color: "#a0aec0",
+  textAlign: "center",
+  alignSelf: "center",
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    textAlign: "left",
+  },
+}));
+
+const BottomSection = styled(Box)(({ theme }) => ({
+  position: "relative",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+  paddingTop: theme.spacing(3),
+  gap: theme.spacing(2),
+  [theme.breakpoints.up("sm")]: {
+    flexDirection: "row",
+  },
 }));
 
 const socialLinks = [
@@ -28,58 +76,48 @@ const socialLinks = [
   { icon: <FacebookIcon />, href: "mailto:contact@bata.com" },
 ];
 
+// Styled wrapper for Newsletter and Contact components
+const ContentWrapper = styled(Box)(({ theme }) => ({
+  marginBottom: theme.spacing(4),
+  "& input": {
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    color: "#fff",
+    "&::placeholder": {
+      color: "#a0aec0",
+    },
+  },
+  "& button": {
+    backgroundColor: "#2d3748",
+    color: "#fff",
+    "&:hover": {
+      backgroundColor: "#4a5568",
+    },
+  },
+}));
+
 const Footer: React.FC = () => {
   const pathname = usePathname();
   const showContact = ["/about", "/mentorship"].includes(pathname);
 
   return (
     <StyledFooter>
-      <Container maxWidth="lg">
+      <StyledContainer maxWidth="lg">
         {/* Conditional Rendering Section */}
-        {showContact ? <Contact /> : <Newsletter />}
+        <ContentWrapper>
+          {showContact ? <Contact /> : <Newsletter />}
+        </ContentWrapper>
 
         {/* Bottom Section */}
-        <Box
-          sx={{
-            position: "relative",
-            display: "flex",
-            flexDirection: { xs: "column", sm: "row" },
-            justifyContent: "center",
-            alignItems: "center",
-            borderTop: "1px solid",
-            borderColor: "divider",
-            pt: 3,
-            gap: 2,
-          }}
-        >
-          <Typography
-            sx={({ palette }) => ({
-              color: palette.gray[60],
-              textAlign: "center",
-              alignSelf: "center",
-              width: "100%",
-            })}
-          >
-            © 2024 bata.com, All rights reserved.
-          </Typography>
+        <BottomSection>
+          <Copyright>© 2024 bata.com, All rights reserved.</Copyright>
 
-          <Box
-            sx={{
-              display: "flex",
-              gap: 2,
-              justifyContent: "center",
-              marginLeft: {
-                xs: "",
-                sm: "auto",
-              },
-            }}
-          >
+          <SocialLinksContainer>
             {socialLinks.map((link, index) => (
               <SocialLink key={index} href={link.href} icon={link.icon} />
             ))}
-          </Box>
-        </Box>
-      </Container>
+          </SocialLinksContainer>
+        </BottomSection>
+      </StyledContainer>
     </StyledFooter>
   );
 };
