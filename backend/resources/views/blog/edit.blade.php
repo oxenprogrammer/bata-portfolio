@@ -49,7 +49,14 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-
+                         <!-- Excerpt -->
+                        <div class="form-group mb-3">
+                            <label for="excerpt">Excerpt</label>
+                            <textarea name="excerpt" id="excerpt" class="form-control" rows="3"
+                                placeholder="Short summary of the blog post">
+                                {{ $blog->excerpt }}
+                            </textarea>
+                        </div>
                         <!-- Content -->
                         <div class="form-group">
                             <label for="description">Content</label>
@@ -60,15 +67,6 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <!-- Excerpt -->
-                        <div class="form-group mb-3">
-                            <label for="excerpt">Excerpt</label>
-                            <textarea name="excerpt" id="excerpt" class="form-control" rows="3"
-                                placeholder="Short summary of the blog post">
-                                {{ $blog->excerpt }}
-                            </textarea>
-                        </div>
-
                         <!-- Status -->
                         <div class="form-group mb-3">
                             <label for="status">Status</label>
