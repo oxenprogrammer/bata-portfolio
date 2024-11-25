@@ -122,11 +122,7 @@ export const Projects = () => {
   const currentProjects = filteredProjects?.slice(startIndex, endIndex);
 
   if (isLoading) {
-    return (
-      <HomeContent backgroundText="projects" title="My Projects">
-        <LoadingProjectGrid />
-      </HomeContent>
-    );
+    return <LoadingProjectGrid />;
   }
 
   if (error) {
