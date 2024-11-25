@@ -13,7 +13,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import SearchIcon from "@mui/icons-material/Search";
 import { getProjects } from "@/app/api/projects";
 import HomeContent from "@/app/shared/components/home-content";
-import { LoadingProjectGrid, Pagination } from "@/app/shared/components";
+import {
+  LoadingProjectGrid,
+  NoResults,
+  Pagination,
+} from "@/app/shared/components";
 import { ProjectFilter } from "./project-filter";
 import ProjectCard from "./project-card";
 
@@ -143,7 +147,30 @@ export const Projects = () => {
       variants={containerVariants}
       sx={{ display: "flex", flexDirection: "column", marginBottom: 4 }}
     >
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: {
+            xs: "flex-end",
+            md: "space-between",
+          },
+          mb: 8,
+        }}
+      >
+        <Typography
+          variant="h2"
+          sx={{
+            display: {
+              xs: "none",
+              md: "flex",
+            },
+            color: "#fc6d46",
+            fontWeight: "bolder",
+          }}
+        >
+          projects
+        </Typography>
         <SearchBar
           initial="hidden"
           animate="visible"
@@ -190,7 +217,7 @@ export const Projects = () => {
               [breakpoints.down(678)]: { display: "none" },
             })}
           />
-          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
             <AnimatePresence mode="wait">
               {filteredProjects?.length === 0 ? (
                 <motion.div
@@ -199,15 +226,16 @@ export const Projects = () => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                     textAlign: "center",
                     paddingTop: 4,
                     paddingBottom: 4,
                     color: "text.secondary",
                   }}
                 >
-                  <Typography>
-                    No projects found matching your criteria
-                  </Typography>
+                  <NoResults />
                 </motion.div>
               ) : (
                 <StyledContainer variants={containerVariants}>

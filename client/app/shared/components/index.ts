@@ -2,7 +2,6 @@ export { SocialLink } from "./social-media-link";
 export { InfiniteCarousel } from "./infinite-carousel";
 export { ProjectCard } from "./project-card";
 export { BlogCard } from "./blog-card";
-// export { ProjectCardSkeleton } from "./project-card-skeleton";
 export { ViewMoreButtonComponent } from "./view-more-button";
 export { AnimateCard } from "./animate-card";
 export { Pagination } from "./pagination";
@@ -12,4 +11,4 @@ export { Video } from "./video";
 export { Newsletter } from "./newsletter";
 export { Toast } from "./toast";
 export { Contact } from "./contact";
-
+export { NoResults } from "./no-results";
