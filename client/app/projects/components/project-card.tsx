@@ -2,28 +2,25 @@ import { Project } from "@/app/shared/types";
 import { Box, styled, Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { HTMLMotionProps } from "framer-motion";
 
-// Extend the ProjectCardProps to include motion props
-interface ProjectCardProps
-  extends Project,
-    Omit<HTMLMotionProps<"div">, keyof Project> {
+interface ProjectCardProps extends Project {
   onClick?: () => void;
 }
 
-// Convert styled components to use motion components
-const CardContainer = styled(motion.div)(({ theme }) => ({
+const CardContainer = styled(Box)(({ theme }) => ({
   position: "relative",
   display: "flex",
   flexDirection: "column",
   height: "100%",
   borderRadius: theme.shape.borderRadius,
   overflow: "hidden",
-  backgroundColor: theme.palette.background.paper,
+  transition: "all 0.3s ease",
+  "&:hover $imageContainer": {
+    filter: "grayscale(100%)",
+  },
 }));
 
-const ImageContainer = styled(motion.div)(() => ({
+const ImageContainer = styled(Box)(() => ({
   position: "relative",
   width: "100%",
   paddingTop: "60%",
@@ -36,10 +33,15 @@ const ImageContainer = styled(motion.div)(() => ({
     width: "100%",
     height: "100%",
     objectFit: "cover",
+    transition: "filter 0.3s ease",
+    filter: "grayscale(0%)",
+  },
+  "&:hover img": {
+    filter: "grayscale(100%)",
   },
 }));
 
-const ContentContainer = styled(motion.div)(({ theme }) => ({
+const ContentContainer = styled(Box)(({ theme }) => ({
   flex: "1 1 auto",
   padding: theme.spacing(2),
   backgroundColor: theme.palette.background.paper,
@@ -49,7 +51,6 @@ const ContentContainer = styled(motion.div)(({ theme }) => ({
   justifyContent: "space-between",
 }));
 
-// Keep other styled components the same
 const DateText = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
   fontSize: "0.875rem",
@@ -72,67 +73,20 @@ const DescriptionText = styled(Typography)(({ theme }) => ({
   textOverflow: "ellipsis",
 }));
 
-const CategoryList = styled(motion.div)(({ theme }) => ({
+const CategoryList = styled(Box)(({ theme }) => ({
   display: "flex",
   gap: theme.spacing(1),
   flexWrap: "wrap",
   marginTop: theme.spacing(1),
 }));
 
-const CategoryChip = styled(motion.div)(({ theme }) => ({
+const CategoryChip = styled(Typography)(({ theme }) => ({
   fontSize: "0.75rem",
   padding: theme.spacing(0.5, 1),
   backgroundColor: theme.palette.action.hover,
   borderRadius: theme.shape.borderRadius,
   color: theme.palette.text.secondary,
 }));
-
-// Animation variants
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      when: "beforeChildren",
-    },
-  },
-  hover: {
-    y: -5,
-    transition: {
-      duration: 0.2,
-    },
-  },
-};
-
-const imageVariants = {
-  hover: {
-    scale: 1.05,
-    filter: "grayscale(100%)",
-    transition: {
-      duration: 0.3,
-    },
-  },
-};
-
-const categoryVariants = {
-  hidden: { opacity: 0, x: -10 },
-  visible: (i: number) => ({
-    opacity: 1,
-    x: 0,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.3,
-    },
-  }),
-  hover: {
-    scale: 1.05,
-    transition: {
-      duration: 0.2,
-    },
-  },
-};
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   id,
@@ -143,7 +97,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   date,
   organization,
   categories,
-  ...motionProps
 }) => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -156,56 +109,44 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const { month, year } = formatDate(date);
 
   return (
-    <CardContainer variants={cardVariants} whileHover="hover" {...motionProps}>
-      <Link href={`/projects/${id}`} style={{ textDecoration: "none" }}>
-        <ImageContainer variants={imageVariants}>
+    <Link href={`/projects/${id}`} style={{ textDecoration: "none" }}>
+      <CardContainer>
+        <ImageContainer>
           <Image fill priority src={images[0]} alt={title} />
         </ImageContainer>
-      </Link>
-      <ContentContainer>
-        <Box>
-          <Box
-            component={motion.div}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              height: "68px",
-              gap: "32px",
-            }}
-          >
+        <ContentContainer>
+          <Box>
             <Box
-              component={motion.div}
-              sx={{ display: "flex", alignItems: "center", gap: "4px" }}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                height: "68px",
+                gap: "32px",
+              }}
             >
-              <DateText>{month}</DateText>
-              <DateText>{year}</DateText>
+              <Box sx={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                <DateText>{month}</DateText>
+                <DateText>{year}</DateText>
+              </Box>
+              <TitleText>{title}</TitleText>
             </Box>
-            <TitleText>{title}</TitleText>
+            <Typography
+              color="text.secondary"
+              sx={{ fontWeight: "bold", fontSize: "16px" }}
+            >
+              {organization}
+            </Typography>
+            <DescriptionText>{description || summary}</DescriptionText>
+            <CategoryList>
+              {categories.map((category, index) => (
+                <CategoryChip key={index}>{category}</CategoryChip>
+              ))}
+            </CategoryList>
           </Box>
-          <Typography
-            component={motion.p}
-            color="text.secondary"
-            sx={{ fontWeight: "bold", fontSize: "16px" }}
-          >
-            {organization}
-          </Typography>
-          <DescriptionText>{description || summary}</DescriptionText>
-          <CategoryList>
-            {categories.map((category, index) => (
-              <CategoryChip
-                key={index}
-                custom={index}
-                variants={categoryVariants}
-                whileHover="hover"
-              >
-                {category}
-              </CategoryChip>
-            ))}
-          </CategoryList>
-        </Box>
-      </ContentContainer>
-    </CardContainer>
+        </ContentContainer>
+      </CardContainer>
+    </Link>
   );
 };
 
