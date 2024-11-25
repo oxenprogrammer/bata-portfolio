@@ -24,11 +24,12 @@ class StoreBlogRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'excerpt' => 'nullable|string|max:255',
+            'excerpt' => 'nullable|string|max:400',
             'status' => 'required|in:draft,published',
+            'tags'=>'required|string',
             'image' => 'nullable|array',
             'image.*' => 'file|image|max:2048', // Validate each image (up to 2MB)
-            'published_at' => 'nullable|date',
+            // 'published_at' => 'nullable|date',
         ];
     }
     /**
@@ -44,5 +45,15 @@ class StoreBlogRequest extends FormRequest
             'image.*.image' => 'Each file must be a valid image.',
             'image.*.max' => 'Each image should not exceed 2MB in size.',
         ];
+    }
+    
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'tags' => $this->tags ? json_encode(explode(',', $this->tags)) : null,
+        ]);
     }
 }

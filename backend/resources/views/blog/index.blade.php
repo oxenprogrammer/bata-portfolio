@@ -77,5 +77,5 @@
 
 @section('scripts')
 <!-- Include any additional scripts here -->
-
+@include('components.alert')
 @endsection

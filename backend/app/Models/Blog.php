@@ -36,13 +36,25 @@ class Blog extends Model
     protected $fillable = [
         'title',
         'user_id',
-        'slug',
+        'tags',
         'content',
         'excerpt',
         'status',
         'image',
         'published_at'
     ];
+
+     /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'tags' => 'array',
+        ];
+    }
 
     /**
      * This function retrieves all posts by a specific user

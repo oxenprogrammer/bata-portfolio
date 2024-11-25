@@ -7,7 +7,7 @@
         <a class="nav-link" href="{{ route('admin.subscriber.view') }}">Subscribers</a>
         <a class="nav-link" href="{{ route('admin.contact.view') }}">Contacts</a>
         <a class="nav-link" href="{{ route('admin.newsletter.view') }}">Newsletter</a>
-        <a class="nav-link" href="#">Mentorship</a>
+        <a class="nav-link" href="{{ route('admin.mentorship.view') }}">Mentorship</a>
         <a class="nav-link" data-toggle="tab" href="#">More</a>
     </nav>
 </div>

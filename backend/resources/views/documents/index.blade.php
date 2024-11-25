@@ -101,4 +101,5 @@
 
 <!--scripts section-->
 @section('scripts')
+@include('components.alert')
 @endsection
