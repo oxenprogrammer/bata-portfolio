@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\MentorshipModel;
+use App\Models\Mentorship;
 use Illuminate\Database\QueryException;
 use App\Http\Requests\MentorshipRequest;
 
@@ -18,7 +18,7 @@ class MentorshipController extends Controller
     public function index()
     {
         $page_title = 'Admin Panel Mentorship';
-        $mentorship = MentorshipModel::all();
+        $mentorship = Mentorship::all();
         return view('mentorship.index',compact('page_title','mentorship'));
     }
 
@@ -32,7 +32,7 @@ class MentorshipController extends Controller
     {
         try {
             $validatedData = $request->validated();
-            $mentorship = MentorshipModel::create($validatedData);
+            $mentorship = Mentorship::create($validatedData);
             return response()->json([
                 'message' => 'Info saved!',
             ], 201);
@@ -58,7 +58,7 @@ class MentorshipController extends Controller
     public function destroy(string $id)
     {
         //
-        $mentorship = MentorshipModel::findOrFail($id);
+        $mentorship = Mentorship::findOrFail($id);
         $mentorship->delete();
         return redirect()->route('admin.mentorship.view')->with('success', 'Info deleted!');
     }
