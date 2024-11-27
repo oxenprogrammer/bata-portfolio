@@ -1,6 +1,6 @@
 import { Card, Typography, Box, styled } from "@mui/material";
-import Link from "next/link";
 import { Blog } from "../types";
+import Link from "next/link";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   position: "relative",
@@ -53,26 +53,17 @@ interface BlogCardProps {
 
 export const BlogCard: React.FC<BlogCardProps> = ({ blog }) => {
   return (
-    <Link href={`/blogs/${blog.id}`} style={{ textDecoration: "none" }}>
+    <Link href={`/blogs/${blog.id}`} passHref>
       <StyledCard>
-        <BlogImage sx={{ backgroundImage: `url(${blog.images[0]})` }} />
+        {blog.images.length > 0 && blog.images[0].url && (
+          <BlogImage
+            style={{
+              backgroundImage: `url(${blog.images[0].url})`,
+            }}
+          />
+        )}
         <CardOverlay>
-          <Typography
-            variant="h5"
-            sx={{
-              fontWeight: 700,
-              mb: 1,
-            }}
-          >
-            {blog.title}
-          </Typography>
-          <Typography
-            sx={{
-              opacity: 0.9,
-            }}
-          >
-            {blog.description}
-          </Typography>
+          <Typography variant="h6">{blog.title}</Typography>
         </CardOverlay>
       </StyledCard>
     </Link>
