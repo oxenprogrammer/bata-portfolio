@@ -10,12 +10,12 @@ import {
   Container,
 } from "@mui/material";
 import { Send as SendIcon } from "@mui/icons-material";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 export const Mentorship = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down(700));
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const images = [
@@ -34,63 +34,38 @@ export const Mentorship = () => {
     return () => clearInterval(interval);
   }, [images.length]);
 
-  const containerVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  };
-
   const imageVariants = {
-    hidden: { opacity: 0, x: -50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
+    initial: {
+      opacity: 0,
+      scale: 0.95,
     },
-  };
-
-  const contentVariants = {
-    hidden: { opacity: 0, x: 50 },
-    visible: {
+    animate: {
       opacity: 1,
-      x: 0,
-      transition: { duration: 0.6, ease: "easeOut", delay: 0.2 },
+      scale: 1,
+      transition: {
+        duration: 0.8,
+        ease: "easeInOut",
+      },
+    },
+    exit: {
+      opacity: 0,
+      scale: 1.05,
+      transition: {
+        duration: 0.8,
+        ease: "easeInOut",
+      },
     },
   };
 
   return (
     <Container>
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        style={{
-          display: "flex",
-          flexDirection: isMobile ? "column" : "row",
-          alignItems: "center",
-          padding: theme.spacing(4),
-        }}
+      <Box
+        display="flex"
+        flexDirection={isMobile ? "column" : "row"}
+        alignItems="center"
+        padding={theme.spacing(4)}
       >
-        <motion.div
-          variants={imageVariants}
-          style={{
-            flex: 1,
-            marginRight: isMobile ? 0 : theme.spacing(4),
-            position: "relative",
-          }}
-        >
-          <Image
-            src={images[currentIndex]}
-            alt={`Mentorship Series Image ${currentIndex + 1}`}
-            layout="responsive"
-            width={800}
-            height={600}
-          />
-        </motion.div>
-        <motion.div variants={contentVariants} style={{ flex: 1 }}>
+        <Box flex={1}>
           <Typography variant="h4" gutterBottom>
             Mentorship Series
           </Typography>
@@ -116,8 +91,53 @@ export const Mentorship = () => {
               }}
             />
           </Box>
-        </motion.div>
-      </motion.div>
+        </Box>
+        <Box
+          flex={1}
+          marginLeft={isMobile ? 0 : theme.spacing(4)}
+          position="relative"
+          overflow="hidden"
+          height="300px"
+          width="100%"
+        >
+          <AnimatePresence initial={false} mode="popLayout">
+            <motion.div
+              key={currentIndex}
+              variants={imageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              style={{
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                top: 0,
+                left: 0,
+              }}
+            >
+              <Box
+                sx={{
+                  "& img": {
+                    transition: "filter 0.3s ease",
+                    filter: "grayscale(0%)",
+                  },
+                  "&:hover img": { filter: "grayscale(100%)" },
+                }}
+              >
+                <Image
+                  src={images[currentIndex]}
+                  alt={`Mentorship Series Image ${currentIndex + 1}`}
+                  fill
+                  style={{
+                    objectFit: "cover",
+                    objectPosition: "center",
+                  }}
+                />
+              </Box>
+            </motion.div>
+          </AnimatePresence>
+        </Box>
+      </Box>
     </Container>
   );
 };
