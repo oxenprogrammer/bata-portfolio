@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -15,6 +16,23 @@ import Image from "next/image";
 export const Mentorship = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const images = [
+    "/images/mentorship.png",
+    "/images/mentorship2.png",
+    "/images/mentorship3.png",
+    "/images/mentorship5.jpg",
+    "/images/mentorship6.webp",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   const containerVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -56,6 +74,22 @@ export const Mentorship = () => {
           padding: theme.spacing(4),
         }}
       >
+        <motion.div
+          variants={imageVariants}
+          style={{
+            flex: 1,
+            marginRight: isMobile ? 0 : theme.spacing(4),
+            position: "relative",
+          }}
+        >
+          <Image
+            src={images[currentIndex]}
+            alt={`Mentorship Series Image ${currentIndex + 1}`}
+            layout="responsive"
+            width={800}
+            height={600}
+          />
+        </motion.div>
         <motion.div variants={contentVariants} style={{ flex: 1 }}>
           <Typography variant="h4" gutterBottom>
             Mentorship Series
@@ -82,18 +116,6 @@ export const Mentorship = () => {
               }}
             />
           </Box>
-        </motion.div>
-        <motion.div
-          variants={imageVariants}
-          style={{ flex: 1, marginLeft: isMobile ? 0 : theme.spacing(4) }}
-        >
-          <Image
-            src="/images/mentorship.png"
-            alt="Mentorship Series"
-            layout="responsive"
-            width={800}
-            height={600}
-          />
         </motion.div>
       </motion.div>
     </Container>
