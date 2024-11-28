@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { API_URL } from "./constants";
 
 const contactSchema = z.object({
   email: z
@@ -24,17 +25,17 @@ type ContactInput = z.infer<typeof contactSchema>;
 
 export async function contactApi(input: ContactInput) {
   const validated = contactSchema.parse(input);
-  
-  const response = await fetch('http://127.0.0.1:8000/api/contact', {
-    method: 'POST',
+
+  const response = await fetch(`${API_URL}/contact`, {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(validated),
   });
 
   if (!response.ok) {
-    throw new Error('Failed to send message');
+    throw new Error("Failed to send message");
   }
 
   return response.json();

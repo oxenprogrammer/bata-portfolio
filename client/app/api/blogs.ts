@@ -1,3 +1,5 @@
+import { API_URL } from "./constants";
+
 // types.ts
 export interface Blog {
   id: string;
@@ -45,7 +47,7 @@ export const transformBlogData = (apiResponse: {
 
 export const getBlogs = async (): Promise<Blog[]> => {
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/blogs");
+    const response = await fetch(`${API_URL}/blogs`);
     if (!response.ok) {
       throw new Error("Failed to fetch blogs");
     }

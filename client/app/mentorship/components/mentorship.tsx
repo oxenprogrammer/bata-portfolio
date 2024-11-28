@@ -19,11 +19,9 @@ export const Mentorship = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const images = [
-    "/images/mentorship.png",
-    "/images/mentorship2.png",
-    "/images/mentorship3.png",
-    "/images/mentorship5.jpg",
-    "/images/mentorship6.webp",
+    "/images/mentorship1.webp",
+    "/images/mentorship2.webp",
+    "/images/mentorship3.webp",
   ];
 
   useEffect(() => {

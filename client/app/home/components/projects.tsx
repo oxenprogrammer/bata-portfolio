@@ -5,7 +5,11 @@ import { Box, Typography, styled } from "@mui/material";
 import HomeContent from "@/app/shared/components/home-content";
 import { getProjects } from "@/app/api/projects";
 import { ViewMoreButtonComponent } from "@/app/shared/components/view-more-button";
-import { AnimateCard, LoadingProjectGrid, ProjectCard } from "@/app/shared/components";
+import {
+  AnimateCard,
+  LoadingProjectGrid,
+  ProjectCard,
+} from "@/app/shared/components";
 
 const ContentWrapper = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -62,10 +66,7 @@ export const ProjectsSection = () => {
       <ContentWrapper>
         <StyledContainer>
           {projects?.slice(0, 4).map((project, index) => (
-            <AnimateCard 
-              key={project.id} 
-              index={index}
-            >
+            <AnimateCard key={project.id} index={index}>
               <ProjectCard project={project} />
             </AnimateCard>
           ))}
