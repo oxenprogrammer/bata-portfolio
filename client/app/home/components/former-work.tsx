@@ -1,15 +1,22 @@
 "use client";
 import { InfiniteCarousel } from "@/app/shared/components";
 import {
-  BMWIcon,
-  SamsungIcon,
-  MasterCardFoundationIcon,
-  MoIbrahimFoundationIcon,
+  AfriyanIcon,
+  DutchIcon,
+  GlobalFundIcon,
+  HHHIcon,
+  MarimboIcon,
+  MenEngageAfricaIcon,
+  RAHUIcon,
+  SautiMediaHubIcon,
+  SSRGIcon,
+  UNFoundationIcon,
+  UNFPAIcon,
 } from "@/app/shared/icons";
 import { Box, styled, Typography } from "@mui/material";
 
 const images = [
-  <BMWIcon
+  <HHHIcon
     key="bmw"
     sx={{
       width: {
@@ -22,41 +29,135 @@ const images = [
       },
     }}
   />,
-  <SamsungIcon key="samsung"  sx={{
-    width: {
-      xs: "98px",
-      md: "390px",
-    },
-    height: {
-      xs: "98px",
-      md: "128px",
-    },
-  }} />,
-  <MasterCardFoundationIcon
+  <AfriyanIcon
+    key="bmw"
+    sx={{
+      width: {
+        xs: "98px",
+        md: "196px",
+      },
+      height: {
+        xs: "98px",
+        md: "196px",
+      },
+    }}
+  />,
+  <GlobalFundIcon
+    key="samsung"
+    sx={{
+      width: {
+        xs: "98px",
+        md: "390px",
+      },
+      height: {
+        xs: "98px",
+        md: "128px",
+      },
+    }}
+  />,
+  <MarimboIcon
     key="mastercard"
     sx={{
-        width: {
-          xs: "157px",
-          md: "314px",
-        },
-        height: {
-          xs: "98px",
-          md: "196px",
-        },
-      }}
+      width: {
+        xs: "157px",
+        md: "314px",
+      },
+      height: {
+        xs: "98px",
+        md: "196px",
+      },
+    }}
   />,
-  <MoIbrahimFoundationIcon
+  <DutchIcon
     key="moibrahim"
     sx={{
-        width: {
-          xs: "145px",
-          md: "290px",
-        },
-        height: {
-          xs: "98px",
-          md: "196px",
-        },
-      }}
+      width: {
+        xs: "145px",
+        md: "290px",
+      },
+      height: {
+        xs: "98px",
+        md: "196px",
+      },
+    }}
+  />,
+  <MenEngageAfricaIcon
+    key="bmw"
+    sx={{
+      width: {
+        xs: "98px",
+        md: "196px",
+      },
+      height: {
+        xs: "98px",
+        md: "196px",
+      },
+    }}
+  />,
+  <RAHUIcon
+    key="bmw"
+    sx={{
+      width: {
+        xs: "98px",
+        md: "196px",
+      },
+      height: {
+        xs: "98px",
+        md: "196px",
+      },
+    }}
+  />,
+  <SautiMediaHubIcon
+    key="bmw"
+    sx={{
+      width: {
+        xs: "98px",
+        md: "196px",
+      },
+      height: {
+        xs: "98px",
+        md: "196px",
+      },
+    }}
+  />,
+  <SSRGIcon
+    key="bmw"
+    sx={{
+      width: {
+        xs: "98px",
+        md: "196px",
+      },
+      height: {
+        xs: "98px",
+        md: "196px",
+      },
+    }}
+  />,
+  <UNFoundationIcon
+    key="bmw"
+    sx={{
+      width: {
+        xs: "98px",
+        md: "196px",
+      },
+      height: {
+        xs: "98px",
+        md: "196px",
+      },
+    }}
+  />,
+  <UNFPAIcon
+    key="bmw"
+    sx={{
+      width: {
+        xs: "98px",
+        md: "196px",
+      },
+      height: {
+        xs: "98px",
+        md: "196px",
+      },
+    }}
   />,
 ];
 
