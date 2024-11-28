@@ -9,10 +9,14 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import EmailIcon from "@mui/icons-material/Email";
 import WorkIcon from "@mui/icons-material/Work";
+import {
+  EmailIcon,
+  FacebookIcon,
+  LinkedInIcon,
+  TwitterIcon,
+} from "@/app/shared/icons";
+import { SocialLink } from "@/app/shared/components";
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -36,6 +40,13 @@ const ImageContainer = styled(Box)(({ theme }) => ({
   boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
   [theme.breakpoints.down("md")]: {
     height: "400px",
+  },
+  "& img": {
+    transition: "filter 0.3s ease",
+    filter: "grayscale(0%)",
+  },
+  "&:hover img": {
+    filter: "grayscale(50%)",
   },
 }));
 
@@ -83,11 +94,14 @@ const Skills = styled(Box)(({ theme }) => ({
 }));
 
 const Skill = styled(motion.div)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: theme.palette.gray[90],
   color: theme.palette.common.white,
   padding: theme.spacing(1, 2),
   borderRadius: theme.spacing(4),
   fontSize: "0.9rem",
+  "&:hover": {
+    backgroundColor: theme.palette.gray[80],
+  },
 }));
 
 const MainContent = styled(Box)(({ theme }) => ({
@@ -99,19 +113,62 @@ const MainContent = styled(Box)(({ theme }) => ({
   zIndex: 2,
 }));
 
+const socialLinks = [
+  {
+    icon: (
+      <TwitterIcon
+        sx={({ palette }) => ({
+          color: palette.gray[70],
+          "&:hover": { color: palette.gray[30] },
+        })}
+      />
+    ),
+    href: "https://x.com/ibatambuze",
+  },
+  {
+    icon: (
+      <LinkedInIcon
+        sx={({ palette }) => ({
+          color: palette.gray[70],
+          "&:hover": { color: palette.gray[30] },
+        })}
+      />
+    ),
+    href: "https://www.linkedin.com/in/ibatambuze/",
+  },
+  {
+    icon: (
+      <EmailIcon
+        sx={({ palette }) => ({
+          color: palette.gray[70],
+          "&:hover": { color: palette.gray[30] },
+        })}
+      />
+    ),
+    href: "mailto:ibrahimbatambuze@gmail.com",
+  },
+  {
+    icon: (
+      <FacebookIcon
+        sx={({ palette }) => ({
+          color: palette.gray[70],
+          "&:hover": { color: palette.gray[30] },
+        })}
+      />
+    ),
+    href: "https://www.youtube.com/@IbrahimBatambuze",
+  },
+];
+
 export const About: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const skills = [
-    "TypeScript",
-    "React",
-    "Next.js",
-    "Node.js",
-    "Express",
-    "MongoDB",
-    "AWS",
-    "Docker",
+    "Mentorship",
+    "Project Management",
+    "Consultancy",
+    "Public Speaking",
   ];
 
   const containerAnimation = {
@@ -179,22 +236,28 @@ export const About: React.FC = () => {
                   gutterBottom
                   sx={{ color: "white" }}
                 >
-                  Full Stack Developer & Tech Enthusiast
+                  A Strategic Communications Advisor
                 </Typography>
                 <Typography>
-                  I&apos;m passionate about creating elegant solutions to
-                  complex problems. With expertise in modern web technologies
-                  and a keen eye for design, I build scalable and user-friendly
-                  applications that make a difference.
+                  I am Ibrahim Waiswa Batambuze, and I am deeply involved in
+                  communications and impact-driven initiatives. As the Founder
+                  and Group CEO of Marimba Communications Group, I focus on
+                  African storytelling, development communications, and digital
+                  impact. In my role as a Senior Communications Associate with
+                  the Digital Impact Alliance (DIAL), I work to create awareness
+                  about DIAL's initiatives across Africa, often through writing
+                  impact stories, strategizing on digital inclusion, and
+                  supporting discussions around digital public infrastructure
+                  (DPI).
                 </Typography>
 
                 <Box
                   sx={{ display: "flex", alignItems: "center", gap: 1, my: 2 }}
                 >
-                  <WorkIcon color="primary" />
-                  <Typography variant="h6">
-                    Senior Software Engineer at TechCorp
-                  </Typography>
+                  <WorkIcon
+                    sx={({ palette }) => ({ color: palette.gray[70] })}
+                  />
+                  <Typography variant="h6">Some of my top skills</Typography>
                 </Box>
 
                 <Skills>
@@ -204,32 +267,11 @@ export const About: React.FC = () => {
                     </Skill>
                   ))}
                 </Skills>
-
-                <SocialLinks>
-                  <IconButton
-                    href="https://linkedin.com"
-                    target="_blank"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <LinkedInIcon />
-                  </IconButton>
-                  <IconButton
-                    href="https://github.com"
-                    target="_blank"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <GitHubIcon />
-                  </IconButton>
-                  <IconButton
-                    href="mailto:email@example.com"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <EmailIcon />
-                  </IconButton>
-                </SocialLinks>
+                <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
+                  {socialLinks.map((link, index) => (
+                    <SocialLink key={index} href={link.href} icon={link.icon} />
+                  ))}
+                </Box>
               </motion.div>
             </Box>
           </ContentSection>
@@ -243,19 +285,18 @@ export const About: React.FC = () => {
             <Box sx={{ maxWidth: 600 }}>
               <motion.div variants={itemAnimation}>
                 <Typography variant="h4" gutterBottom fontWeight="bold">
-                  My Approach
+                  Impact and Legacy
                 </Typography>
                 <Typography>
-                  I believe in writing clean, maintainable code and creating
-                  intuitive user experiences. My background in both front-end
-                  and back-end development allows me to approach projects
-                  holistically, ensuring seamless integration across the entire
-                  stack.
+                  Beyond these roles, I am also establishing Batambuze Heritage,
+                  a holding company, and The Batambuze Foundation, which focuses
+                  on managing charitable donations and supporting family
+                  financial planning.
                 </Typography>
                 <Typography>
-                  When I&apos;m not coding, you&apos;ll find me exploring new
-                  technologies, contributing to open-source projects, or sharing
-                  my knowledge through technical writing and mentorship.
+                  My work reflects a strong commitment to addressing public
+                  health issues, promoting digital inclusivity, and advancing
+                  socio-economic development across the African continent.
                 </Typography>
               </motion.div>
             </Box>

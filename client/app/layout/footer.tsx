@@ -70,10 +70,10 @@ const BottomSection = styled(Box)(({ theme }) => ({
 }));
 
 const socialLinks = [
-  { icon: <TwitterIcon />, href: "https://twitter.com/bata" },
-  { icon: <LinkedInIcon />, href: "https://linkedin.com/in/bata" },
-  { icon: <EmailIcon />, href: "mailto:contact@bata.com" },
-  { icon: <FacebookIcon />, href: "mailto:contact@bata.com" },
+  { icon: <TwitterIcon />, href: "https://x.com/ibatambuze" },
+  { icon: <LinkedInIcon />, href: "https://www.linkedin.com/in/ibatambuze/" },
+  { icon: <EmailIcon />, href: "mailto:ibrahimbatambuze@gmail.com" },
+  { icon: <FacebookIcon />, href: "https://www.youtube.com/@IbrahimBatambuze" },
 ];
 
 // Styled wrapper for Newsletter and Contact components
