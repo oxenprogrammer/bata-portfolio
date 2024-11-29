@@ -5,12 +5,12 @@ import { Box, Typography, styled } from "@mui/material";
 import { getBlogs } from "@/app/api/blogs";
 import {
   AnimateCard,
+  AnimatedBackground,
   BlogCard,
   LoadingBlogGrid,
   Pagination,
 } from "@/app/shared/components";
 import { useState } from "react";
-import { AnimatedBackground } from "./animated-background";
 
 const ITEMS_PER_PAGE = 6;
 

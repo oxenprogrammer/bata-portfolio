@@ -20,6 +20,7 @@ const ContentWrapper = styled(Box)(({ theme }) => ({
   margin: "0 auto",
   padding: theme.spacing(2),
   width: "100%",
+  background: "linear-gradient(135deg, #121619 0%, #1a2833 100%)",
 }));
 
 const StyledContainer = styled(Box)(({ theme }) => ({
@@ -31,6 +32,7 @@ const StyledContainer = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
     flexDirection: "column",
   },
+  background: "linear-gradient(135deg, #121619 0%, #1a2833 100%)",
 }));
 
 export const BlogsSection = () => {
@@ -56,10 +58,10 @@ export const BlogsSection = () => {
             fontFamily: "'Poppins', sans-serif",
             fontWeight: 700,
             fontSize: {
-                xs: "64px",
-                sm: "80px",
-                md: "96px",
-              },
+              xs: "64px",
+              sm: "80px",
+              md: "96px",
+            },
             lineHeight: 1.5,
           }}
         >

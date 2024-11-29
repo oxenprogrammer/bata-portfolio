@@ -12,3 +12,4 @@ export { Newsletter } from "./newsletter";
 export { Toast } from "./toast";
 export { Contact } from "./contact";
 export { NoResults } from "./no-results";
+export { AnimatedBackground } from "./animated-background";

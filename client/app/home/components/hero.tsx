@@ -5,6 +5,7 @@ import { Box, Container, Typography, Button } from "@mui/material";
 import { styled, keyframes } from "@mui/system";
 import { useMediaQuery, useTheme } from "@mui/material";
 import Link from "next/link";
+import { AnimatedBackground } from "@/app/shared/components";
 
 const fadeIn = keyframes`
   from {
@@ -54,11 +55,10 @@ const HeroContainer = styled(Box)(({ theme }) => ({
   minHeight: "calc(100vh - 64px + 60px)",
   display: "flex",
   overflow: "hidden",
-  backgroundColor: "#18202b",
   flexGrow: 1,
   [theme.breakpoints.down("md")]: {
-   top: "-9px",
-   marginBottom: "-9px",
+    top: "-9px",
+    marginBottom: "-9px",
   },
 }));
 
@@ -145,66 +145,76 @@ export const HeroSection: React.FC = () => {
 
   return (
     <Layout>
-      <HeroContainer>
-        <ImageContainer>
-          <StyledImage url="/images/profile.svg" />
-        </ImageContainer>
-        
-        <ContentContainer>
-          <TextContent>
-            <Typography
-              variant="h1"
-              sx={{
-                fontSize: { xs: "4rem", md: "10rem", lg: "13.7rem" },
-                fontWeight: 700,
-                mb: 1,
-              }}
-            >
-              <Box component="span" sx={{ color: theme.palette.common.white }}>
-              How
+      <AnimatedBackground>
+        <HeroContainer>
+          <ImageContainer>
+            <StyledImage url="/images/profile.svg" />
+          </ImageContainer>
+          <ContentContainer>
+            <TextContent>
+              <Typography
+                variant="h1"
+                sx={{
+                  fontSize: { xs: "4rem", md: "10rem", lg: "13.7rem" },
+                  fontWeight: 700,
+                  mb: 1,
+                }}
+              >
+                <Box
+                  component="span"
+                  sx={{ color: theme.palette.common.white }}
+                >
+                  How
+                </Box>
+                <Box component="span" sx={{ color: theme.palette.teal[50] }}>
+                  dy,
+                </Box>
+              </Typography>
+
+              <Typography variant="h4" sx={{ mb: 1, opacity: 0.9 }}>
+                I&apos;m
+              </Typography>
+
+              <Typography
+                variant="h2"
+                sx={{
+                  fontSize: { xs: "2rem", md: "3rem" },
+                  fontWeight: 700,
+                  mb: 2,
+                }}
+              >
+                Ibrahim W. Batambuze.
+              </Typography>
+
+              <Typography
+                variant="h5"
+                sx={{
+                  color: theme.palette.teal[50],
+                  mb: 4,
+                  fontSize: { xs: "1.2rem", md: "1.5rem" },
+                }}
+              >
+                A Strategic Communications Advisor.
+              </Typography>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  justifyContent: isMobile ? "center" : "flex-start",
+                }}
+              >
+                <Link href="/contact" style={{ textDecoration: "none" }}>
+                  <StyledButton>REACH OUT</StyledButton>
+                </Link>
+                <Link href="/resume" style={{ textDecoration: "none" }}>
+                  <OutlineButton>RESUME</OutlineButton>
+                </Link>
               </Box>
-              <Box component="span" sx={{ color: theme.palette.teal[50] }}>
-                dy,
-              </Box>
-            </Typography>
-
-            <Typography variant="h4" sx={{ mb: 1, opacity: 0.9 }}>
-              I&apos;m
-            </Typography>
-            
-            <Typography
-              variant="h2"
-              sx={{
-                fontSize: { xs: "2rem", md: "3rem" },
-                fontWeight: 700,
-                mb: 2,
-              }}
-            >
-              Ibrahim W. Batambuze.
-            </Typography>
-
-            <Typography
-              variant="h5"
-              sx={{
-                color: theme.palette.teal[50],
-                mb: 4,
-                fontSize: { xs: "1.2rem", md: "1.5rem" },
-              }}
-            >
-              A Strategic Communications Advisor.
-            </Typography>
-
-            <Box sx={{ display: "flex", gap: 2, justifyContent: isMobile ? "center" : "flex-start" }}>
-              <Link href="/contact" style={{ textDecoration: "none" }}>
-                <StyledButton>REACH OUT</StyledButton>
-              </Link>
-              <Link href="/resume" style={{ textDecoration: "none" }}>
-                <OutlineButton>RESUME</OutlineButton>
-              </Link>
-            </Box>
-          </TextContent>
-        </ContentContainer>
-      </HeroContainer>
+            </TextContent>
+          </ContentContainer>
+        </HeroContainer>
+      </AnimatedBackground>
     </Layout>
   );
 };
