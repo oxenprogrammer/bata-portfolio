@@ -26,15 +26,15 @@ const ContentWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const StyledContainer = styled(Box)(({ theme }) => ({
-    display: "grid",
-    gridTemplateColumns: "1fr",
-    justifyItems: "center",
-    alignItems: "center", 
-    gap: theme.spacing(1),
-    [theme.breakpoints.up("md")]: {
-      gridTemplateColumns: "repeat(3, auto)",
-    },
-  }));
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  justifyItems: "center",
+  alignItems: "center",
+  gap: theme.spacing(3),
+  [theme.breakpoints.up("md")]: {
+    gridTemplateColumns: "repeat(3, auto)",
+  },
+}));
 
 export const Blogs = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -108,7 +108,16 @@ export const Blogs = () => {
       >
         Blog
       </Typography>
-      <StyledContainer>
+      <StyledContainer
+        sx={({ breakpoints }) => ({
+          // Override grid columns only when there are exactly 4 cards
+          ...(currentBlogs?.length === 4 && {
+            [breakpoints.up(830)]: {
+              gridTemplateColumns: "repeat(2, auto)",
+            },
+          }),
+        })}
+      >
         {currentBlogs?.map((blog, index) => (
           <AnimateCard key={blog.id} index={index}>
             <BlogCard blog={blog} />
