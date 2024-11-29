@@ -10,6 +10,7 @@ import {
   Pagination,
 } from "@/app/shared/components";
 import { useState } from "react";
+import { AnimatedBackground } from "./animated-background";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -90,46 +91,48 @@ export const Blogs = () => {
   const currentBlogs = blogs?.slice(startIndex, endIndex);
 
   return (
-    <ContentWrapper>
-      <Typography
-        variant="h2"
-        sx={{
-          display: "flex",
-          justifyContent: "flex-start",
-          fontFamily: "'Poppins', sans-serif",
-          fontWeight: 700,
-          fontSize: {
-            xs: "64px",
-            sm: "80px",
-            md: "96px",
-          },
-          lineHeight: 1.5,
-        }}
-      >
-        Blog
-      </Typography>
-      <StyledContainer
-        sx={({ breakpoints }) => ({
-          // Override grid columns only when there are exactly 4 cards
-          ...(currentBlogs?.length === 4 && {
-            [breakpoints.up(830)]: {
-              gridTemplateColumns: "repeat(2, auto)",
+    <AnimatedBackground>
+      <ContentWrapper>
+        <Typography
+          variant="h2"
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+            fontFamily: "'Poppins', sans-serif",
+            fontWeight: 700,
+            fontSize: {
+              xs: "64px",
+              sm: "80px",
+              md: "96px",
             },
-          }),
-        })}
-      >
-        {currentBlogs?.map((blog, index) => (
-          <AnimateCard key={blog.id} index={index}>
-            <BlogCard blog={blog} />
-          </AnimateCard>
-        ))}
-      </StyledContainer>
-      <Pagination
-        totalItems={blogs?.length || 0}
-        itemsPerPage={ITEMS_PER_PAGE}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      />
-    </ContentWrapper>
+            lineHeight: 1.5,
+          }}
+        >
+          Blog
+        </Typography>
+        <StyledContainer
+          sx={({ breakpoints }) => ({
+            // Override grid columns only when there are exactly 4 cards
+            ...(currentBlogs?.length === 4 && {
+              [breakpoints.up(830)]: {
+                gridTemplateColumns: "repeat(2, auto)",
+              },
+            }),
+          })}
+        >
+          {currentBlogs?.map((blog, index) => (
+            <AnimateCard key={blog.id} index={index}>
+              <BlogCard blog={blog} />
+            </AnimateCard>
+          ))}
+        </StyledContainer>
+        <Pagination
+          totalItems={blogs?.length || 0}
+          itemsPerPage={ITEMS_PER_PAGE}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+        />
+      </ContentWrapper>
+    </AnimatedBackground>
   );
 };
