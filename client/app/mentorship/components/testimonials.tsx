@@ -118,6 +118,13 @@ export const TestimonialCards = () => {
                             width: "100%",
                             height: "75%",
                             position: "relative",
+                            "& img": {
+                              transition: "filter 0.3s ease",
+                              filter: "grayscale(0%)",
+                            },
+                            "&:hover img": {
+                              filter: "grayscale(100%)",
+                            },
                           }}
                         >
                           <Image

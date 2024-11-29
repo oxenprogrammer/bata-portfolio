@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import { CSSProperties, FormEvent, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Typography, Box, styled } from "@mui/material";
 import { contactApi } from "@/app/api/contact";
@@ -51,7 +51,7 @@ const SubmitButton = styled("button")(({ theme }) => ({
   },
 }));
 
-export const Contact = ({ sx }: { sx?: React.CSSProperties }) => {
+export const Contact = ({ sx }: { sx?: CSSProperties }) => {
   const mutation = useMutation({
     mutationFn: contactApi,
     onMutate: () => {
@@ -70,12 +70,12 @@ export const Contact = ({ sx }: { sx?: React.CSSProperties }) => {
     },
   });
 
-  const [buttonState, setButtonState] = React.useState<
+  const [buttonState, setButtonState] = useState<
     "idle" | "loading" | "success"
   >("idle");
-  const [showToast, setShowToast] = React.useState(false);
+  const [showToast, setShowToast] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     mutation.mutate({

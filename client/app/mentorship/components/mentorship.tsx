@@ -8,18 +8,57 @@ import {
   useMediaQuery,
   useTheme,
   Container,
+  ToggleButtonGroup,
+  ToggleButton,
 } from "@mui/material";
-import { Send as SendIcon } from "@mui/icons-material";
+import { Person, School, Send as SendIcon } from "@mui/icons-material";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { TestimonialCards } from "./testimonials";
-import { palette } from "@/app/layout/theme";
+import { useMutation } from "@tanstack/react-query";
+import { mentorSignupApi, UserType } from "@/app/api/mentorship";
 
 export const Mentorship = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down(700));
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [email, setEmail] = useState("");
+  const [userType, setUserType] = useState<
+    (typeof UserType)[keyof typeof UserType] | null
+  >(null);
+  const [buttonState, setButtonState] = useState<
+    "idle" | "loading" | "success"
+  >("idle");
+  const [showToast, setShowToast] = useState(false);
+
+  const mutation = useMutation({
+    mutationFn: mentorSignupApi,
+    onMutate: () => {
+      setButtonState("loading");
+    },
+    onSuccess: () => {
+      setShowToast(true);
+      setButtonState("success");
+      setTimeout(() => {
+        setShowToast(false);
+      }, 5000);
+    },
+    onError: (error) => {
+      console.error("Error subscribing to mentorship series:", error);
+      setButtonState("idle");
+    },
+  });
+
+  const handleSignup = () => {
+    if (email && userType) {
+      mutation.mutate({
+        email,
+        userType,
+      });
+    }
+  };
+
   const images = [
     "/images/mentorship1.webp",
     "/images/mentorship2.webp",
@@ -84,17 +123,86 @@ export const Mentorship = () => {
             Subscribe to our mailing list, and get notified when we have the
             get-togethers with mentors from around the world.
           </Typography>
-          <Box component="form" noValidate autoComplete="off" mt={4}>
-            <TextField
-              id="email"
-              label="Email Address"
-              variant="outlined"
+
+          <Box mt={2} mb={2}>
+            <Typography variant="subtitle1" gutterBottom>
+              I want to sign up as a:
+            </Typography>
+            <ToggleButtonGroup
+              value={userType}
+              exclusive
+              onChange={(_, newUserType) => setUserType(newUserType)}
               fullWidth
-              InputProps={{
-                endAdornment: <Button endIcon={<SendIcon />}>Sign Up</Button>,
-              }}
-            />
+            >
+              <ToggleButton value={UserType.MENTOR}>
+                <Person sx={{ mr: 1 }} /> Mentor
+              </ToggleButton>
+              <ToggleButton value={UserType.MENTEE}>
+                <School sx={{ mr: 1 }} /> Mentee
+              </ToggleButton>
+            </ToggleButtonGroup>
           </Box>
+          {userType && (
+            <Box component="form" noValidate autoComplete="off" mt={2}>
+              <TextField
+                id="email"
+                label="Email Address"
+                variant="outlined"
+                fullWidth
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                sx={{
+                  "& .MuiInputLabel-root": {
+                    color: theme.palette.gray[50],
+                    "&.Mui-focused": {
+                      color: theme.palette.orange[60],
+                    },
+                    "&.Mui-error": {
+                      color: theme.palette.error.main,
+                    },
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    backgroundColor: theme.palette.gray[100],
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: theme.palette.orange[60],
+                    },
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: theme.palette.orange[60],
+                    },
+                    "&.Mui-focused": {
+                      backgroundColor: theme.palette.primary.main,
+                    },
+                  },
+                  "& .MuiInputBase-input": {
+                    backgroundColor: "transparent",
+                  },
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <Button
+                      onClick={handleSignup}
+                      disabled={!email}
+                      sx={{
+                        backgroundColor:
+                          buttonState === "loading"
+                            ? `${theme.palette.orange[50]} !important`
+                            : `${theme.palette.orange[60]} !important`,
+                        color: `${theme.palette.white} !important`,
+                        "&:hover": {
+                          backgroundColor:
+                            buttonState === "loading"
+                              ? `${theme.palette.orange[50]} !important`
+                              : `${theme.palette.orange[40]} !important`,
+                        },
+                      }}
+                    >
+                      Sign Up
+                    </Button>
+                  ),
+                }}
+              />
+            </Box>
+          )}
         </Box>
         <Box
           flex={1}
