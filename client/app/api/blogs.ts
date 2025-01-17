@@ -61,5 +61,9 @@ export const getBlogs = async (): Promise<Blog[]> => {
 
 export const getBlogById = async (id: string): Promise<Blog | undefined> => {
   const blogs = await getBlogs();
+  console.log(
+    "Blog:",
+    blogs.find((blog) => blog.id === id)
+  );
   return blogs.find((blog) => blog.id === id);
 };

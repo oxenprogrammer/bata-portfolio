@@ -61,8 +61,8 @@ export const Mentorship = () => {
 
   const images = [
     "/images/mentorship1.webp",
-    "/images/mentorship2.webp",
-    "/images/mentorship3.webp",
+    // "/images/mentorship2.webp",
+    // "/images/mentorship3.webp",
   ];
 
   useEffect(() => {
