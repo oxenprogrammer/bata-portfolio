@@ -148,7 +148,7 @@ export const BlogDetails = ({ blog }: { blog: Blog }) => {
             component={Link}
             href="/blogs"
             startIcon={<ArrowBack />}
-            sx={{ color: theme.palette.white }}
+            sx={{ color: theme.palette.white, backgroundColor: theme.palette.teal[90], '&:hover': { backgroundColor: theme.palette.teal[80] } }}
           >
             Back to Blogs
           </Button>
@@ -223,7 +223,7 @@ export const BlogDetails = ({ blog }: { blog: Blog }) => {
                   </Typography>
                 </Box>
 
-                <Box sx={{ display: "flex", gap: 1 }}>
+                {/* <Box sx={{ display: "flex", gap: 1 }}>
                   <IconButton onClick={() => setIsLiked(!isLiked)}>
                     {isLiked ? (
                       <Favorite color="primary" />
@@ -241,7 +241,7 @@ export const BlogDetails = ({ blog }: { blog: Blog }) => {
                   <IconButton>
                     <Share />
                   </IconButton>
-                </Box>
+                </Box> */}
               </Box>
             </Box>
           )}

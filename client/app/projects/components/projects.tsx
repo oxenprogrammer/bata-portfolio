@@ -38,7 +38,7 @@ const SearchBar = styled(motion.div)(({ theme }) => ({
   width: "400px",
   display: "flex",
   backgroundColor: theme.palette.background.paper,
-  border: `1px solid #fc6d46`,
+  border: `1px solid ${theme.palette.teal[80]}`,
   borderRadius: theme.borderRadii.xl,
   padding: theme.spacing(1),
   marginBottom: theme.spacing(2),
@@ -156,14 +156,14 @@ export const Projects = () => {
       >
         <Typography
           variant="h2"
-          sx={{
+          sx={({ palette }) => ({
             display: {
               xs: "none",
               md: "flex",
             },
-            color: "#fc6d46",
+            color: palette.teal[80],
             fontWeight: "bolder",
-          }}
+          })}
         >
           projects
         </Typography>
@@ -186,7 +186,7 @@ export const Projects = () => {
             type="button"
             aria-label="search"
           >
-            <SearchIcon sx={{ color: "#fc6d46" }} />
+            <SearchIcon sx={({ palette }) =>({ color: palette.teal[80] })} />
           </IconButton>
         </SearchBar>
       </Box>

@@ -28,7 +28,7 @@ const CarouselContent = styled(Box)(({ theme }) => ({
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "flex-start",
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: theme.palette.white,
   gap: theme.spacing(4),
 }));
 

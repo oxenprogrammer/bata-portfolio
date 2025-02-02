@@ -8,7 +8,7 @@ const FilterContainer = styled(Box)(({ theme }) => ({
   top: theme.spacing(2),
   width: 200,
   marginRight: theme.spacing(2),
-  backgroundColor: "#fc6d46",
+  backgroundColor: theme.palette.teal[80],
   borderRadius: theme.shape.borderRadius,
   boxShadow: theme.shadows[1],
   padding: theme.spacing(2),

@@ -119,20 +119,12 @@ export const Newsletter = ({ sx }: { sx?: React.CSSProperties }) => {
           Join the Newsletter
         </Typography>
         <Typography sx={({ palette }) => ({ color: palette.text.secondary })}>
-          Subscribe to receive regular updates on new products, articles, and
-          courses.
+        Be the first to receive exclusive insights, expert opinions,
         </Typography>
         <Typography
           sx={({ palette }) => ({ mb: 3, color: palette.text.secondary })}
         >
-          Want to receive free Sepolia ETH for this? Visit{" "}
-          <Link
-            href="/faucet"
-            style={{ color: "#4DB6AC", textDecoration: "none" }}
-          >
-            the faucet
-          </Link>{" "}
-          after confirming your subscription.
+          and updates on the latest trends in communications, mentorship branding, and business.
         </Typography>
 
         <Box
@@ -171,7 +163,7 @@ export const Newsletter = ({ sx }: { sx?: React.CSSProperties }) => {
         <Typography
           sx={({ palette }) => ({ color: palette.text.secondary, mb: 4 })}
         >
-          We won&apos;t send you spam. Unsubscribe at any time.
+          The newsletter brings you valuable content straight to your inbox—no spam, just impact.
         </Typography>
       </Box>
     </>

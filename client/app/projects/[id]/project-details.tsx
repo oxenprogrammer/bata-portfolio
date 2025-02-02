@@ -154,12 +154,20 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
           variants={itemVariants}
         >
           <Box>
-            <Typography color="text.secondary">Organization</Typography>
-            <Typography variant="h6">{project.organization}</Typography>
+            <Typography sx={({ palette}) => ({
+              color: palette.teal[80]
+            })}>Organization</Typography>
+            <Typography sx={({ palette}) => ({
+              color: palette.teal[50]
+            })} variant="h6">{project.organization}</Typography>
           </Box>
           <Box>
-            <Typography color="text.secondary">Date</Typography>
-            <Typography variant="h6">
+            <Typography sx={({ palette}) => ({
+              color: palette.teal[80]
+            })}>Date</Typography>
+            <Typography sx={({ palette}) => ({
+              color: palette.teal[50]
+            })} variant="h6">
               {new Date(project.date).toLocaleDateString("en-US", {
                 month: "long",
                 year: "numeric",
@@ -178,8 +186,9 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
                 variant="outlined"
                 sx={{
                   borderRadius: 1,
+                  bgcolor: "teal.100",
                   "&:hover": {
-                    bgcolor: alpha("#fff", 0.1),
+                    bgcolor: "teal.80",
                   },
                 }}
               />
@@ -189,7 +198,7 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
 
         {/* Summary */}
         <MotionBox variants={itemVariants} style={{ marginBottom: 6 }}>
-          <Typography variant="h5" gutterBottom sx={{ fontWeight: 500 }}>
+          <Typography variant="h5" gutterBottom sx={{ fontWeight: 500, color: "teal.80" }}>
             Summary
           </Typography>
           <Typography color="text.secondary" sx={{ whiteSpace: "pre-wrap" }}>

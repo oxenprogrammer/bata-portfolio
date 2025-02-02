@@ -28,9 +28,10 @@ const CardOverlay = styled(Box)(({ theme }) => ({
   left: 0,
   right: 0,
   background:
-    "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, transparent 100%)",
+    "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 85%, transparent 100%)",
   padding: theme.spacing(3),
   color: theme.palette.common.white,
+  height: "40%",
 }));
 
 const BlogImage = styled(Box)(() => ({

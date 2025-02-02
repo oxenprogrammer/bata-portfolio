@@ -117,7 +117,7 @@ export const Contact = ({ sx }: { sx?: CSSProperties }) => {
             mb: 2,
           })}
         >
-          Coffee!
+          Coffe?
         </Typography>
         <Typography
           sx={({ palette }) => ({
