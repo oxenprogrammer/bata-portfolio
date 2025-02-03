@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect } from "react";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getProjectById } from '@/app/api/projects';
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import {
@@ -9,28 +10,25 @@ import {
   Box,
   Chip,
   Stack,
-  alpha,
 } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 import { Project } from "@/app/shared/types";
 
 const MotionBox = motion("div");
 const MotionTypography = motion("p");
-const MotionImage = motion("img");
 
-interface ProjectDetailsProps {
-  project: Project;
-}
-
-export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
+export const ProjectDetails = ({ project: initialProject }: { project: Project }) => {
   const { scrollY } = useScroll();
 
-  // Transform values for parallax and fade effects
-  const headerOpacity = useTransform(scrollY, [0, 200], [1, 0]);
+  const { data: project = initialProject } = useQuery({
+    queryKey: ['project', initialProject.id],
+    queryFn: () => getProjectById(initialProject.id),
+    initialData: initialProject,
+  });
+
   const imageScale = useTransform(scrollY, [0, 300], [1, 1.1]);
   const contentY = useTransform(scrollY, [0, 300], [60, 0]);
 
-  // Initial animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -99,10 +97,10 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
         </IconButton>
       </Box>
 
-      {/* Hero Image Section */}
       <MotionBox style={containerStyle}>
         <Box
           component="img"
+          key={project.images[0]}
           src={project.images[0]}
           alt={project.title}
           sx={{
@@ -128,7 +126,6 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
               color: "white",
               textShadow: "0 0 10px rgba(0,0,0,0.5)",
             }}
-            color="white"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
@@ -138,14 +135,12 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
         </Box>
       </MotionBox>
 
-      {/* Content Section */}
       <MotionBox
         variants={containerVariants}
         initial="hidden"
         animate="visible"
         style={{ y: contentY }}
       >
-        {/* Project Meta */}
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={3}
@@ -154,18 +149,18 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
           variants={itemVariants}
         >
           <Box>
-            <Typography sx={({ palette}) => ({
+            <Typography sx={({ palette }) => ({
               color: palette.teal[80]
             })}>Organization</Typography>
-            <Typography sx={({ palette}) => ({
+            <Typography sx={({ palette }) => ({
               color: palette.teal[50]
             })} variant="h6">{project.organization}</Typography>
           </Box>
           <Box>
-            <Typography sx={({ palette}) => ({
+            <Typography sx={({ palette }) => ({
               color: palette.teal[80]
             })}>Date</Typography>
-            <Typography sx={({ palette}) => ({
+            <Typography sx={({ palette }) => ({
               color: palette.teal[50]
             })} variant="h6">
               {new Date(project.date).toLocaleDateString("en-US", {
@@ -176,7 +171,6 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
           </Box>
         </Stack>
 
-        {/* Categories */}
         <Box mb={4} component={motion.div} variants={itemVariants}>
           <Stack direction="row" spacing={1} flexWrap="wrap" gap={1}>
             {project.categories.map((category) => (
@@ -196,7 +190,6 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
           </Stack>
         </Box>
 
-        {/* Summary */}
         <MotionBox variants={itemVariants} style={{ marginBottom: 6 }}>
           <Typography variant="h5" gutterBottom sx={{ fontWeight: 500, color: "teal.80" }}>
             Summary
@@ -206,7 +199,6 @@ export const ProjectDetails = ({ project }: ProjectDetailsProps) => {
           </Typography>
         </MotionBox>
 
-        {/* Description */}
         {project.description && (
           <MotionBox variants={itemVariants}>
             <Typography variant="h5" gutterBottom sx={{ fontWeight: 500 }}>

@@ -6,17 +6,17 @@ const ProjectSchema = z.object({
   id: z.number(),
   title: z.string(),
   description: z.string().nullable(),
-  file_url: z.string().url().optional(), // Made optional
-  date: z.string().optional(), // Made optional
-  summary: z.string().optional(), // Made optional
-  organization: z.string().optional(), // Made optional
-  video_url: z.string().url().nullable().optional(), // Made optional
-  images: z.array(z.string().url()).default([]), // Default empty array
-  categories: z.array(z.string()).default([]), // Default empty array
+  file_url: z.string().url().nullable().optional(),
+  date: z.string().optional(),
+  summary: z.string().optional(),
+  organization: z.string().optional(),
+  video_url: z.string().url().nullable().optional(),
+  images: z.array(z.string().url()).default([]),
+  categories: z.array(z.string()).default([]),
+  external_links: z.array(z.string().url()).nullable().default([]),
   created_at: z.string(),
   updated_at: z.string(),
 });
-
 // TypeScript type derived from the schema
 type ApiProject = z.infer<typeof ProjectSchema>;
 
@@ -37,6 +37,7 @@ export interface Project {
   videoUrl: string | null;
   images: string[];
   categories: string[];
+  externalLinks: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -45,13 +46,14 @@ const transformProject = (data: ApiProject): Project => ({
   id: data.id.toString(),
   title: data.title,
   description: data.description,
-  summary: data.summary ?? "", // Provide default value
-  date: data.date ?? "", // Provide default value
-  organization: data.organization ?? "", // Provide default value
-  fileUrl: data.file_url ?? "", // Provide default value
+  summary: data.summary ?? "",
+  date: data.date ?? "",
+  organization: data.organization ?? "",
+  fileUrl: data.file_url ?? "",
   videoUrl: data.video_url ?? null,
   images: data.images ?? [],
   categories: data.categories ?? [],
+  externalLinks: data.external_links ?? [],
   createdAt: new Date(data.created_at),
   updatedAt: new Date(data.updated_at),
 });
@@ -92,14 +94,23 @@ async function fetchWithErrorHandling(url: string, options?: RequestInit) {
 const API_BASE_URL = `${API_URL}`;
 
 export const getProjects = async (): Promise<Project[]> => {
-  const rawData = (await fetchWithErrorHandling(
-    `${API_BASE_URL}/documents`
-  )) as ApiResponse;
+  try {
+    const rawData = (await fetchWithErrorHandling(
+      `${API_BASE_URL}/documents`
+    )) as ApiResponse;
 
-  // Validate the response data
-  const validatedData = z.array(ProjectSchema).parse(rawData.data);
+    console.log("Raw API response:", rawData); // Debug log
 
-  return validatedData.map(transformProject);
+    // Validate the response data
+    const validatedData = z.array(ProjectSchema).parse(rawData.data);
+    return validatedData.map(transformProject);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.error("Validation error details:", error.issues);
+    }
+    console.error("Project loading error:", error);
+    throw error;
+  }
 };
 
 export const getProjectById = async (

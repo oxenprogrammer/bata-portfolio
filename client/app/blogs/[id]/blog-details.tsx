@@ -87,6 +87,7 @@ export const BlogDetails = ({ blog }: { blog: Blog }) => {
         }}
       >
         <Image
+          key={blog.images[0].url}
           src={blog.images[0].url}
           alt={blog.title}
           fill

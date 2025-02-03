@@ -11,6 +11,7 @@ export interface Project {
   categories: string[];
   createdAt: Date;
   updatedAt: Date;
+  externalLinks: string[];
 }
 
 export type ProjectApiResponse = {
