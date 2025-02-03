@@ -7,22 +7,23 @@ import { Toast } from ".";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
-const ContactInput = styled("input")(({ theme }) => ({
+const ContactInput = styled("input")<{ error?: boolean }>(({ theme, error }) => ({
   padding: theme.spacing(1.5),
-  border: "1px solid rgba(255, 255, 255, 0.2)",
   borderRadius: theme.shape.borderRadius,
   marginBottom: theme.spacing(2),
   backgroundColor: theme.palette.background.default,
   color: theme.palette.text.primary,
+  border: error ? `1px solid ${theme.palette.error.main}` : "1px solid rgba(255, 255, 255, 0.2)",
   "&:focus": {
     outline: "none",
-    borderColor: `${theme.palette.teal[80]} !important`,
+    borderColor: error
+      ? theme.palette.error.main
+      : `${theme.palette.teal[80]} !important`,
   },
 }));
 
-const ContactTextArea = styled("textarea")(({ theme }) => ({
+const ContactTextArea = styled("textarea")<{ error?: boolean }>(({ theme, error }) => ({
   padding: theme.spacing(1.5),
-  border: "1px solid rgba(255, 255, 255, 0.2)",
   borderRadius: theme.shape.borderRadius,
   marginBottom: theme.spacing(2),
   backgroundColor: theme.palette.background.default,
@@ -30,15 +31,18 @@ const ContactTextArea = styled("textarea")(({ theme }) => ({
   minHeight: "120px",
   resize: "vertical",
   fontFamily: "inherit",
+  border: error ? `1px solid ${theme.palette.error.main}` : "1px solid rgba(255, 255, 255, 0.2)",
   "&:focus": {
     outline: "none",
-    borderColor: `${theme.palette.teal[80]} !important`,
+    borderColor: error
+      ? theme.palette.error.main
+      : `${theme.palette.teal[80]} !important`,
   },
 }));
 
 const SubmitButton = styled("button")(({ theme }) => ({
   padding: theme.spacing(1.5, 3),
-  backgroundColor: `${theme.palette.teal[80]} !important`, // Teal color for button
+  backgroundColor: `${theme.palette.teal[80]} !important`,
   color: theme.palette.common.white,
   border: "none",
   borderRadius: theme.shape.borderRadius,
@@ -55,39 +59,140 @@ const SubmitButton = styled("button")(({ theme }) => ({
 
 export const Contact = ({ sx }: { sx?: CSSProperties }) => {
   const [phone, setPhone] = useState("");
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
+  const [submitError, setSubmitError] = useState<string>("");
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [buttonState, setButtonState] = useState<"idle" | "loading" | "success">("idle");
+  const [showToast, setShowToast] = useState(false);
+
+  const isValid = (formData: FormData): boolean => {
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const subject = formData.get("subject") as string;
+    const message = formData.get("message") as string;
+
+    return (
+      name?.length >= 2 &&
+      email?.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) !== null &&
+      phone?.length > 0 &&
+      subject?.length >= 3 &&
+      message?.length >= 10
+    );
+  };
+
+  const validateForm = (formData: FormData) => {
+    const errors: Record<string, string> = {};
+
+    Object.keys(touchedFields).forEach(field => {
+      if (!touchedFields[field]) return;
+
+      switch(field) {
+        case 'email':
+          const email = formData.get("email") as string;
+          if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+            errors.email = "Please enter a valid email address";
+          }
+          break;
+        case 'name':
+          const name = formData.get("name") as string;
+          if (name.length < 2) {
+            errors.name = "Name must be at least 2 characters long";
+          }
+          break;
+        case 'message':
+          const message = formData.get("message") as string;
+          if (message.length < 10) {
+            errors.message = "Message must be at least 10 characters long";
+          }
+          break;
+        case 'subject':
+          const subject = formData.get("subject") as string;
+          if (subject.length < 3) {
+            errors.subject = "Subject must be at least 3 characters long";
+          }
+          break;
+        case 'phone':
+          if (!phone) {
+            errors.phone = "Phone number is required";
+          }
+          break;
+      }
+    });
+
+    return errors;
+  };
+
+  const validateField = (formData: FormData) => {
+    const errors = validateForm(formData);
+    setFormErrors(errors);
+    setIsFormValid(isValid(formData));
+  };
+
+  const handleBlur = (fieldName: string) => {
+    setTouchedFields(prev => ({
+      ...prev,
+      [fieldName]: true
+    }));
+    const form = document.querySelector('form');
+    if (form) {
+      validateField(new FormData(form));
+    }
+  };
+
+  const handlePhoneChange = (value: string) => {
+    setPhone(value);
+    setTouchedFields(prev => ({
+      ...prev,
+      phone: true
+    }));
+    const form = document.querySelector('form');
+    if (form) {
+      validateField(new FormData(form));
+    }
+  };
+
   const mutation = useMutation({
     mutationFn: contactApi,
     onMutate: () => {
       setButtonState("loading");
+      setSubmitError("");
     },
     onSuccess: () => {
       setShowToast(true);
       setButtonState("success");
+      setFormErrors({});
+      setSubmitError("");
       setTimeout(() => {
         setShowToast(false);
       }, 5000);
     },
-    onError: (error) => {
-      console.error("Error subscribing to newsletter:", error);
+    onError: (error: any) => {
       setButtonState("idle");
+      setSubmitError(error.message || "Failed to send message. Please try again.");
     },
   });
-
-  const [buttonState, setButtonState] = useState<
-    "idle" | "loading" | "success"
-  >("idle");
-  const [showToast, setShowToast] = useState(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    mutation.mutate({
-      name: formData.get("name") as string,
-      email: formData.get("email") as string,
-      phone: formData.get("phone") as string,
-      message: formData.get("message") as string,
-      subject: formData.get("subject") as string,
-    });
+
+    const allFields = ['name', 'email', 'phone', 'subject', 'message'];
+    setTouchedFields(allFields.reduce((acc, field) => ({ ...acc, [field]: true }), {}));
+
+    const errors = validateForm(formData);
+    setFormErrors(errors);
+    setIsFormValid(isValid(formData));
+
+    if (Object.keys(errors).length === 0) {
+      mutation.mutate({
+        name: formData.get("name") as string,
+        email: formData.get("email") as string,
+        phone: phone,
+        message: formData.get("message") as string,
+        subject: formData.get("subject") as string,
+      });
+    }
   };
 
   return (
@@ -105,7 +210,7 @@ export const Contact = ({ sx }: { sx?: CSSProperties }) => {
           maxWidth: 800,
           mx: "auto",
           mb: 4,
-          backgroundColor: palette.background.default, // Dark background
+          backgroundColor: palette.background.default,
           color: palette.text.primary,
           border: `1px solid ${palette.teal[80]}`,
           borderRadius: borderRadii.xxl,
@@ -124,7 +229,7 @@ export const Contact = ({ sx }: { sx?: CSSProperties }) => {
         </Typography>
         <Typography
           sx={({ palette }) => ({
-            color: palette.text.secondary, // Adjust for contrast in dark mode
+            color: palette.text.secondary,
             mb: 4,
           })}
         >
@@ -147,17 +252,34 @@ export const Contact = ({ sx }: { sx?: CSSProperties }) => {
             name="name"
             placeholder="Your Name"
             required
+            onBlur={() => handleBlur('name')}
+            error={touchedFields.name && !!formErrors.name}
           />
+          {touchedFields.name && formErrors.name && (
+            <Typography color="error" sx={{ mb: 1 }}>
+              {formErrors.name}
+            </Typography>
+          )}
+
           <ContactInput
             type="email"
             name="email"
             placeholder="Your Email"
             required
+            onBlur={() => handleBlur('email')}
+            error={touchedFields.email && !!formErrors.email}
           />
+          {touchedFields.email && formErrors.email && (
+            <Typography color="error" sx={{ mb: 1 }}>
+              {formErrors.email}
+            </Typography>
+          )}
+
           <PhoneInput
             country={'ug'}
             value={phone}
-            onChange={phone => setPhone(phone)}
+            onChange={handlePhoneChange}
+            onBlur={() => handleBlur('phone')}
             inputProps={{
               name: 'phone',
               required: true,
@@ -172,7 +294,9 @@ export const Contact = ({ sx }: { sx?: CSSProperties }) => {
               width: '100%',
               height: '48px',
               backgroundColor: 'transparent',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
+              border: touchedFields.phone && formErrors.phone
+                ? '1px solid #f44336'
+                : '1px solid rgba(255, 255, 255, 0.2)',
               borderRadius: '4px',
               color: '#fff',
               padding: '12px 12px 12px 50px'
@@ -196,18 +320,49 @@ export const Contact = ({ sx }: { sx?: CSSProperties }) => {
             enableSearch={true}
             dropdownClass="custom-dropdown"
           />
+          {touchedFields.phone && formErrors.phone && (
+            <Typography color="error" sx={{ mb: 1 }}>
+              {formErrors.phone}
+            </Typography>
+          )}
+
           <ContactInput
             type="text"
             name="subject"
             placeholder="Subject"
             required
+            onBlur={() => handleBlur('subject')}
+            error={touchedFields.subject && !!formErrors.subject}
           />
-          <ContactTextArea name="message" placeholder="Your Message" required />
+          {touchedFields.subject && formErrors.subject && (
+            <Typography color="error" sx={{ mb: 1 }}>
+              {formErrors.subject}
+            </Typography>
+          )}
+
+          <ContactTextArea
+            name="message"
+            placeholder="Your Message"
+            required
+            onBlur={() => handleBlur('message')}
+          />
+          {touchedFields.message && formErrors.message && (
+            <Typography color="error" sx={{ mb: 1 }}>
+              {formErrors.message}
+            </Typography>
+          )}
+
+          {submitError && (
+            <Typography color="error" sx={{ mb: 2 }}>
+              {submitError}
+            </Typography>
+          )}
+
           <SubmitButton
             type="submit"
-            disabled={buttonState === "loading" || buttonState === "success"}
+            disabled={buttonState === "loading" || buttonState === "success" || !isFormValid}
           >
-            Send Message
+            {buttonState === "loading" ? "Sending..." : "Send Message"}
           </SubmitButton>
         </Box>
       </Box>
