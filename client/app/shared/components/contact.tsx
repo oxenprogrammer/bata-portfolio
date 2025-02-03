@@ -6,6 +6,7 @@ import { contactApi } from "@/app/api/contact";
 import { Toast } from ".";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { debounce } from "@/app/shared/utils/debounce";
 
 const ContactInput = styled("input")<{ error?: boolean }>(({ theme, error }) => ({
   padding: theme.spacing(1.5),
@@ -65,6 +66,10 @@ export const Contact = ({ sx }: { sx?: CSSProperties }) => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [buttonState, setButtonState] = useState<"idle" | "loading" | "success">("idle");
   const [showToast, setShowToast] = useState(false);
+
+  const debouncedValidation = debounce((formData: FormData) => {
+    validateField(formData);
+  }, 300);
 
   const isValid = (formData: FormData): boolean => {
     const name = formData.get("name") as string;
@@ -149,6 +154,17 @@ export const Contact = ({ sx }: { sx?: CSSProperties }) => {
     const form = document.querySelector('form');
     if (form) {
       validateField(new FormData(form));
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const form = e.target.form;
+    if (form) {
+      setTouchedFields(prev => ({
+        ...prev,
+        [e.target.name]: true
+      }));
+      debouncedValidation(new FormData(form));
     }
   };
 
@@ -253,6 +269,7 @@ export const Contact = ({ sx }: { sx?: CSSProperties }) => {
             placeholder="Your Name"
             required
             onBlur={() => handleBlur('name')}
+            onChange={handleInputChange}
             error={touchedFields.name && !!formErrors.name}
           />
           {touchedFields.name && formErrors.name && (
@@ -267,6 +284,7 @@ export const Contact = ({ sx }: { sx?: CSSProperties }) => {
             placeholder="Your Email"
             required
             onBlur={() => handleBlur('email')}
+            onChange={handleInputChange}
             error={touchedFields.email && !!formErrors.email}
           />
           {touchedFields.email && formErrors.email && (
@@ -332,6 +350,7 @@ export const Contact = ({ sx }: { sx?: CSSProperties }) => {
             placeholder="Subject"
             required
             onBlur={() => handleBlur('subject')}
+            onChange={handleInputChange}
             error={touchedFields.subject && !!formErrors.subject}
           />
           {touchedFields.subject && formErrors.subject && (
@@ -345,6 +364,7 @@ export const Contact = ({ sx }: { sx?: CSSProperties }) => {
             placeholder="Your Message"
             required
             onBlur={() => handleBlur('message')}
+            onChange={handleInputChange}
           />
           {touchedFields.message && formErrors.message && (
             <Typography color="error" sx={{ mb: 1 }}>
