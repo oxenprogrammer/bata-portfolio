@@ -3,8 +3,8 @@ import { API_URL } from "./constants";
 
 // Define the user types
 export const UserType = {
-  MENTOR: "mentor",
-  MENTEE: "mentee",
+  MENTOR: "MENTOR",
+  MENTEE: "MENTEE",
 } as const;
 
 // Create a Zod schema for mentor signup
@@ -25,7 +25,7 @@ type MentorSignupInput = z.infer<typeof mentorSignupSchema>;
 export async function mentorSignupApi(input: MentorSignupInput) {
   const validated = mentorSignupSchema.parse(input);
 
-  const response = await fetch(`${API_URL}/mentor-signup`, {
+  const response = await fetch(`${API_URL}/mentorship`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

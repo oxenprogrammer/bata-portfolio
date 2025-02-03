@@ -10,6 +10,7 @@ import {
   Container,
   ToggleButtonGroup,
   ToggleButton,
+  Tooltip,
 } from "@mui/material";
 import { Person, School, Send as SendIcon } from "@mui/icons-material";
 import { motion, AnimatePresence } from "framer-motion";
@@ -31,7 +32,13 @@ export const Mentorship = () => {
   const [buttonState, setButtonState] = useState<
     "idle" | "loading" | "success"
   >("idle");
+  const MENTOR_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSejqjrsQGU887SSf4x3OvSMyl17bblDkb5G915RyByi3eqNXQ/viewform";
+  const MENTEE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeShmb3P0sG93-zW9-dT0nVmgB7LGbgpFXk2TX2rM8pEIjlRQ/viewform";
+
   const [showToast, setShowToast] = useState(false);
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
 
   const mutation = useMutation({
     mutationFn: mentorSignupApi,
@@ -41,6 +48,11 @@ export const Mentorship = () => {
     onSuccess: () => {
       setShowToast(true);
       setButtonState("success");
+
+      // Open the appropriate Google form in a new tab
+      const formUrl = userType === UserType.MENTOR ? MENTOR_FORM_URL : MENTEE_FORM_URL;
+      window.open(formUrl, '_blank');
+
       setTimeout(() => {
         setShowToast(false);
       }, 8000);
@@ -51,6 +63,21 @@ export const Mentorship = () => {
     },
   });
 
+  {showToast && (
+    <Box
+      sx={{
+        mt: 2,
+        p: 2,
+        bgcolor: 'teal.50',
+        borderRadius: 1,
+        color: 'teal.900'
+      }}
+    >
+      <Typography>
+        Thanks for signing up! Please complete your registration on the Google form that opened in a new tab.
+      </Typography>
+    </Box>
+  )}
   const handleSignup = () => {
     if (email && userType) {
       mutation.mutate({
@@ -178,25 +205,37 @@ Our structured <Link style={{fontWeight: "bold"}} href={'https://docs.google.com
                 }}
                 InputProps={{
                   endAdornment: (
-                    <Button
-                      onClick={handleSignup}
-                      disabled={!email}
-                      sx={{
-                        backgroundColor:
-                          buttonState === "loading"
-                            ? `${theme.palette.teal[80]} !important`
-                            : `${theme.palette.teal[90]} !important`,
-                        color: `${theme.palette.white} !important`,
-                        "&:hover": {
-                          backgroundColor:
-                            buttonState === "loading"
-                              ? `${theme.palette.teal[80]} !important`
-                              : `${theme.palette.teal[70]} !important`,
-                        },
-                      }}
+                    <Tooltip
+                      title={!isValidEmail(email) ? "Incorrect Email" : ""}
+                      placement="top"
                     >
-                      Sign Up
-                    </Button>
+                      <span>
+                        <Button
+                          onClick={handleSignup}
+                          disabled={!isValidEmail(email)}
+                          sx={{
+                            backgroundColor:
+                              buttonState === "loading"
+                                ? `${theme.palette.teal[80]} !important`
+                                : `${theme.palette.teal[90]} !important`,
+                            color: `${theme.palette.white} !important`,
+                            "&:hover": {
+                              backgroundColor:
+                                buttonState === "loading"
+                                  ? `${theme.palette.teal[80]} !important`
+                                  : `${theme.palette.teal[70]} !important`,
+                            },
+                            "&:disabled": {
+                              backgroundColor: `${theme.palette.teal[50]} !important`,
+                              color: `${theme.palette.gray[30]} !important`,
+                              cursor: "not-allowed !important",
+                            }
+                          }}
+                        >
+                          Sign Up
+                        </Button>
+                      </span>
+                    </Tooltip>
                   ),
                 }}
               />

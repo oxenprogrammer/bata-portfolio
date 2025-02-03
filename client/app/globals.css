@@ -49,3 +49,21 @@ body {
     color-scheme: dark;
   }
 }
+
+.react-tel-input .country-list .country:hover {
+  background-color: #1e2630 !important;
+}
+
+.react-tel-input .country-list .country {
+  padding: 8px 12px;
+}
+
+.react-tel-input .selected-flag {
+  padding-left: 12px;
+}
+
+.react-tel-input .country-list .country.highlight {
+  background-color: #313b47 !important;
+}
+
+

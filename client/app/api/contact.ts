@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { API_URL } from "./constants";
-
 const contactSchema = z.object({
   email: z
     .string()
@@ -9,9 +8,12 @@ const contactSchema = z.object({
   name: z.string().optional(),
   phone: z
     .string()
-    .regex(
-      /^(\+\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/,
-      "Please enter a valid phone number"
+    .transform((val) => val.replace(/\s+/g, ''))
+    .pipe(
+      z.string().regex(
+        /^\+?[0-9]{6,15}$/,
+        "Please enter a valid phone number"
+      )
     )
     .optional(),
   subject: z.string().min(1, "Subject is required"),

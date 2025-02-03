@@ -16,6 +16,7 @@ import { Project } from "@/app/shared/types";
 
 const MotionBox = motion("div");
 const MotionTypography = motion("p");
+const MotionImage = motion('div');
 
 export const ProjectDetails = ({ project: initialProject }: { project: Project }) => {
   const { scrollY } = useScroll();
@@ -98,15 +99,18 @@ export const ProjectDetails = ({ project: initialProject }: { project: Project }
       </Box>
 
       <MotionBox style={containerStyle}>
-        <Box
-          component="img"
+        <MotionImage
           key={project.images[0]}
-          src={project.images[0]}
-          alt={project.title}
-          sx={{
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          style={{
             width: "100%",
             height: "100%",
             objectFit: "cover",
+            backgroundImage: `url(${project.images[0]})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         />
         <Box

@@ -4,6 +4,8 @@ import { useMutation } from "@tanstack/react-query";
 import { Typography, Box, styled } from "@mui/material";
 import { contactApi } from "@/app/api/contact";
 import { Toast } from ".";
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 const ContactInput = styled("input")(({ theme }) => ({
   padding: theme.spacing(1.5),
@@ -52,6 +54,7 @@ const SubmitButton = styled("button")(({ theme }) => ({
 }));
 
 export const Contact = ({ sx }: { sx?: CSSProperties }) => {
+  const [phone, setPhone] = useState("");
   const mutation = useMutation({
     mutationFn: contactApi,
     onMutate: () => {
@@ -151,7 +154,48 @@ export const Contact = ({ sx }: { sx?: CSSProperties }) => {
             placeholder="Your Email"
             required
           />
-          <ContactInput type="tel" name="phone" placeholder="Phone Number" />
+          <PhoneInput
+            country={'ug'}
+            value={phone}
+            onChange={phone => setPhone(phone)}
+            inputProps={{
+              name: 'phone',
+              required: true,
+            }}
+            containerStyle={{
+              width: '100%',
+              marginBottom: '16px',
+              display: 'flex',
+              alignItems: 'center'
+            }}
+            inputStyle={{
+              width: '100%',
+              height: '48px',
+              backgroundColor: 'transparent',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: '4px',
+              color: '#fff',
+              padding: '12px 12px 12px 50px'
+            }}
+            buttonStyle={{
+              backgroundColor: 'transparent',
+              border: '1px solid rgba(255, 255, 255, 0)',
+              borderRight: 'none',
+              borderRadius: '4px 0 0 4px',
+            }}
+            dropdownStyle={{
+              backgroundColor: '#12181E',
+              color: '#fff',
+              textAlign: 'left'
+            }}
+            searchStyle={{
+              backgroundColor: '#12181E',
+              color: '#fff'
+            }}
+            countryCodeEditable={false}
+            enableSearch={true}
+            dropdownClass="custom-dropdown"
+          />
           <ContactInput
             type="text"
             name="subject"
