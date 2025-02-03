@@ -18,8 +18,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Bata Ibrahim",
-  description: "My portfolio website",
+  title: "Ibrahim W. Batambuze",
+  description: "I am a Strategic Communications Advisor, Digital Innovator, and Project Manager.",
 };
 
 export default function RootLayout({
@@ -29,6 +29,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ThemeRegistry options={{ key: "mui" }}>
           <Providers>

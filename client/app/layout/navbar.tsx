@@ -18,6 +18,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { styled } from "@mui/system";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
 
 const StyledLink = styled(Link)(({ theme }) => ({
   color: "inherit",
@@ -107,6 +108,27 @@ const MobileMenuItemWrapper = styled("div")(({ theme }) => ({
   },
 }));
 
+const ImageContainer = styled(Box)(({ theme }) => ({
+  position: "relative",
+  zIndex: 2,
+  width: "100%",
+  maxWidth: "400px",
+  height: "500px",
+  borderRadius: theme.spacing(2),
+  overflow: "hidden",
+  boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+  [theme.breakpoints.down("md")]: {
+    height: "400px",
+  },
+  "& img": {
+    transition: "filter 0.3s ease",
+    filter: "grayscale(0%)",
+  },
+  "&:hover img": {
+    filter: "grayscale(50%)",
+  },
+}));
+
 const navItems = [
   "HOME",
   "ABOUT",
@@ -136,7 +158,7 @@ const Navbar: React.FC = () => {
         // if (item === "COFFEE?") {
         //   return normalizedPath.startsWith("COFFEE");
         // }
-        return normalizedPath.startsWith(item) || 
+        return normalizedPath.startsWith(item) ||
                normalizedPath.startsWith(item.toLowerCase());
       }) || "HOME";
     };
@@ -192,9 +214,19 @@ const Navbar: React.FC = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link href="/" style={{ color: "#4fc3f7" }}>Bata</Link>
-          </Typography>
+            <Link href="/" style={{ color: "#4fc3f7" }}>
+              <Image
+                src="/images/logo.png"
+                alt="Professional headshot"
+                priority
+                fill
+                sizes="(max-width: 96px) 100vw, 60px"
+                style={{
+                  objectFit: "contain",
+                  objectPosition: "left",
+                }}
+              />
+            </Link>
           {isSmallDevice ? (
             <>
               <StyledIconButton

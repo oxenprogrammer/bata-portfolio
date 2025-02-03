@@ -120,7 +120,7 @@ export const Contact = ({ sx }: { sx?: CSSProperties }) => {
             mb: 2,
           })}
         >
-          Coffe?
+          Coffee?
         </Typography>
         <Typography
           sx={({ palette }) => ({

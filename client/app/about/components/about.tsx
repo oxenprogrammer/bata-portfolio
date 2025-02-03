@@ -17,6 +17,35 @@ import {
   TwitterIcon,
 } from "@/app/shared/icons";
 import { SocialLink } from "@/app/shared/components";
+import { Timeline, TimelineContent, TimelineDate, TimelineItem } from "./timeline";
+
+export const careerData = [
+  {
+    period: "Feb 2024 — Present",
+    role: "Senior Communications Advisor",
+    company: "United Nations Foundation, Washington",
+  },
+  {
+    period: "Jan 2022 — Jan 2024",
+    role: "Director of Communications",
+    company: "Pollicy, Hybrid",
+  },
+  {
+    period: "Jan 2021 — Dec 2021",
+    role: "Independent Communications Consultant",
+    company: "Eastern and Southern Africa",
+  },
+  {
+    period: "Jan 2019 — Dec 2019",
+    role: "Communications Coordinator",
+    company: "Uganda Key Populations Consortium",
+  },
+  {
+    period: "Dec 2015 — Dec 2020",
+    role: "Head of Communications",
+    company: "Reach A Hand Uganda, Kampala",
+  }
+];
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -27,6 +56,10 @@ const StyledContainer = styled(Container)(({ theme }) => ({
   position: "relative",
   overflow: "visible",
   zIndex: 1,
+  [theme.breakpoints.down("sm")]: {
+    paddingLeft: theme.spacing(6),
+    paddingRight: theme.spacing(6),
+  }
 }));
 
 const ImageContainer = styled(Box)(({ theme }) => ({
@@ -55,7 +88,6 @@ const ContentSection = styled(Box)(({ theme }) => ({
   display: "flex",
   zIndex: 2,
   gap: theme.spacing(8),
-  alignItems: "center",
   [theme.breakpoints.down("md")]: {
     flexDirection: "column",
     alignItems: "center",
@@ -68,22 +100,6 @@ const SocialLinks = styled(Box)(({ theme }) => ({
   display: "flex",
   gap: theme.spacing(2),
   marginTop: theme.spacing(3),
-}));
-
-const IconButton = styled(motion.a)(({ theme }) => ({
-  color: theme.palette.primary.main,
-  cursor: "pointer",
-  padding: theme.spacing(1),
-  borderRadius: "50%",
-  border: `2px solid ${theme.palette.primary.main}`,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  textDecoration: "none",
-  "&:hover": {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white,
-  },
 }));
 
 const Skills = styled(Box)(({ theme }) => ({
@@ -280,25 +296,43 @@ export const About: React.FC = () => {
             sx={{
               flexDirection: isMobile ? "column-reverse" : "row",
               mt: 8,
+              width: "100%",
             }}
           >
             <Box sx={{ maxWidth: 600 }}>
-              <motion.div variants={itemAnimation}>
                 <Typography variant="h4" gutterBottom fontWeight="bold">
-                  Impact and Legacy
+                  Career Timeline
                 </Typography>
-                <Typography>
-                  Beyond these roles, I am also establishing Batambuze Heritage,
-                  a holding company, and The Batambuze Foundation, which focuses
-                  on managing charitable donations and supporting family
-                  financial planning.
-                </Typography>
-                <Typography>
-                  My work reflects a strong commitment to addressing public
-                  health issues, promoting digital inclusivity, and advancing
-                  socio-economic development across the African continent.
-                </Typography>
-              </motion.div>
+                <Timeline>
+                  {careerData.map((item, index) => (
+                    <>
+                    <TimelineItem
+                      key={index}
+                      initial={{ opacity: 0, x: -50 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{
+                        duration: 0.5,
+                        delay: index * 0.2,
+                        ease: "easeOut"
+                      }}
+                    >
+                      <TimelineDate variant="h6">
+                        {item.period}
+                      </TimelineDate>
+                      <TimelineContent>
+                        <Typography variant="h6" gutterBottom sx={{ color: 'white' }}>
+                          {item.role}
+                        </Typography>
+                        <Typography sx={{ color: 'gray.50', mb: 1 }}>
+                          {item.company}
+                        </Typography>
+                      </TimelineContent>
+                    </TimelineItem>
+                    <hr style={{ borderColor: 'gray', opacity: 0.2, marginBottom: "16px" }} />
+                    </>
+                  ))}
+                </Timeline>
             </Box>
 
             <motion.div

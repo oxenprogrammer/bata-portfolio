@@ -194,7 +194,7 @@ export const HeroSection: React.FC = () => {
                   fontSize: { xs: "1.2rem", md: "1.5rem" },
                 }}
               >
-                A Strategic Communications Advisor.
+                I am a Strategic Communications Advisor, Digital Innovator, and Project Manager.
               </Typography>
 
               <Box
