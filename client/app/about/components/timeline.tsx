@@ -1,9 +1,8 @@
 import { Box, styled, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 
-export const Timeline = styled(Box)(({ theme }) => ({
+export const Timeline = styled(Box)(() => ({
   position: 'relative',
-  // padding: theme.spacing(4),
 }));
 
 export const TimelineItem = styled(motion.div)(({ theme }) => ({

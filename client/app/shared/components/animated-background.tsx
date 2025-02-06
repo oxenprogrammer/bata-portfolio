@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Box, Theme, useTheme } from "@mui/material";
 
@@ -17,6 +17,29 @@ const getRandomColor = (theme: Theme) => {
 const AnimatedCircle = ({ size, delay }: { size: string; delay: number }) => {
   const theme = useTheme();
   const color = getRandomColor(theme);
+  const [isBrowser, setIsBrowser] = useState(false);
+
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
+
+  const initialPosition = isBrowser ? {
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+  } : { x: 0, y: 0 };
+
+  const animatePosition = isBrowser ? {
+    x: [
+      Math.random() * window.innerWidth,
+      Math.random() * window.innerWidth,
+      Math.random() * window.innerWidth,
+    ],
+    y: [
+      Math.random() * window.innerHeight,
+      Math.random() * window.innerHeight,
+      Math.random() * window.innerHeight,
+    ],
+  } : { x: [0, 0, 0], y: [0, 0, 0] };
 
   return (
     <motion.div
@@ -29,22 +52,8 @@ const AnimatedCircle = ({ size, delay }: { size: string; delay: number }) => {
         opacity: 0.4,
         filter: "blur(40px)",
       }}
-      initial={{
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-      }}
-      animate={{
-        x: [
-          Math.random() * window.innerWidth,
-          Math.random() * window.innerWidth,
-          Math.random() * window.innerWidth,
-        ],
-        y: [
-          Math.random() * window.innerHeight,
-          Math.random() * window.innerHeight,
-          Math.random() * window.innerHeight,
-        ],
-      }}
+      initial={initialPosition}
+      animate={animatePosition}
       transition={{
         duration: 10,
         repeat: Infinity,
@@ -55,6 +64,7 @@ const AnimatedCircle = ({ size, delay }: { size: string; delay: number }) => {
     />
   );
 };
+
 export const AnimatedBackground = ({ children }: { children: ReactNode }) => {
   const circleCount = 5;
   const sizes = [200, 250, 300, 350, 400];
@@ -68,7 +78,6 @@ export const AnimatedBackground = ({ children }: { children: ReactNode }) => {
         background: "linear-gradient(135deg, #121619 0%, #1a2833 100%)",
       }}
     >
-      {/* Animated Circles */}
       {[...Array(circleCount)].map((_, index) => (
         <AnimatedCircle
           key={index}
@@ -76,8 +85,6 @@ export const AnimatedBackground = ({ children }: { children: ReactNode }) => {
           delay={index * 2}
         />
       ))}
-
-      {/* Main Content */}
       <Box
         sx={{
           position: "relative",

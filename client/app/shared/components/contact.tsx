@@ -183,7 +183,7 @@ export const Contact = ({ sx }: { sx?: CSSProperties }) => {
         setShowToast(false);
       }, 5000);
     },
-    onError: (error: any) => {
+    onError: (error) => {
       setButtonState("idle");
       setSubmitError(error.message || "Failed to send message. Please try again.");
     },

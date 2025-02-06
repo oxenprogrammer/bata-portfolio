@@ -6,7 +6,6 @@ import {
   useAnimate,
   useInView,
 } from "framer-motion";
-import { th } from "framer-motion/client";
 
 const TICKER_DIRECTION_LEFT = -1;
 

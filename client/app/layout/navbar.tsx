@@ -107,27 +107,6 @@ const MobileMenuItemWrapper = styled("div")(({ theme }) => ({
   },
 }));
 
-const ImageContainer = styled(Box)(({ theme }) => ({
-  position: "relative",
-  zIndex: 2,
-  width: "100%",
-  maxWidth: "400px",
-  height: "500px",
-  borderRadius: theme.spacing(2),
-  overflow: "hidden",
-  boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
-  [theme.breakpoints.down("md")]: {
-    height: "400px",
-  },
-  "& img": {
-    transition: "filter 0.3s ease",
-    filter: "grayscale(0%)",
-  },
-  "&:hover img": {
-    filter: "grayscale(50%)",
-  },
-}));
-
 const navItems = [
   "HOME",
   "ABOUT",

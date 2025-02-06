@@ -23,7 +23,7 @@ const StyledFooter = styled("footer")(({ theme }) => ({
   borderTop: `1px solid ${theme.palette.divider}`,
 }));
 
-const StyledContainer = styled(Container)(({ theme }) => ({
+const StyledContainer = styled(Container)(() => ({
   "& hr": {
     borderColor: "rgba(255, 255, 255, 0.1)", // Subtle divider color
   },

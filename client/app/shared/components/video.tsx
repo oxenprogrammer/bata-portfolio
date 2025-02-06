@@ -1,5 +1,5 @@
 "use client";
-import { Box, styled, Container } from "@mui/material";
+import { Box, styled } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 
 const AspectRatioWrapper = styled(Box)({
@@ -49,6 +49,12 @@ export const Video: React.FC<YouTubeVideoCardProps> = ({
   const [isInView, setIsInView] = useState(false);
   const [isPip, setIsPip] = useState(false);
 
+  const [isBrowser, setIsBrowser] = useState(false);
+
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
+
   // Extract video ID from URL
   const getVideoId = (url: string): string => {
     const patterns = [
@@ -79,6 +85,8 @@ export const Video: React.FC<YouTubeVideoCardProps> = ({
 
   // Handle intersection observer
   useEffect(() => {
+    if (!isBrowser) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -144,9 +152,11 @@ export const Video: React.FC<YouTubeVideoCardProps> = ({
   }, [onPipChange]);
 
   const videoId = getVideoId(videoUrl);
-  const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=${
-    isInView ? 1 : 0
-  }&enablejsapi=1&controls=1&origin=${window.location.origin}&rel=0`;
+  const embedUrl = isBrowser
+    ? `https://www.youtube.com/embed/${videoId}?autoplay=${
+        isInView ? 1 : 0
+      }&enablejsapi=1&controls=1&origin=${window.location.origin}&rel=0`
+    : '';
 
   return (
     <StyledCard ref={containerRef}>

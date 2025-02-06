@@ -193,7 +193,7 @@ export const TestimonialCards = () => {
                         }}
                       >
                         <Typography align="center" sx={{ fontStyle: "italic" }}>
-                          "{testimonial.quote}"
+                        &quot;{testimonial.quote}&quot;
                         </Typography>
                       </Box>
                     </motion.div>

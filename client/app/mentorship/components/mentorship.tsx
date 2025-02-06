@@ -12,7 +12,7 @@ import {
   ToggleButton,
   Tooltip,
 } from "@mui/material";
-import { Person, School, Send as SendIcon } from "@mui/icons-material";
+import { Person, School } from "@mui/icons-material";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 // import { TestimonialCards } from "./testimonials";
@@ -36,11 +36,16 @@ export const Mentorship = () => {
     "idle" | "loading" | "success"
   >("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isBrowser, setIsBrowser] = useState(false);
 
   const [showToast, setShowToast] = useState(false);
   const isValidEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
+
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
 
   const mutation = useMutation({
     mutationFn: mentorSignupApi,
@@ -53,9 +58,6 @@ export const Mentorship = () => {
       setButtonState("success");
       setErrorMessage(null);
 
-      const formUrl = userType === UserType.MENTOR ? MENTOR_FORM_URL : MENTEE_FORM_URL;
-      window.open(formUrl, '_blank');
-
       setTimeout(() => {
         setShowToast(false);
       }, 8000);
@@ -66,6 +68,7 @@ export const Mentorship = () => {
     },
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   {showToast && (
     <Box
       sx={{
@@ -82,11 +85,14 @@ export const Mentorship = () => {
     </Box>
   )}
   const handleSignup = () => {
-    if (email && userType) {
+    if (email && userType && isBrowser) {
       mutation.mutate({
         email,
         userType,
       });
+
+      const formUrl = userType === UserType.MENTOR ? MENTOR_FORM_URL : MENTEE_FORM_URL;
+      window.open(formUrl, '_blank');
     }
   };
 

@@ -172,7 +172,7 @@ export const HeroSection: React.FC = () => {
               </Typography>
 
               <Typography variant="h4" sx={{ mb: 1, opacity: 0.9 }}>
-                I'm
+                I&apos;m
               </Typography>
 
               <Typography

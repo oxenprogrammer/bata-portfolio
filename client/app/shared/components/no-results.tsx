@@ -61,7 +61,7 @@ export const NoResults = () => {
         }}
       >
         Try adjusting your search criteria or filter settings to find what
-        you're looking for.
+        you&apos;re looking for.
       </Typography>
     </Box>
   );

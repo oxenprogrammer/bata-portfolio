@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { subscribeToNewsletter } from "@/app/api/newsletter";
-import Link from "next/link";
 import { Typography, Box, styled } from "@mui/material";
 import { Toast } from ".";
 

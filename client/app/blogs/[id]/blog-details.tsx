@@ -4,7 +4,6 @@ import {
   Box,
   Container,
   Typography,
-  IconButton,
   Chip,
   useTheme,
   useMediaQuery,
@@ -12,11 +11,6 @@ import {
 import {
   AccessTime,
   ArrowBack,
-  BookmarkBorder,
-  Bookmark,
-  Share,
-  FavoriteBorder,
-  Favorite,
 } from "@mui/icons-material";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -28,11 +22,18 @@ import Link from "next/link";
 export const BlogDetails = ({ blog }: { blog: Blog }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+  // const [isBookmarked, setIsBookmarked] = useState(false);
+  // const [isLiked, setIsLiked] = useState(false);
   const [readingProgress, setReadingProgress] = useState(0);
+  const [isBrowser, setIsBrowser] = useState(false);
 
   useEffect(() => {
+    setIsBrowser(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isBrowser) return;
+
     const updateReadingProgress = () => {
       const totalHeight =
         document.documentElement.scrollHeight - window.innerHeight;
@@ -42,7 +43,7 @@ export const BlogDetails = ({ blog }: { blog: Blog }) => {
 
     window.addEventListener("scroll", updateReadingProgress);
     return () => window.removeEventListener("scroll", updateReadingProgress);
-  }, []);
+  }, [isBrowser]);
 
   const sanitizedContent = DOMPurify.sanitize(blog.content);
   const readingTime = Math.ceil(blog.content.split(/\s+/).length / 200);

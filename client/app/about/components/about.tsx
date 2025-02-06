@@ -96,12 +96,6 @@ const ContentSection = styled(Box)(({ theme }) => ({
   },
 }));
 
-const SocialLinks = styled(Box)(({ theme }) => ({
-  display: "flex",
-  gap: theme.spacing(2),
-  marginTop: theme.spacing(3),
-}));
-
 const Skills = styled(Box)(({ theme }) => ({
   display: "flex",
   flexWrap: "wrap",
@@ -261,7 +255,7 @@ export const About: React.FC = () => {
                   African storytelling, development communications, and digital
                   impact. In my role as a Senior Communications Associate with
                   the Digital Impact Alliance (DIAL), I work to create awareness
-                  about DIAL's initiatives across Africa, often through writing
+                  about DIAL&apos;s initiatives across Africa, often through writing
                   impact stories, strategizing on digital inclusion, and
                   supporting discussions around digital public infrastructure
                   (DPI).

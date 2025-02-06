@@ -1,5 +1,5 @@
 "use client";
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { getProjectById } from '@/app/api/projects';
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 import { Project } from "@/app/shared/types";
-import { Video } from '@/app/shared/components';
 import { YouTubeVideoSection } from '@/app/home/components';
 
 const MotionBox = motion("div");
