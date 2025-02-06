@@ -157,17 +157,17 @@ const socialLinks = [
     ),
     href: "mailto:ibrahimbatambuze@gmail.com",
   },
-  {
-    icon: (
-      <FacebookIcon
-        sx={({ palette }) => ({
-          color: palette.gray[70],
-          "&:hover": { color: palette.gray[30] },
-        })}
-      />
-    ),
-    href: "https://www.youtube.com/@IbrahimBatambuze",
-  },
+  // {
+  //   icon: (
+  //     <FacebookIcon
+  //       sx={({ palette }) => ({
+  //         color: palette.gray[70],
+  //         "&:hover": { color: palette.gray[30] },
+  //       })}
+  //     />
+  //   ),
+  //   href: "https://www.youtube.com/@IbrahimBatambuze",
+  // },
 ];
 
 export const About: React.FC = () => {

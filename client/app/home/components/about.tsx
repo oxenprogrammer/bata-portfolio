@@ -18,7 +18,7 @@ const socialLinks = [
   { icon: <TwitterIcon />, href: "https://x.com/ibatambuze" },
   { icon: <LinkedInIcon />, href: "https://www.linkedin.com/in/ibatambuze/" },
   { icon: <EmailIcon />, href: "mailto:ibrahimbatambuze@gmail.com" },
-  { icon: <FacebookIcon />, href: "https://www.youtube.com/@IbrahimBatambuze" },
+  // { icon: <FacebookIcon />, href: "https://www.youtube.com/@IbrahimBatambuze" },
 ];
 
 const ContentText = styled(Typography)(({ theme }) => ({

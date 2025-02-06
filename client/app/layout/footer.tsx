@@ -73,7 +73,7 @@ const socialLinks = [
   { icon: <TwitterIcon />, href: "https://x.com/ibatambuze" },
   { icon: <LinkedInIcon />, href: "https://www.linkedin.com/in/ibatambuze/" },
   { icon: <EmailIcon />, href: "mailto:ibrahimbatambuze@gmail.com" },
-  { icon: <FacebookIcon />, href: "https://www.youtube.com/@IbrahimBatambuze" },
+  // { icon: <FacebookIcon />, href: "https://www.youtube.com/@IbrahimBatambuze" },
 ];
 
 // Styled wrapper for Newsletter and Contact components
