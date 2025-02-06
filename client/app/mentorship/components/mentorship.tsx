@@ -21,6 +21,9 @@ import { mentorSignupApi, UserType } from "@/app/api/mentorship";
 import Link from "next/link";
 
 export const Mentorship = () => {
+  const MENTOR_FORM_URL = process.env.NEXT_PUBLIC_MENTOR_FORM_URL;
+  const MENTEE_FORM_URL = process.env.NEXT_PUBLIC_MENTEE_FORM_URL;
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down(700));
 
@@ -32,8 +35,7 @@ export const Mentorship = () => {
   const [buttonState, setButtonState] = useState<
     "idle" | "loading" | "success"
   >("idle");
-  const MENTOR_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSejqjrsQGU887SSf4x3OvSMyl17bblDkb5G915RyByi3eqNXQ/viewform";
-  const MENTEE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeShmb3P0sG93-zW9-dT0nVmgB7LGbgpFXk2TX2rM8pEIjlRQ/viewform";
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [showToast, setShowToast] = useState(false);
   const isValidEmail = (email: string) => {
@@ -44,12 +46,13 @@ export const Mentorship = () => {
     mutationFn: mentorSignupApi,
     onMutate: () => {
       setButtonState("loading");
+      setErrorMessage(null);
     },
     onSuccess: () => {
       setShowToast(true);
       setButtonState("success");
+      setErrorMessage(null);
 
-      // Open the appropriate Google form in a new tab
       const formUrl = userType === UserType.MENTOR ? MENTOR_FORM_URL : MENTEE_FORM_URL;
       window.open(formUrl, '_blank');
 
@@ -57,8 +60,8 @@ export const Mentorship = () => {
         setShowToast(false);
       }, 8000);
     },
-    onError: (error) => {
-      console.error("Error subscribing to mentorship series:", error);
+    onError: (error: Error) => {
+      setErrorMessage(error.message);
       setButtonState("idle");
     },
   });
@@ -177,6 +180,8 @@ Our structured <Link style={{fontWeight: "bold"}} href={'https://docs.google.com
                 fullWidth
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                error={!!errorMessage}
+                helperText={errorMessage}
                 sx={{
                   "& .MuiInputLabel-root": {
                     color: theme.palette.gray[80],
@@ -215,9 +220,11 @@ Our structured <Link style={{fontWeight: "bold"}} href={'https://docs.google.com
                           disabled={!isValidEmail(email)}
                           sx={{
                             backgroundColor:
-                              buttonState === "loading"
-                                ? `${theme.palette.teal[80]} !important`
-                                : `${theme.palette.teal[90]} !important`,
+                              errorMessage
+                                ? `${theme.palette.error.main} !important`
+                                : buttonState === "loading"
+                                  ? `${theme.palette.teal[80]} !important`
+                                  : `${theme.palette.teal[90]} !important`,
                             color: `${theme.palette.white} !important`,
                             "&:hover": {
                               backgroundColor:

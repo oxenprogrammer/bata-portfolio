@@ -33,9 +33,11 @@ export async function mentorSignupApi(input: MentorSignupInput) {
     body: JSON.stringify(validated),
   });
 
+  const data = await response.json();
+
   if (!response.ok) {
-    throw new Error("Failed to sign up");
+    throw new Error(data.errors?.email?.[0] || data.message || "Failed to sign up");
   }
 
-  return response.json();
+  return data;
 }
