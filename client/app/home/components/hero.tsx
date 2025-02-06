@@ -172,7 +172,7 @@ export const HeroSection: React.FC = () => {
               </Typography>
 
               <Typography variant="h4" sx={{ mb: 1, opacity: 0.9 }}>
-                I&apos;m
+                I'm
               </Typography>
 
               <Typography
@@ -208,7 +208,7 @@ export const HeroSection: React.FC = () => {
                   <StyledButton>REACH OUT</StyledButton>
                 </Link>
                 <Link
-                  href="https://drive.google.com/uc?export=download&id=1lm3znt_DjHO6jRgps0G4s3JMjxIKmxnb"
+                  href={process.env.NEXT_PUBLIC_RESUME_URL || '#'}
                   target="_blank"
                   download="Ibrahim_Batambuze_Resume.pdf"
                   rel="noopener noreferrer"

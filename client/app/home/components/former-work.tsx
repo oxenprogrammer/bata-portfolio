@@ -16,19 +16,19 @@ import {
 import { Box, styled, Typography } from "@mui/material";
 
 const images = [
-  <HHHIcon
-    key="bmw"
-    sx={{
-      width: {
-        xs: "98px",
-        md: "196px",
-      },
-      height: {
-        xs: "98px",
-        md: "196px",
-      },
-    }}
-  />,
+  // <HHHIcon
+  //   key="bmw"
+  //   sx={{
+  //     width: {
+  //       xs: "98px",
+  //       md: "196px",
+  //     },
+  //     height: {
+  //       xs: "98px",
+  //       md: "196px",
+  //     },
+  //   }}
+  // />,
   <AfriyanIcon
     key="bmw"
     sx={{
@@ -107,19 +107,19 @@ const images = [
       },
     }}
   />,
-  <SautiMediaHubIcon
-    key="bmw"
-    sx={{
-      width: {
-        xs: "98px",
-        md: "196px",
-      },
-      height: {
-        xs: "98px",
-        md: "196px",
-      },
-    }}
-  />,
+  // <SautiMediaHubIcon
+  //   key="bmw"
+  //   sx={{
+  //     width: {
+  //       xs: "98px",
+  //       md: "196px",
+  //     },
+  //     height: {
+  //       xs: "98px",
+  //       md: "196px",
+  //     },
+  //   }}
+  // />,
   <SSRGIcon
     key="bmw"
     sx={{
