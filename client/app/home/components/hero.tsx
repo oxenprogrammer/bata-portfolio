@@ -207,7 +207,13 @@ export const HeroSection: React.FC = () => {
                 <Link href="/contact" style={{ textDecoration: "none" }}>
                   <StyledButton>REACH OUT</StyledButton>
                 </Link>
-                <Link href="/resume" style={{ textDecoration: "none" }}>
+                <Link
+                  href="https://drive.google.com/uc?export=download&id=1lm3znt_DjHO6jRgps0G4s3JMjxIKmxnb"
+                  target="_blank"
+                  download="Ibrahim_Batambuze_Resume.pdf"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: "none" }}
+                >
                   <OutlineButton>RESUME</OutlineButton>
                 </Link>
               </Box>

@@ -17,7 +17,7 @@ export const Home = () => {
       <FormerWorkSection />
       <ProjectsSection />
       <BlogsSection />
-      <YouTubeVideoSection />
+      <YouTubeVideoSection videoUrl="https://www.youtube.com/watch?v=TEFJSi8_Dbg" />
     </Box>
   );
 };

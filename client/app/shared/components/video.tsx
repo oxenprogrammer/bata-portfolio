@@ -52,10 +52,30 @@ export const Video: React.FC<YouTubeVideoCardProps> = ({
 
   // Extract video ID from URL
   const getVideoId = (url: string): string => {
-    const regExp =
-      /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-    const match = url.match(regExp);
-    return match && match[7].length === 11 ? match[7] : "";
+    const patterns = [
+      /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([^&]+)/,
+      /(?:https?:\/\/)?(?:www\.)?youtube\.com\/embed\/([^?]+)/,
+      /(?:https?:\/\/)?(?:www\.)?youtu\.be\/([^?]+)/,
+      /(?:https?:\/\/)?(?:www\.)?youtube\.com\/live\/([^?]+)/
+    ];
+
+    for (const pattern of patterns) {
+      const match = url.match(pattern);
+      if (match && match[1]) {
+        return match[1];
+      }
+    }
+
+    // Handle URLs with additional parameters
+    const urlObj = new URL(url);
+    const pathSegments = urlObj.pathname.split('/');
+    const lastSegment = pathSegments[pathSegments.length - 1];
+
+    if (lastSegment && lastSegment.length === 11) {
+      return lastSegment;
+    }
+
+    return "";
   };
 
   // Handle intersection observer
@@ -127,19 +147,21 @@ export const Video: React.FC<YouTubeVideoCardProps> = ({
   const videoId = getVideoId(videoUrl);
   const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=${
     isInView ? 1 : 0
-  }&enablejsapi=1&controls=1`;
+  }&enablejsapi=1&controls=1&origin=${window.location.origin}&rel=0`;
 
   return (
     <StyledCard ref={containerRef}>
       <AspectRatioWrapper>
         <VideoContainer>
-          <iframe
-            ref={videoRef}
-            src={embedUrl}
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+        <iframe
+          ref={videoRef}
+          src={embedUrl}
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          referrerPolicy="strict-origin-when-cross-origin"
+          loading="lazy"
+        />
         </VideoContainer>
       </AspectRatioWrapper>
     </StyledCard>

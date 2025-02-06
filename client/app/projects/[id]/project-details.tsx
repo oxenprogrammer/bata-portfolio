@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 import { Project } from "@/app/shared/types";
+import { Video } from '@/app/shared/components';
+import { YouTubeVideoSection } from '@/app/home/components';
 
 const MotionBox = motion("div");
 const MotionTypography = motion("p");
@@ -213,6 +215,107 @@ export const ProjectDetails = ({ project: initialProject }: { project: Project }
             </Typography>
           </MotionBox>
         )}
+      </MotionBox>
+      <Typography variant="h5" gutterBottom sx={{ fontWeight: 500, color: "teal.80", mb: 4, visibility: 'hidden' }}>
+        Gallery
+      </Typography>
+      {project.fileUrl && (
+        <MotionBox variants={itemVariants} style={{ display: "flex", gap: "16px", marginBottom: 6, marginTop: "24px" }}>
+          <Typography variant="h6" gutterBottom sx={{ fontWeight: 500, color: "teal.80" }}>
+            Project Documents:
+          </Typography>
+          <Typography color="text.secondary" sx={{ whiteSpace: "pre-wrap" }}>
+              <Link href={project.fileUrl} target="_blank" rel="noopener noreferrer">
+                  Click to view file
+              </Link>
+          </Typography>
+        </MotionBox>
+        )}
+        {project.externalLinks.length > 0 && (
+          <MotionBox variants={itemVariants} style={{ display: "flex", gap: "16px", marginBottom: 6, marginTop: "24px" }}>
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 500, color: "teal.80" }}>
+              Learn more:
+            </Typography>
+            <Typography color="text.secondary" sx={{ whiteSpace: "pre-wrap" }}>
+              {
+                project.externalLinks.map((external_link, index) => (
+                  <Link key={index} href={external_link} target="_blank" rel="noopener noreferrer">
+                    {external_link}
+                  </Link>
+                ))
+              }
+            </Typography>
+          </MotionBox>
+        )}
+      {project.videoUrl && (
+        <MotionBox
+          variants={itemVariants}
+          style={{
+            marginTop: 8,
+            marginBottom: 8
+          }}
+        >
+          <Typography variant="h5" gutterBottom sx={{ fontWeight: 500, color: "teal.80", mb: 4 }}>
+            Featured Video
+          </Typography>
+          <Box sx={{ width: '100%', aspectRatio: '16/9' }}>
+            <YouTubeVideoSection videoUrl={project.videoUrl} />
+          </Box>
+        </MotionBox>
+      )}
+      <MotionBox
+        variants={itemVariants}
+        style={{
+          marginTop: 8,
+        }}
+      >
+        {
+          project.images.slice(1).length >= 1 &&
+          <Typography variant="h5" gutterBottom sx={{ fontWeight: 500, color: "teal.80", mb: 4 }}>
+          Gallery
+        </Typography>
+        }
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: 'repeat(2, 1fr)'
+            },
+            gap: 3,
+          }}
+        >
+          {project.images.slice(1).map((image, index) => (
+            <MotionImage
+              key={`gallery-${index}`}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{
+                opacity: 1,
+                scale: 1,
+                transition: {
+                  duration: 0.5,
+                  delay: index * 0.2
+                }
+              }}
+              whileHover={{
+                scale: 1.02,
+                transition: { duration: 0.2 }
+              }}
+              viewport={{ once: true }}
+              style={{
+                width: '100%',
+                height: 300,
+                borderRadius: 8,
+                overflow: 'hidden',
+                cursor: 'pointer',
+                backgroundImage: `url(${image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+              }}
+            />
+          ))}
+        </Box>
       </MotionBox>
     </Container>
   );
