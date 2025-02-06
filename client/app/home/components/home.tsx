@@ -1,5 +1,5 @@
 "use client";
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import {
   AboutSection,
   BlogsSection,
@@ -17,7 +17,9 @@ export const Home = () => {
       <FormerWorkSection />
       <ProjectsSection />
       <BlogsSection />
-      <YouTubeVideoSection videoUrl="https://www.youtube.com/watch?v=TEFJSi8_Dbg" />
+      <Container>
+        <YouTubeVideoSection videoUrl="https://www.youtube.com/watch?v=TEFJSi8_Dbg" />
+      </Container>
     </Box>
   );
 };

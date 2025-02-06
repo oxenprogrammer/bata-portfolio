@@ -248,20 +248,13 @@ export const ProjectDetails = ({ project: initialProject }: { project: Project }
           </MotionBox>
         )}
       {project.videoUrl && (
-        <MotionBox
-          variants={itemVariants}
-          style={{
-            marginTop: 8,
-            marginBottom: 8
-          }}
+        <Box
         >
           <Typography variant="h5" gutterBottom sx={{ fontWeight: 500, color: "teal.80", mb: 4 }}>
             Featured Video
           </Typography>
-          <Box sx={{ width: '100%', aspectRatio: '16/9' }}>
-            <YouTubeVideoSection videoUrl={project.videoUrl} />
-          </Box>
-        </MotionBox>
+          <YouTubeVideoSection videoUrl={project.videoUrl} />
+        </Box>
       )}
       <MotionBox
         variants={itemVariants}

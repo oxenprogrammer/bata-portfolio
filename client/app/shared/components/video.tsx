@@ -8,10 +8,9 @@ const AspectRatioWrapper = styled(Box)({
   paddingTop: "56.25%",
 });
 
-const StyledCard = styled(Container)(({ theme }) => ({
+const StyledCard = styled(Box)(({ theme }) => ({
   position: "relative",
   overflow: "hidden",
-  padding: theme.spacing(8, 2),
   [theme.breakpoints.up("xs")]: {
     maxWidth: theme.breakpoints.values.sm,
   },
