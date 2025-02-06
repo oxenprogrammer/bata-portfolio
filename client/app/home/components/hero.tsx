@@ -52,7 +52,7 @@ const MainContent = styled(Box)({
 
 const HeroContainer = styled(Box)(({ theme }) => ({
   position: "relative",
-  minHeight: "calc(100vh - 64px + 60px)",
+  minHeight: "calc(100vh - 64px + 74px)",
   display: "flex",
   overflow: "hidden",
   flexGrow: 1,
@@ -204,7 +204,7 @@ export const HeroSection: React.FC = () => {
                   justifyContent: isMobile ? "center" : "flex-start",
                 }}
               >
-                <Link href="/contact" style={{ textDecoration: "none" }}>
+                <Link href="/about#contact" style={{ textDecoration: "none" }}>
                   <StyledButton>REACH OUT</StyledButton>
                 </Link>
                 <Link

@@ -354,6 +354,7 @@ export const About: React.FC = () => {
               </ImageContainer>
             </motion.div>
           </ContentSection>
+          <Box id="contact" />
         </MainContent>
       </motion.div>
     </StyledContainer>

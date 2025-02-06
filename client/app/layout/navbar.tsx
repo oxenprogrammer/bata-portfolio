@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
-  Typography,
   IconButton,
   Drawer,
   List,
@@ -206,7 +205,11 @@ const Navbar: React.FC = () => {
 
   return (
     <AppBar position="fixed" sx={{ backgroundColor: "blue.100", zIndex: (theme) => theme.zIndex.drawer + 1  }}>
-      <Toolbar>
+      <Toolbar sx={{
+        "&.MuiToolbar-root": {
+          minHeight: "68px !important",
+        }
+      }}>
         <Container
           sx={{
             display: "flex",
